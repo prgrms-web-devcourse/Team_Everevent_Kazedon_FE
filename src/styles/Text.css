@@ -1,0 +1,15 @@
+.Text--size-micro {
+    font-size: 11px;
+}
+  
+.Text--size-small {
+    font-size: 14px;
+}
+  
+.Text--size-medium {
+    font-size: 18px;
+}
+
+.Text--size-large {
+    font-size: 24px;
+}
