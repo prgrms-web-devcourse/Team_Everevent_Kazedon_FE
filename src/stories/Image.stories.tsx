@@ -30,16 +30,6 @@ export default {
       defaultValue: 200,
       control: { type: 'range', min: 40, max: 600 },
     },
-    margin: {
-      name: 'margin',
-      defaultValue: 10,
-      control: { type: 'range', min: 10, max: 600 },
-    },
-    padding: {
-      name: 'padding',
-      defaultValue: 10,
-      control: { type: 'range', min: 10, max: 600 },
-    },
     alt: {
       name: 'alt',
       type: 'string',
