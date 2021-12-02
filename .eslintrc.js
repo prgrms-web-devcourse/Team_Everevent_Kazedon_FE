@@ -28,5 +28,9 @@ module.exports = {
     'no-restricted-syntax': 'off',
     'consistent-return': 'off',
     'default-param-last': 'off',
+    'react/require-default-props': 'off',
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': ['error'],
+    '@next/next/no-img-element': 'off',
   },
 };
