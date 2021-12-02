@@ -1,3 +1,4 @@
+import ImageContainer from '@components/atoms/ImageContainer';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -65,6 +66,16 @@ const Home: NextPage = () => {
           </span>
         </a>
       </footer>
+      <div>
+        {Array.from(new Array(20), (_, k) => k).map((i) => (
+          <ImageContainer
+            key={i}
+            isCircle
+            src={`https://picsum.photos/${i + 1}00`}
+            alt="사진 테스트"
+          />
+        ))}
+      </div>
     </div>
   );
 };
