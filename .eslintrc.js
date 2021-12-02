@@ -32,5 +32,6 @@ module.exports = {
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error'],
     '@next/next/no-img-element': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };

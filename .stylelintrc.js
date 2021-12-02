@@ -6,4 +6,7 @@ module.exports = {
     'stylelint-prettier/recommended',
   ],
   plugins: ['stylelint-scss', 'stylelint-order'],
+  rules: {
+    'scss/operator-no-unspaced': null,
+  },
 };
