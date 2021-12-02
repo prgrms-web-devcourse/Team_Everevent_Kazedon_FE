@@ -3,7 +3,7 @@
 
 ### NextJS ###
 # Next build dir
-.next/
+src/.next/**
 
 ### Node ###
 # Logs

@@ -27,6 +27,7 @@ export interface ImageContainerProps {
 }
 
 const StyledImageContainer = styled.div`
+  overflow: hidden;
   ${({
     width,
     height,
@@ -38,10 +39,9 @@ const StyledImageContainer = styled.div`
     ${position ? `position: ${position};` : ''}
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${typeof height === 'string' ? height : `${height}px`};
-    margin: ${typeof margin === 'string' ? margin : `${margin}px`};
     padding: ${typeof padding === 'string' ? padding : `${padding}px`};
+    margin: ${typeof margin === 'string' ? margin : `${margin}px`};
     border-radius: ${isCircle ? '50%' : 0};
-    overflow: hidden;
   `}
 `;
 
