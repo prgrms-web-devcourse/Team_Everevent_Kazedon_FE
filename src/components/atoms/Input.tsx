@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import Common from '../../styles';
 
 export interface InputProps {
   width: string;
@@ -12,8 +13,8 @@ const InputContainer = styled.input`
   width: ${({ width }: InputProps) => `${width}px`};
   height: 56px;
   padding: 18px;
-  font-size: 18px;
-  border: 1px solid #bababa;
+  font-size: ${Common.fontSize.medium};
+  border: 1px solid ${Common.colors.placeholder};
   border-radius: 8px;
   outline: none;
 `;
