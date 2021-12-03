@@ -9,12 +9,12 @@ export interface InputProps {
 
 const InputContainer = styled.input`
   box-sizing: border-box;
-  padding: 18px;
   width: ${({ width }: InputProps) => `${width}px`};
   height: 56px;
+  padding: 18px;
   font-size: 18px;
-  border-radius: 8px;
   border: 1px solid #bababa;
+  border-radius: 8px;
   outline: none;
 `;
 
