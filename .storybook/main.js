@@ -28,6 +28,12 @@ module.exports = {
           '@emotion/styled': toPath('node_modules/@emotion/styled'),
           'emotion-theming': toPath('node_modules/@emotion/react'),
           '@components': toPath('src/components'),
+          '@hooks': toPath('src/hooks'),
+          '@pages': toPath('src/pages'),
+          '@styles': toPath('src/styles'),
+          '@stories': toPath('src/stories'),
+          '@axios': toPath('src/axios'),
+          '@apis': toPath('src/apis'),
         },
       },
     };
