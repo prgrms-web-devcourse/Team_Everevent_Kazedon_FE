@@ -19,6 +19,11 @@
     "paths": {
       "@components/*": ["./src/components/*"],
       "@hooks/*": ["./src/hooks/*"],
+      "@pages/*": ["./src/pages/*"],
+      "@styles/*": ["./src/styles/*"],
+      "@stories/*": ["./src/stories/*"],
+      "@axios/*": ["./src/axios/*"],
+      "@apis/*": ["./src/apis/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

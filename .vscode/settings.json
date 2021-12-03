@@ -11,5 +11,6 @@
   "scss.validate": false,
   "files.insertFinalNewline": true,
   "stylelint.validate": ["typescriptreact"],
-  "stylelint.customSyntax": "@stylelint/postcss-css-in-js"
+  "stylelint.customSyntax": "@stylelint/postcss-css-in-js",
+  "files.eol": "\n",
 }
