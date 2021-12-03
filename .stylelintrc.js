@@ -8,5 +8,6 @@ module.exports = {
   plugins: ['stylelint-scss', 'stylelint-order'],
   rules: {
     'scss/operator-no-unspaced': null,
+    'value-keyword-case': null,
   },
 };
