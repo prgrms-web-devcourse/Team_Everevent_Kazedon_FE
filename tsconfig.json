@@ -26,6 +26,6 @@
       "@apis/*": ["./src/apis/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/hooks/useClickAway.ts", "src/components/atoms/Modal.tsx"],
   "exclude": ["node_modules"]
 }
