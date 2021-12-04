@@ -34,5 +34,6 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': ['error'],
     '@next/next/no-img-element': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'react/button-has-type': 'off',
   },
 };
