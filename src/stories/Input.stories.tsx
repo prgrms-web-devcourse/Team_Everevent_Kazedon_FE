@@ -6,13 +6,6 @@ export default {
   title: 'Component/Input',
   component: Input,
   argTypes: {
-    width: {
-      defaultValue: '280',
-      options: ['280', '310'],
-      control: {
-        type: 'inline-radio',
-      },
-    },
     placeholder: {
       defaultValue: '이메일',
       options: ['이메일', '비밀번호', '비밀번호 확인', '닉네임', '가게이름'],
@@ -26,3 +19,5 @@ export default {
 const Template: ComponentStory<typeof Input> = (args) => <Input {...args} />;
 
 export const Default = Template.bind({});
+export const Error = Template.bind({});
+Error.args = { ...Error.args, error: true };
