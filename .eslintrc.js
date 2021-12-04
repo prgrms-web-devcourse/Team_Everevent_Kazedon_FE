@@ -34,6 +34,18 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': ['error'],
     '@next/next/no-img-element': 'off',
     'import/no-extraneous-dependencies': 'off',
+<<<<<<< HEAD
     'react/button-has-type': 'off',
+=======
+    'import/prefer-default-export': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+>>>>>>> 7fca3c1 (chore: index로 내보내기 위한 eslint설정)
   },
 };
