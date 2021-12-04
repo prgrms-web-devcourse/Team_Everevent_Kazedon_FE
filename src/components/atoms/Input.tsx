@@ -3,24 +3,30 @@ import styled from '@emotion/styled';
 import Common from '../../styles';
 
 export interface InputProps {
-  width: string;
-  borderRadius: string;
+  type: 'small' | 'large';
+  error: boolean | 'undefined';
   placeholder: string;
 }
 
-const InputContainer = styled.input`
+const InputContainer = styled.input<InputProps>`
   box-sizing: border-box;
-  width: ${({ width }: InputProps) => `${width}px`};
+  width: ${({ type }) => (type === 'small' ? '280px' : '310px')};
   height: 56px;
   padding: 18px;
   font-size: ${Common.fontSize.medium};
-  border: 1px solid ${Common.colors.placeholder};
+  border: 1px solid
+    ${({ error }) =>
+      error ? Common.colors.warning : Common.colors.placeholder};
   border-radius: 8px;
   outline: none;
+
+  &:focus {
+    border: 1px solid ${Common.colors.primary};
+  }
 `;
 
-const Input: React.FC<InputProps> = ({ ...props }) => {
-  return <InputContainer {...props} />;
-};
+const Input: React.FC<InputProps> = ({ ...props }) => (
+  <InputContainer {...props} />
+);
 
 export default Input;
