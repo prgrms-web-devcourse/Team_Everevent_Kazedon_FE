@@ -1,7 +1,7 @@
 import * as React from 'react';
 import NextImage from 'next/image';
 import styled from '@emotion/styled';
-import { css, Interpolation, Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 
 export interface ImageContainerProps {
   loader?: string;
@@ -24,7 +24,6 @@ export interface ImageContainerProps {
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
   layout?: 'intrinsic' | 'fixed' | 'fill' | 'responsive';
   isCircle?: boolean;
-  css?: Interpolation<Theme>;
 }
 
 const StyledImageContainer = styled.div`
