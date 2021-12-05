@@ -2,6 +2,7 @@ export default {
   colors: {
     point: 'rgba(117, 189, 224, 1)',
     warning: 'rgba(147, 28, 40, 1)',
+    confirm: 'rgba(57, 219, 178, 1)',
     background: 'rgba(255, 255, 255, 1)',
 
     title: 'rgba(0, 0, 0, 1)',
