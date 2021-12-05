@@ -41,4 +41,12 @@ export default {
     md: '(min-width : 768px) and (max-width : 1200px)',
     lg: '(min-width: 1201px)',
   },
+
+  cardBackgroundColors: {
+    yellow: '#F8D498',
+    orange: '#F8BC9B',
+    pink: '#F2A9BB',
+    yellowGreen: '#95EBB9',
+    mint: '#7FE5DA',
+  },
 };
