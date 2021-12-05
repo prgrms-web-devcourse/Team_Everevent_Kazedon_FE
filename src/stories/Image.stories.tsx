@@ -3,7 +3,7 @@ import ImageContainer, {
 } from '@components/atoms/ImageContainer';
 
 export default {
-  title: 'Component/Image',
+  title: 'Component/atoms/Image',
   component: Image,
   argTypes: {
     block: {
