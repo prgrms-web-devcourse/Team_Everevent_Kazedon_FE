@@ -36,4 +36,16 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'react/button-has-type': 'off',
   },
+  globals: {
+    React: true,
+    google: true,
+    mount: true,
+    mountWithRouter: true,
+    shallow: true,
+    shallowWithRouter: true,
+    context: true,
+    expect: true,
+    jsdom: true,
+    JSX: true,
+  },
 };
