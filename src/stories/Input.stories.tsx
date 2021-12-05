@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import Input from '@components/atoms/Input';
 
 export default {
-  title: 'Component/Input',
+  title: 'Component/atoms/Input',
   component: Input,
   argTypes: {
     placeholder: {

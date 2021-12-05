@@ -5,7 +5,7 @@ import CardContainer, {
 import styles from '@styles/index';
 
 export default {
-  title: 'Example/CardContainer',
+  title: 'Component/atoms/CardContainer',
   component: CardContainer,
   argTypes: {
     cardType: {

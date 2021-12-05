@@ -6,7 +6,7 @@ import styles from '@styles/index';
 import styled from '@emotion/styled';
 
 export default {
-  title: 'Component/Modal',
+  title: 'Component/atoms/Modal',
   component: Modal,
   argTypes: {
     width: {
