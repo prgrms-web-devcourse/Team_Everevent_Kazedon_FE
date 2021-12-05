@@ -10,5 +10,6 @@ module.exports = {
     'scss/operator-no-unspaced': null,
     'value-keyword-case': null,
     'scss/operator-no-newline-after': null,
+    'function-whitespace-after': null,
   },
 };
