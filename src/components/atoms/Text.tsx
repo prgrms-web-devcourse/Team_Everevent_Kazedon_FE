@@ -16,8 +16,8 @@ export interface TextProps {
 
 const StyledText = styled.div`
   ${({ size }: TextProps) => css`
-    ${Common.fontStyle[size as sizeTypes]()}
-  `};
+    ${typeof size === 'string' && Common.fontStyle[size as sizeTypes]()}
+  `}
 `;
 
 const Text = ({
