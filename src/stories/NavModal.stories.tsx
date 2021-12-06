@@ -1,5 +1,5 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { NavModal } from '@components/domains/NavModal';
+import { ComponentMeta } from '@storybook/react';
+import { NavModal, NavModalInner } from '@components/domains/NavModal';
 import { useState } from 'react';
 
 export default {
@@ -7,7 +7,7 @@ export default {
   component: NavModal,
 } as ComponentMeta<typeof NavModal>;
 
-const Template: ComponentStory<typeof NavModal> = () => {
+export const User = () => {
   const [visible, setVisible] = useState(false);
   const onClose = (): void => {
     setVisible(() => false);
@@ -15,10 +15,26 @@ const Template: ComponentStory<typeof NavModal> = () => {
 
   return (
     <>
-      <button onClick={() => setVisible(true)}>Show NavModal</button>
-      <NavModal visible={visible} onClose={onClose} />
+      <button onClick={() => setVisible(true)}>Show User NavModal</button>
+      <NavModal visible={visible} onClose={onClose}>
+        <NavModalInner user="user" />
+      </NavModal>
     </>
   );
 };
 
-export const Default = Template.bind({});
+export const Owner = () => {
+  const [visible, setVisible] = useState(false);
+  const onClose = (): void => {
+    setVisible(() => false);
+  };
+
+  return (
+    <>
+      <button onClick={() => setVisible(true)}>Show Owner NavModal</button>
+      <NavModal visible={visible} onClose={onClose}>
+        <NavModalInner user="owner" />
+      </NavModal>
+    </>
+  );
+};
