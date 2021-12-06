@@ -6,7 +6,7 @@ import React from 'react';
 export interface CardStyleProps {
   padding?: number | string;
   width?: number | string;
-  margin?: number;
+  margin?: number | string;
   cardType?: 'default' | 'box';
 }
 
