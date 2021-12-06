@@ -1,1 +1,1 @@
-export { default as NavModal } from './Navigator';
+export { default as NavModal } from './Modal';
