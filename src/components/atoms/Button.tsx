@@ -15,9 +15,9 @@ export interface ButtonProps {
   display: string;
   justifyContent: string;
   alignItems: string;
-  backgroundColor: string;
+  backgroundColor?: string;
   color: string;
-  border: string;
+  border?: string;
   borderRadius?: number | string;
   padding?: number | string;
   reversal: boolean;
@@ -40,23 +40,23 @@ const StyledButton = styled.button`
     padding,
     reversal,
   }: ButtonProps) => css`
-    font-size: ${fontSize}px;
-    font-weight: ${bold ? 'bold' : 'normal'};
+    box-sizing: border-box;
+    display: ${display};
+    align-items: ${alignItems};
+    justify-content: ${justifyContent};
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${typeof height === 'string' ? height : `${height}px`};
-    display: ${display};
-    justify-content: ${justifyContent};
-    align-items: ${alignItems};
+    padding: ${typeof padding === 'string' ? padding : `${padding}px`};
+    font-size: ${fontSize}px;
+    font-weight: ${bold ? 'bold' : 'normal'};
     color: ${reversal ? backgroundColor : color || Common.colors.background};
     background-color: ${reversal
       ? color || Common.colors.background
       : backgroundColor};
     border: ${reversal ? `2px solid ${backgroundColor}` : border};
-    box-sizing: border-box;
     border-radius: ${typeof borderRadius === 'string'
       ? borderRadius
       : `${borderRadius}px`};
-    padding: ${typeof padding === 'string' ? padding : `${padding}px`};
   `}
 `;
 

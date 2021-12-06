@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
-type LevelTypes = 1 | 2 | 3 | 4;
+export type LevelTypes = 1 | 2 | 3 | 4;
 
 export interface HeaderTextProps {
   children: ReactNode;
