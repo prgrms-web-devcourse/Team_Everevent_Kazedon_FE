@@ -17,6 +17,11 @@ export default {
       defaultValue: true,
       control: { type: 'boolean' },
     },
+    display: {
+      defaultValue: 'inline-block',
+      options: ['inline', 'inline-block', 'block'],
+      control: { type: 'inline-radio' },
+    },
     width: {
       name: 'width',
       defaultValue: 'auto',
@@ -26,10 +31,6 @@ export default {
       name: 'height',
       defaultValue: 'auto',
       control: { type: 'number' },
-    },
-    center: {
-      defaultValue: true,
-      control: { type: 'boolean' },
     },
     color: {
       control: { type: 'color' },

@@ -1,8 +1,6 @@
 import React, { ReactNode } from 'react';
-
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-
 import Common from '@styles/index';
 
 export interface ButtonProps {
@@ -10,9 +8,9 @@ export interface ButtonProps {
   children?: ReactNode;
   fontSize?: number;
   bold?: boolean;
+  display?: string;
   width?: string | number;
   height?: string | number;
-  center?: boolean;
   backgroundColor?: string;
   color?: string;
   border?: boolean;
@@ -26,6 +24,7 @@ const StyledButton = styled.button`
   ${({
     fontSize,
     bold,
+    display,
     width,
     height,
     color,
@@ -34,14 +33,8 @@ const StyledButton = styled.button`
     borderRadius,
     padding,
     reversal,
-    center,
   }: ButtonProps) => css`
-    ${center &&
-    `
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    `}
+    display: ${display};
     box-sizing: border-box;
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${typeof height === 'string' ? height : `${height}px`};
