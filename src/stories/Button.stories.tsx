@@ -27,28 +27,16 @@ export default {
       defaultValue: 'auto',
       control: { type: 'number' },
     },
-    display: {
-      defaultValue: 'inline-block',
-      options: ['inline-block', 'inline', 'block', 'flex'],
-      control: { type: 'inline-radio' },
-    },
-    justifyContent: {
-      defaultValue: 'center',
-      options: ['center', 'flex-start', 'flex-end'],
-      control: { type: 'inline-radio' },
-    },
-    alignItems: {
-      defaultValue: 'center',
-      options: ['center', 'flex-start', 'flex-end'],
-      control: { type: 'inline-radio' },
+    center: {
+      defaultValue: true,
+      control: { type: 'boolean' },
     },
     color: {
       control: { type: 'color' },
     },
     border: {
-      name: 'border',
-      defaultValue: 'none',
-      control: { type: 'text' },
+      defaultValue: false,
+      control: { type: 'boolean' },
     },
     borderRadius: {
       defaultValue: 15,

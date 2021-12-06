@@ -8,20 +8,18 @@ import Common from '@styles/index';
 export interface ButtonProps {
   buttonType?: 'primary' | 'warning' | 'confirm';
   children?: ReactNode;
-  fontSize: number;
-  bold: boolean;
+  fontSize?: number;
+  bold?: boolean;
   width?: string | number;
   height?: string | number;
-  display: string;
-  justifyContent: string;
-  alignItems: string;
+  center?: boolean;
   backgroundColor?: string;
-  color: string;
-  border?: string;
+  color?: string;
+  border?: boolean;
   borderRadius?: number | string;
   padding?: number | string;
-  reversal: boolean;
-  onClick: () => void;
+  reversal?: boolean;
+  onClick?: () => void;
 }
 
 const StyledButton = styled.button`
@@ -30,20 +28,21 @@ const StyledButton = styled.button`
     bold,
     width,
     height,
-    display,
-    justifyContent,
-    alignItems,
     color,
     backgroundColor,
     border,
     borderRadius,
     padding,
     reversal,
+    center,
   }: ButtonProps) => css`
+    ${center &&
+    `
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    `}
     box-sizing: border-box;
-    display: ${display};
-    align-items: ${alignItems};
-    justify-content: ${justifyContent};
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${typeof height === 'string' ? height : `${height}px`};
     padding: ${typeof padding === 'string' ? padding : `${padding}px`};
@@ -53,7 +52,7 @@ const StyledButton = styled.button`
     background-color: ${reversal
       ? color || Common.colors.background
       : backgroundColor};
-    border: ${reversal ? `2px solid ${backgroundColor}` : border};
+    border: ${border && reversal ? `2px solid ${backgroundColor}` : 'none'};
     border-radius: ${typeof borderRadius === 'string'
       ? borderRadius
       : `${borderRadius}px`};
