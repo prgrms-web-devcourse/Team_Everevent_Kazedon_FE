@@ -6,8 +6,9 @@ export default {
   argTypes: {
     size: {
       name: 'size',
-      defaultValue: 18,
-      control: { type: 'number' },
+      options: ['micro', 'small', 'medium', 'large'],
+      defaultValue: 'medium',
+      control: { type: 'radio' },
     },
     color: {
       name: 'color',
