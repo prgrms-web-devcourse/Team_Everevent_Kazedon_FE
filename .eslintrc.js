@@ -35,6 +35,12 @@ module.exports = {
     '@next/next/no-img-element': 'off',
     'import/no-extraneous-dependencies': 'off',
     'react/button-has-type': 'off',
+    'import/prefer-default-export': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      { ts: 'never', tsx: 'never' },
+    ],
   },
   globals: {
     React: true,
