@@ -62,9 +62,6 @@ const CategoryList = ({
             <Button
               fontSize={14}
               bold
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
               buttonType="primary"
               color="primary"
               reversal

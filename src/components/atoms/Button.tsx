@@ -1,38 +1,32 @@
 import React, { ReactNode } from 'react';
-
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-
 import Common from '@styles/index';
 
 export interface ButtonProps {
   buttonType?: 'primary' | 'warning' | 'confirm';
   children?: ReactNode;
-  fontSize: number;
-  bold: boolean;
+  fontSize?: number;
+  bold?: boolean;
+  display?: string;
   width?: string | number;
   height?: string | number;
-  display: string;
-  justifyContent: string;
-  alignItems: string;
   backgroundColor?: string;
-  color: string;
-  border?: string;
+  color?: string;
+  border?: boolean;
   borderRadius?: number | string;
   padding?: number | string;
-  reversal: boolean;
-  onClick: () => void;
+  reversal?: boolean;
+  onClick?: () => void;
 }
 
 const StyledButton = styled.button`
   ${({
     fontSize,
     bold,
+    display,
     width,
     height,
-    display,
-    justifyContent,
-    alignItems,
     color,
     backgroundColor,
     border,
@@ -40,10 +34,8 @@ const StyledButton = styled.button`
     padding,
     reversal,
   }: ButtonProps) => css`
-    box-sizing: border-box;
     display: ${display};
-    align-items: ${alignItems};
-    justify-content: ${justifyContent};
+    box-sizing: border-box;
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${typeof height === 'string' ? height : `${height}px`};
     padding: ${typeof padding === 'string' ? padding : `${padding}px`};
@@ -53,7 +45,7 @@ const StyledButton = styled.button`
     background-color: ${reversal
       ? color || Common.colors.background
       : backgroundColor};
-    border: ${reversal ? `2px solid ${backgroundColor}` : border};
+    border: ${border && reversal ? `2px solid ${backgroundColor}` : 'none'};
     border-radius: ${typeof borderRadius === 'string'
       ? borderRadius
       : `${borderRadius}px`};
