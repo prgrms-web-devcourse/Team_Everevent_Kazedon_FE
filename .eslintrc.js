@@ -41,6 +41,7 @@ module.exports = {
       'ignorePackages',
       { ts: 'never', tsx: 'never' },
     ],
+    'react-hooks/rules-of-hooks': 'off',
   },
   globals: {
     React: true,
