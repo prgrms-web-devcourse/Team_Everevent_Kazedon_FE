@@ -34,8 +34,8 @@ const StyledButton = styled.button`
     padding,
     reversal,
   }: ButtonProps) => css`
-    display: ${display};
     box-sizing: border-box;
+    display: ${display};
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${typeof height === 'string' ? height : `${height}px`};
     padding: ${typeof padding === 'string' ? padding : `${padding}px`};
