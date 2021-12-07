@@ -26,16 +26,12 @@ const SortButtons = ({ width, buttonArr }: SortButtonsProps) => {
       {buttonArr.map(([name, cb]: buttonArrType) => (
         <Button
           key="name"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
           buttonType="primary"
           fontSize={14}
           onClick={cb as callbackType}
           reversal
           bold={false}
           backgroundColor="white"
-          border="none"
           color="black"
         >
           {name}
