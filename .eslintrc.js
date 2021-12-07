@@ -42,6 +42,8 @@ module.exports = {
       { ts: 'never', tsx: 'never' },
     ],
     'react-hooks/rules-of-hooks': 'off',
+    '@next/next/google-font-display': 'off',
+    '@next/next/no-page-custom-font': 'off',
   },
   globals: {
     React: true,
