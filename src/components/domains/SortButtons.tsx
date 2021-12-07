@@ -4,8 +4,7 @@ import React from 'react';
 
 export type widthType = string | number;
 export type callbackType = () => void;
-
-export type buttonArrType = (string | callbackType)[];
+export type buttonArrType = [string, callbackType];
 
 export interface SortButtonsProps {
   width: widthType;
@@ -28,7 +27,7 @@ const SortButtons = ({ width, buttonArr }: SortButtonsProps) => {
           key="name"
           buttonType="primary"
           fontSize={14}
-          onClick={cb as callbackType}
+          onClick={cb}
           reversal
           bold={false}
           backgroundColor="white"
