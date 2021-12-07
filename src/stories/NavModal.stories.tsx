@@ -17,7 +17,7 @@ export const User = () => {
     <>
       <button onClick={() => setVisible(true)}>Show User NavModal</button>
       <NavModal visible={visible} onClose={onClose}>
-        <NavModalInner user="user" />
+        <NavModalInner userType="user" />
       </NavModal>
     </>
   );
@@ -33,7 +33,7 @@ export const Owner = () => {
     <>
       <button onClick={() => setVisible(true)}>Show Owner NavModal</button>
       <NavModal visible={visible} onClose={onClose}>
-        <NavModalInner user="owner" />
+        <NavModalInner userType="owner" />
       </NavModal>
     </>
   );
