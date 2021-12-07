@@ -6,12 +6,15 @@ export type widthType = string | number;
 export type callbackType = () => void;
 export type buttonArrType = [string, callbackType];
 
-export interface SortButtonsProps {
+interface StyledSortButtonsProps {
   width: widthType;
+}
+export interface SortButtonsProps extends StyledSortButtonsProps {
+  buttonArr: buttonArrType[];
   [prop: string]: any;
 }
 
-const StyledSortButtons: React.FC<SortButtonsProps> = styled.section`
+const StyledSortButtons: React.FC<StyledSortButtonsProps> = styled.section`
   display: flex;
   justify-content: space-between;
   width: ${({ width }: { width: widthType }) =>
