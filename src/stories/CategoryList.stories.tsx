@@ -68,7 +68,9 @@ const Template = (args: CategoryListProps) => {
           bgColorName={cardBgColorKeys[idx % colorLength] as CardBgColorTypes}
           padding={10}
           margin="10px 0"
-        />
+        >
+          테스트용
+        </CardContainer>
       ))}
     </CategoryList>
   );

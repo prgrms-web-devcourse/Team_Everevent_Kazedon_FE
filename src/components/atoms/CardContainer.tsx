@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import styles from '@styles/index';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 export interface CardStyleProps {
   padding?: number | string;
@@ -22,8 +22,10 @@ export interface StyledDefaultCardProps extends CardStyleProps {
 }
 
 export interface CardContainerProps extends CardStyleProps {
+  children: ReactNode;
   cardType: 'default' | 'box';
   bgColorName: CardBgColorTypes;
+  [prop: string]: any;
 }
 
 const StyledDefaultCardContainer = styled('article')<StyledDefaultCardProps>`
@@ -64,6 +66,7 @@ const StyledBoxCardContainer = styled('article')<CardStyleProps>`
 `;
 
 const CardContainer = ({
+  children,
   cardType = 'default',
   width = 'auto',
   padding = 0,
@@ -71,14 +74,18 @@ const CardContainer = ({
   bgColorName = 'orange',
 }: CardContainerProps) => {
   return cardType === 'box' ? (
-    <StyledBoxCardContainer margin={margin} padding={padding} width={width} />
+    <StyledBoxCardContainer margin={margin} padding={padding} width={width}>
+      {children}
+    </StyledBoxCardContainer>
   ) : (
     <StyledDefaultCardContainer
       margin={margin}
       padding={padding}
       width={width}
       bgColorName={bgColorName}
-    />
+    >
+      {children}
+    </StyledDefaultCardContainer>
   );
 };
 

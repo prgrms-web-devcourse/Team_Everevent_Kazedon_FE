@@ -43,7 +43,6 @@ const Image: React.FC<HeaderProps> = styled.img`
 
 const Header: React.FC<HeaderProps> = ({
   children,
-  size = 24,
   width = 'auto',
   height = 40,
   justifyContent = 'none',
@@ -57,8 +56,8 @@ const Header: React.FC<HeaderProps> = ({
         height={height}
         justifyContent="space-between"
       >
-        <Image src={logo} width={size} height={size} isLogo />
-        <Image src={menu} width={size} height={size} />
+        <Image src={logo.src} width={logo.width} height={logo.height} isLogo />
+        <Image src={menu.src} width={menu.width} height={menu.height} />
       </HeaderSection>
       {isVisiblePrev && (
         <HeaderSection
@@ -66,8 +65,12 @@ const Header: React.FC<HeaderProps> = ({
           height={height}
           justifyContent={justifyContent}
         >
-          <Image src={prevArrow} width={size} height={size} />
-          <Text size="small">{children}</Text>
+          <Image
+            src={prevArrow.src}
+            width={prevArrow.width}
+            height={prevArrow.height}
+          />
+          <Text size="small">뒤로</Text>
         </HeaderSection>
       )}
     </HeaderContainer>
