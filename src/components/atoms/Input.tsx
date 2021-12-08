@@ -7,6 +7,7 @@ export interface InputProps {
   error: boolean | 'undefined';
   name?: string;
   placeholder: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputContainer = styled.input<InputProps>`
