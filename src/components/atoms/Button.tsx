@@ -23,14 +23,14 @@ export interface ButtonProps {
 const StyledButton = styled.button`
   ${({
     fontSize,
-    bold,
+    bold = true,
     display,
-    width,
-    height,
-    color,
-    backgroundColor,
-    border,
-    borderRadius,
+    width = 280,
+    height = 48,
+    color = Common.colors.background,
+    backgroundColor = Common.colors.point,
+    border = false,
+    borderRadius = '15px',
     padding,
     reversal,
   }: ButtonProps) => css`
@@ -58,11 +58,11 @@ const Button: React.FC<ButtonProps> = ({
   ...props
 }: ButtonProps) => {
   const backgroundColor =
-    buttonType === 'primary'
-      ? Common.colors.point
-      : buttonType === 'warning'
+    buttonType === 'warning'
       ? Common.colors.warning
-      : Common.colors.confirm;
+      : buttonType === 'confirm'
+      ? Common.colors.confirm
+      : Common.colors.point;
 
   return (
     <StyledButton
