@@ -52,7 +52,9 @@ export const Boxes = (args: CardListProps) => {
           bgColorName={cardBgColorKeys[idx % colorLength] as CardBgColorTypes}
           padding={10}
           margin={10}
-        />
+        >
+          테스트용
+        </CardContainer>
       ))}
     </CardList>
   );
@@ -72,7 +74,9 @@ export const Cards = (args: CardListProps) => {
           bgColorName={cardBgColorKeys[idx % colorLength] as CardBgColorTypes}
           padding={10}
           margin={10}
-        />
+        >
+          테스트용
+        </CardContainer>
       ))}
     </CardList>
   );

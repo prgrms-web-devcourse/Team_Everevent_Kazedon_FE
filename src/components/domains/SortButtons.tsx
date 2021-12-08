@@ -1,13 +1,16 @@
 import Button from '@components/atoms/Button';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
 export type widthType = string | number;
 export type callbackType = () => void;
 export type buttonArrType = [string, callbackType];
+export type buttonMarginType = string | number;
 
 interface StyledSortButtonsProps {
   width: widthType;
+  buttonMargin?: buttonMarginType;
 }
 export interface SortButtonsProps extends StyledSortButtonsProps {
   buttonArr: buttonArrType[];
@@ -16,25 +19,36 @@ export interface SortButtonsProps extends StyledSortButtonsProps {
 
 const StyledSortButtons: React.FC<StyledSortButtonsProps> = styled.section`
   display: flex;
-  justify-content: space-between;
   width: ${({ width }: { width: widthType }) =>
     typeof width === 'string' ? width : `${width}px`};
+  ${({ buttonMargin }: Partial<StyledSortButtonsProps>) =>
+    buttonMargin &&
+    css`
+      button {
+        margin-right: ${typeof buttonMargin === 'string'
+          ? buttonMargin
+          : `${buttonMargin}px`};
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    `}
 `;
 
-const SortButtons = ({ width, buttonArr }: SortButtonsProps) => {
+const SortButtons = ({ width, buttonArr, buttonMargin }: SortButtonsProps) => {
   if (!buttonArr.length) return null;
   return (
-    <StyledSortButtons width={width}>
+    <StyledSortButtons width={width} buttonMargin={buttonMargin}>
       {buttonArr.map(([name, cb]: buttonArrType) => (
         <Button
-          key="name"
+          key={name}
           buttonType="primary"
+          width="auto"
           fontSize={14}
           onClick={cb}
           reversal
-          bold={false}
-          backgroundColor="white"
-          color="black"
+          padding={0}
         >
           {name}
         </Button>
