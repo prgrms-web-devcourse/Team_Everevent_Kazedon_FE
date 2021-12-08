@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Common from '@styles/index';
 
 export interface InputProps {
-  type: 'small' | 'large';
+  sizeType: 'small' | 'large';
   error: boolean | 'undefined';
   name?: string;
   placeholder: string;
@@ -11,7 +11,7 @@ export interface InputProps {
 
 const InputContainer = styled.input<InputProps>`
   box-sizing: border-box;
-  width: ${({ type }) => (type === 'small' ? '280px' : '310px')};
+  width: ${({ sizeType }) => (sizeType === 'small' ? '280px' : '310px')};
   height: 56px;
   padding: 18px;
   font-size: ${Common.fontSize.medium};
