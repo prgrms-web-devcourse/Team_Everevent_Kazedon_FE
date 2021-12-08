@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Common from '../../styles';
+import Common from '@styles/index';
 
 export interface InputProps {
   type: 'small' | 'large';
   error: boolean | 'undefined';
+  name?: string;
   placeholder: string;
 }
 
@@ -21,7 +22,8 @@ const InputContainer = styled.input<InputProps>`
   outline: none;
 
   &:focus {
-    border: 1px solid ${Common.colors.primary};
+    border: 1px solid
+      ${({ error }) => (error ? Common.colors.warning : Common.colors.primary)};
   }
 `;
 
