@@ -17,7 +17,7 @@ export interface ButtonProps {
   borderRadius?: number | string;
   padding?: number | string;
   reversal?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const StyledButton = styled.button`
@@ -54,7 +54,6 @@ const StyledButton = styled.button`
 
 const Button: React.FC<ButtonProps> = ({
   buttonType,
-  onClick,
   ...props
 }: ButtonProps) => {
   const backgroundColor =
@@ -65,11 +64,7 @@ const Button: React.FC<ButtonProps> = ({
       : Common.colors.point;
 
   return (
-    <StyledButton
-      {...props}
-      backgroundColor={backgroundColor}
-      onClick={onClick}
-    >
+    <StyledButton backgroundColor={backgroundColor} {...props}>
       {props.children}
     </StyledButton>
   );
