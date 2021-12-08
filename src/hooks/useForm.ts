@@ -16,7 +16,9 @@ const useForm = <T>({ initialValues, onSubmit, validate }: InitialData<T>) => {
     setValues({ ...values, [name]: value });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
+  ) => {
     setIsLoading(true);
     e.preventDefault();
 

@@ -4,6 +4,7 @@ import HeaderText from '@components/atoms/HeaderText';
 import Input from '@components/atoms/Input';
 import Button from '@components/atoms/Button';
 import useForm from '@hooks/useForm';
+import { useRouter } from 'next/dist/client/router';
 
 const LoginFormContainer = styled.div`
   display: flex;
@@ -34,6 +35,7 @@ type Data = {
 };
 
 const LoginForm = () => {
+  const router = useRouter();
   const { handleChange, handleSubmit } = useForm<Data>({
     initialValues: {
       email: '',
@@ -41,6 +43,7 @@ const LoginForm = () => {
     },
     onSubmit: (values) => {
       console.log(values);
+      router.push('/');
     },
     validate: ({ email, password }) => {
       const errors: Data = {};
