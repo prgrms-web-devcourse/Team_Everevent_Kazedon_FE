@@ -44,6 +44,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'off',
     '@next/next/google-font-display': 'off',
     '@next/next/no-page-custom-font': 'off',
+    '@typescript-eslint/no-unused-vars': [2, { args: 'none' }],
   },
   globals: {
     React: true,
