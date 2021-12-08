@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import HeaderText from '@components/atoms/HeaderText';
 import Input from '@components/atoms/Input';
 import Button from '@components/atoms/Button';
+import useForm from '@hooks/useForm';
 
 const LoginFormContainer = styled.div`
   display: flex;
@@ -27,13 +28,47 @@ const ButtonWrapper = styled.div`
   gap: 10px;
 `;
 
+type Data = {
+  email?: String;
+  password?: String;
+};
+
 const LoginForm = () => {
+  const { handleChange, handleSubmit } = useForm<Data>({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: (values) => {
+      console.log(values);
+    },
+    validate: ({ email, password }) => {
+      const errors: Data = {};
+      if (!email) errors.email = '이메일을 입력해주세요.';
+      if (!password) errors.password = '비밀번호를 입력해주세요.';
+
+      return errors;
+    },
+  });
+
   return (
     <LoginFormContainer>
       <HeaderText level={1}>에브리벤트에 함께하세요!</HeaderText>
       <InputWrapper>
-        <Input sizeType="small" placeholder="이메일" error={false} />
-        <Input sizeType="small" placeholder="비밀번호" error={false} />
+        <Input
+          sizeType="small"
+          placeholder="이메일"
+          name="email"
+          onChange={handleChange}
+          error={false}
+        />
+        <Input
+          sizeType="small"
+          name="password"
+          onChange={handleChange}
+          placeholder="비밀번호"
+          error={false}
+        />
       </InputWrapper>
       <ButtonWrapper>
         <Button
@@ -41,6 +76,7 @@ const LoginForm = () => {
           width={280}
           height={48}
           borderRadius="15px"
+          onClick={handleSubmit}
           bold
         >
           로그인
