@@ -6,17 +6,17 @@ import Button from '@components/atoms/Button';
 
 const LoginFormContainer = styled.div`
   display: flex;
-  width: 100%;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
+  width: 100%;
 `;
 
 const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  height: 120px;
   gap: 8px;
+  height: 120px;
   margin-top: 18px;
   margin-bottom: 34px;
 `;
@@ -32,8 +32,8 @@ const LoginForm = () => {
     <LoginFormContainer>
       <HeaderText level={1}>에브리벤트에 함께하세요!</HeaderText>
       <InputWrapper>
-        <Input type="small" placeholder="이메일" error={false} />
-        <Input type="small" placeholder="비밀번호" error={false} />
+        <Input sizeType="small" placeholder="이메일" error={false} />
+        <Input sizeType="small" placeholder="비밀번호" error={false} />
       </InputWrapper>
       <ButtonWrapper>
         <Button
