@@ -1,7 +1,8 @@
 import React from 'react';
+import RegisterForm from '@components/domains/RegisterForm';
 
 const RegisterPage = () => {
-  return <div>회원가입 페이지</div>;
+  return <RegisterForm />;
 };
 
 export default RegisterPage;
