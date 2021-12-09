@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
 export interface CardListProps {
+  box?: boolean;
   children: ReactNode;
   flexType: 'default' | 'column' | 'none';
   width: string | number;
@@ -13,6 +14,7 @@ export interface CardListProps {
 
 const StyledCardList: React.FC<CardListProps> = styled.section`
   ${({
+    box,
     flexType,
     width,
     padding,
@@ -23,6 +25,7 @@ const StyledCardList: React.FC<CardListProps> = styled.section`
     display: ${flexType === 'none' ? 'block' : 'flex'};
     flex-direction: ${flexType === 'default' ? 'row' : 'column'};
     flex-wrap: ${flexType === 'default' ? 'wrap' : 'nowrap'};
+    justify-content: ${box ? 'space-between' : 'flex-start'};
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${overflowHeight
       ? typeof overflowHeight === 'string'
@@ -36,6 +39,7 @@ const StyledCardList: React.FC<CardListProps> = styled.section`
 `;
 
 const CardList = ({
+  box,
   children,
   flexType = 'default',
   width = '100%',
@@ -45,6 +49,7 @@ const CardList = ({
 }: CardListProps) => {
   return (
     <StyledCardList
+      box={box}
       flexType={flexType}
       padding={padding}
       width={width}
