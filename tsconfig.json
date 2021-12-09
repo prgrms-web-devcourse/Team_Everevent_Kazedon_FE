@@ -24,6 +24,7 @@
       "@stories/*": ["./src/stories/*"],
       "@axios/*": ["./src/axios/*"],
       "@apis/*": ["./src/apis/*"],
+      "@contexts/*": ["./src/contexts/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/hooks/useClickAway.ts", "src/components/atoms/Modal.tsx"],

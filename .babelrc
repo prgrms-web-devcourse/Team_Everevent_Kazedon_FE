@@ -21,7 +21,8 @@
           "@styles": "./src/styles",
           "@stories": "./src/stories",
           "@axios": "./src/axios",
-          "@apis": "./src/apis"
+          "@apis": "./src/apis",
+          "@contexts": "./src/contexts"
         }
       }
     ]
