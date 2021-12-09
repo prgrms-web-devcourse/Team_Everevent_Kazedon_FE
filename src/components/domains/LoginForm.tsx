@@ -66,6 +66,7 @@ const LoginForm = () => {
           error={false}
         />
         <Input
+          type="password"
           sizeType="small"
           name="password"
           onChange={handleChange}
