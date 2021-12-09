@@ -34,6 +34,7 @@ module.exports = {
           '@stories': toPath('src/stories'),
           '@axios': toPath('src/axios'),
           '@apis': toPath('src/apis'),
+          '@contexts': toPath('src/contexts'),
         },
       },
     };
