@@ -1,5 +1,8 @@
 ### dotenv ###
+<<<<<<< HEAD
 .env
+=======
+>>>>>>> bff3ed3 (refactor: axios interceptor ts로 변환, 초기화 세팅)
 .env*
 
 ### NextJS ###
