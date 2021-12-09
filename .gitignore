@@ -1,5 +1,6 @@
 ### dotenv ###
 .env
+.env*
 
 ### NextJS ###
 # Next build dir
@@ -162,3 +163,15 @@ sketch
 
 # and uncomment the following lines
 # .pnp.*
+
+### Firebase ###
+.idea
+**/node_modules/*
+**/.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
+### build output ###
+out
