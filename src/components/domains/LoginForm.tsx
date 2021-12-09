@@ -5,6 +5,8 @@ import Input from '@components/atoms/Input';
 import Button from '@components/atoms/Button';
 import useForm from '@hooks/useForm';
 import { useRouter } from 'next/dist/client/router';
+import Text from '@components/atoms/Text';
+import Common from '@styles/index';
 
 const LoginFormContainer = styled.div`
   display: flex;
@@ -14,13 +16,21 @@ const LoginFormContainer = styled.div`
   width: 100%;
 `;
 
+const InputContainer = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 164px;
+  margin-top: 18px;
+  margin-bottom: 16px;
+`;
+
 const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  height: 120px;
-  margin-top: 18px;
-  margin-bottom: 34px;
+  justify-content: space-between;
+  height: 76px;
 `;
 
 const ButtonWrapper = styled.div`
@@ -30,50 +40,88 @@ const ButtonWrapper = styled.div`
 `;
 
 type Data = {
-  email?: String;
-  password?: String;
+  email?: string;
+  password?: string;
 };
 
 const LoginForm = () => {
   const router = useRouter();
-  const { handleChange, handleSubmit } = useForm<Data>({
+  const { errors, handleChange, handleSubmit } = useForm<Data>({
     initialValues: {
       email: '',
       password: '',
     },
     onSubmit: (values) => {
-      console.log(values);
       router.push('/');
     },
-    validate: ({ email, password }) => {
-      const errors: Data = {};
-      if (!email) errors.email = '이메일을 입력해주세요.';
-      if (!password) errors.password = '비밀번호를 입력해주세요.';
+    validate: ({ email, password }: Data) => {
+      const newErrors: Data = {};
+      const emailValidation =
+        /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; //eslint-disable-line
 
-      return errors;
+      if (!email) {
+        newErrors.email = '이메일을 입력해주세요.';
+      }
+      if (email && !emailValidation.test(email)) {
+        newErrors.email = '이메일 형식을 확인해주세요.';
+      } else if (email && emailValidation.test(email)) {
+        newErrors.email = '';
+      }
+
+      if (!password) {
+        newErrors.password = '비밀번호를 입력해주세요.';
+      } else {
+        newErrors.password = '';
+      }
+
+      return newErrors;
     },
   });
 
   return (
     <LoginFormContainer>
       <HeaderText level={1}>에브리벤트에 함께하세요!</HeaderText>
-      <InputWrapper>
-        <Input
-          sizeType="small"
-          placeholder="이메일"
-          name="email"
-          onChange={handleChange}
-          error={false}
-        />
-        <Input
-          type="password"
-          sizeType="small"
-          name="password"
-          onChange={handleChange}
-          placeholder="비밀번호"
-          error={false}
-        />
-      </InputWrapper>
+      <InputContainer>
+        <InputWrapper>
+          <Input
+            sizeType="small"
+            placeholder="이메일"
+            name="email"
+            onChange={handleChange}
+            error={errors.email !== ''}
+          />
+          {errors.email && (
+            <Text
+              size="micro"
+              fontStyle={{ display: 'flex', justifyContent: 'center' }}
+              block
+              color={Common.colors.warning}
+            >
+              {errors.email}
+            </Text>
+          )}
+        </InputWrapper>
+        <InputWrapper>
+          <Input
+            type="password"
+            sizeType="small"
+            name="password"
+            onChange={handleChange}
+            placeholder="비밀번호"
+            error={errors.password !== ''}
+          />
+          {errors.password && (
+            <Text
+              size="micro"
+              fontStyle={{ display: 'flex', justifyContent: 'center' }}
+              block
+              color={Common.colors.warning}
+            >
+              {errors.password}
+            </Text>
+          )}
+        </InputWrapper>
+      </InputContainer>
       <ButtonWrapper>
         <Button
           buttonType="primary"
