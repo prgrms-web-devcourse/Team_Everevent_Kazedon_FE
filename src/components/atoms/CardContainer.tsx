@@ -6,7 +6,8 @@ import React, { ReactNode } from 'react';
 export interface CardStyleProps {
   padding?: number | string;
   width?: number | string;
-  margin?: number | string;
+  marginWidth?: number | string;
+  marginHeight?: number | string;
   cardType?: 'default' | 'box';
 }
 
@@ -15,7 +16,8 @@ export type CardBgColorTypes =
   | 'orange'
   | 'pink'
   | 'yellowGreen'
-  | 'mint';
+  | 'mint'
+  | 'default';
 
 export interface StyledDefaultCardProps extends CardStyleProps {
   bgColorName: CardBgColorTypes;
@@ -24,7 +26,7 @@ export interface StyledDefaultCardProps extends CardStyleProps {
 export interface CardContainerProps extends CardStyleProps {
   children: ReactNode;
   cardType: 'default' | 'box';
-  bgColorName: CardBgColorTypes;
+  bgColorName?: CardBgColorTypes;
   [prop: string]: any;
 }
 
@@ -33,16 +35,25 @@ const StyledDefaultCardContainer = styled('article')<StyledDefaultCardProps>`
   height: 120px;
   filter: drop-shadow(0 4px 4px rgb(0 0 0 / 25%));
   border-radius: 16px;
-  ${({ width, margin, padding, bgColorName }) => css`
-    width: ${typeof width === 'string' ? width : `${width}px`};
-    padding: ${typeof padding === 'string' ? padding : `${padding}px`};
-    margin: ${typeof margin === 'string' ? margin : `${margin}px`};
-    background: ${`linear-gradient(
+  ${({ width, marginWidth, marginHeight, padding, bgColorName }) => {
+    const mw =
+      typeof marginWidth === 'string' ? marginWidth : `${marginWidth}px`;
+    const mh =
+      typeof marginHeight === 'string' ? marginHeight : `${marginHeight}px`;
+    const margin = `${mw} ${mh} ${mw} ${mh}`;
+    return css`
+      width: ${typeof width === 'string' ? width : `${width}px`};
+      padding: ${typeof padding === 'string' ? padding : `${padding}px`};
+      margin: ${margin};
+      background: ${bgColorName === 'default'
+        ? styles.colors.background
+        : `linear-gradient(
       93.41deg,
       ${styles.cardBackgroundColors[bgColorName]} 14.53%,
       ${styles.cardBackgroundColors[bgColorName]} 93.07%
     ) `};
-  `}
+    `;
+  }}
 `;
 
 const StyledBoxCardContainer = styled('article')<CardStyleProps>`
@@ -51,16 +62,21 @@ const StyledBoxCardContainer = styled('article')<CardStyleProps>`
   background: ${styles.colors.background};
   filter: drop-shadow(0 4px 4px rgb(0 0 0 / 25%));
   border-radius: 16px;
-  ${({ cardType, width, margin, padding }) => {
-    const mg = `${(margin as number) * 2}px`;
+  ${({ cardType, width, marginWidth, marginHeight, padding }) => {
+    const mw =
+      typeof marginWidth === 'string' ? marginWidth : `${marginWidth}px`;
+    const mh =
+      typeof marginHeight === 'string' ? marginHeight : `${marginHeight}px`;
     return css`
       width: ${cardType === 'default'
         ? typeof width === 'string'
           ? width
           : `${width}px`
-        : `calc(50% - ${mg})`};
+        : `calc(50% - ${mw})`};
       padding: ${typeof padding === 'string' ? padding : `${padding}px`};
-      margin: ${typeof margin === 'string' ? margin : `${margin}px`};
+
+      margin-top: ${mh};
+      margin-bottom: ${mh};
     `;
   }}
 `;
@@ -70,19 +86,29 @@ const CardContainer = ({
   cardType = 'default',
   width = 'auto',
   padding = 0,
-  margin = 0,
+  marginWidth = 0,
+  marginHeight = 0,
   bgColorName = 'orange',
+  ...props
 }: CardContainerProps) => {
   return cardType === 'box' ? (
-    <StyledBoxCardContainer margin={margin} padding={padding} width={width}>
+    <StyledBoxCardContainer
+      marginWidth={marginWidth}
+      marginHeight={marginHeight}
+      padding={padding}
+      width={width}
+      {...props}
+    >
       {children}
     </StyledBoxCardContainer>
   ) : (
     <StyledDefaultCardContainer
-      margin={margin}
+      marginWidth={marginWidth}
+      marginHeight={marginHeight}
       padding={padding}
       width={width}
       bgColorName={bgColorName}
+      {...props}
     >
       {children}
     </StyledDefaultCardContainer>

@@ -24,6 +24,7 @@ export interface ImageContainerProps {
   objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
   layout?: 'intrinsic' | 'fixed' | 'fill' | 'responsive';
   isCircle?: boolean;
+  [prop: string]: any;
 }
 
 const StyledImageContainer = styled.div`
@@ -36,6 +37,7 @@ const StyledImageContainer = styled.div`
     position,
     isCircle,
   }: Partial<ImageContainerProps>) => css`
+    flex-shrink: 0;
     ${position ? `position: ${position};` : ''}
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${typeof height === 'string' ? height : `${height}px`};
