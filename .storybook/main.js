@@ -35,6 +35,7 @@ module.exports = {
           '@axios': toPath('src/axios'),
           '@apis': toPath('src/apis'),
           '@contexts': toPath('src/contexts'),
+          '@utils': toPath('src/utils'),
         },
       },
     };
