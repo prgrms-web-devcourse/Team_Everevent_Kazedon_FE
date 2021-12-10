@@ -46,33 +46,31 @@ type Data = {
 
 const LoginForm = () => {
   const router = useRouter();
+  const text = {
+    default: '',
+    emailReg: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/, //eslint-disable-line
+    emailInput: '이메일을 입력해주세요.',
+    emailFormat: '이메일 형식을 확인해주세요.',
+    passwordInput: '비밀번호를 입력해주세요.',
+  };
   const { errors, handleChange, handleSubmit } = useForm<Data>({
     initialValues: {
       email: '',
       password: '',
     },
-    onSubmit: (values) => {
+    onSubmit: (values) => {//eslint-disable-line
       router.push('/');
     },
     validate: ({ email, password }: Data) => {
       const newErrors: Data = {};
-      const emailValidation =
-        /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; //eslint-disable-line
 
-      if (!email) {
-        newErrors.email = '이메일을 입력해주세요.';
-      }
-      if (email && !emailValidation.test(email)) {
-        newErrors.email = '이메일 형식을 확인해주세요.';
-      } else if (email && emailValidation.test(email)) {
-        newErrors.email = '';
-      }
+      newErrors.email = email
+        ? !text.emailReg.test(email)
+          ? text.emailFormat
+          : text.default
+        : text.emailInput;
 
-      if (!password) {
-        newErrors.password = '비밀번호를 입력해주세요.';
-      } else {
-        newErrors.password = '';
-      }
+      newErrors.password = password ? text.default : text.passwordInput;
 
       return newErrors;
     },
@@ -88,7 +86,7 @@ const LoginForm = () => {
             placeholder="이메일"
             name="email"
             onChange={handleChange}
-            error={errors.email !== ''}
+            error={errors.email !== text.default}
           />
           {errors.email && (
             <Text
@@ -108,7 +106,7 @@ const LoginForm = () => {
             name="password"
             onChange={handleChange}
             placeholder="비밀번호"
-            error={errors.password !== ''}
+            error={errors.password !== text.default}
           />
           {errors.password && (
             <Text
