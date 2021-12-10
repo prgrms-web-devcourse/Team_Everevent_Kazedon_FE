@@ -1,3 +1,4 @@
+import ContextProvider from '@contexts/index';
 import '@styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -23,7 +24,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=block"
         />
       </Head>
-      <Component {...pageProps} />
+      <ContextProvider>
+        <Component {...pageProps} />
+      </ContextProvider>
     </>
   );
 }
