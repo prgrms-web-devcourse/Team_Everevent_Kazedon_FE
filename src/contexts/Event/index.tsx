@@ -1,23 +1,6 @@
+import useEventProvider from '@contexts/Event/actions';
 import React, { createContext, ReactNode, useMemo, useReducer } from 'react';
-
-export interface Event {
-  name: string;
-  expiredAt: string | Date;
-  marketName: string;
-  marketDescription: string;
-  eventDescription: string;
-  isLike: boolean | null;
-  isFavorite: boolean | null;
-  pictures: [];
-  isParticipated: boolean | null;
-}
-
-export type eventListType = Event[] | [];
-
-export interface InitialStateType {
-  eventList: eventListType;
-  event: Event;
-}
+import { GET_EVENTLIST, InitialStateType } from '@contexts/Event/types';
 
 const initialState: InitialStateType = {
   eventList: [],
@@ -33,8 +16,6 @@ const initialState: InitialStateType = {
     isParticipated: null,
   },
 };
-
-export const GET_EVENTLIST = 'EVENT/GET_EVENTLIST';
 
 const eventReducer = (state: InitialStateType, action: any) => {
   switch (action.type) {
@@ -58,9 +39,11 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     initialState
   );
 
+  const { dispatchEventList } = useEventProvider(dispatchEvent);
+
   const contextValue = useMemo(
-    () => ({ eventList, event, dispatchEvent }),
-    [event, eventList]
+    () => ({ eventList, event, dispatchEventList }),
+    [event, eventList, dispatchEventList]
   );
 
   return (
