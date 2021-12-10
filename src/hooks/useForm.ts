@@ -8,7 +8,7 @@ interface InitialData<T> {
 
 const useForm = <T>({ initialValues, onSubmit, validate }: InitialData<T>) => {
   const [values, setValues] = useState<T>(initialValues);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<T>(initialValues);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,12 +22,14 @@ const useForm = <T>({ initialValues, onSubmit, validate }: InitialData<T>) => {
     setIsLoading(true);
     e.preventDefault();
 
-    const newErrors = validate ? validate(values) : {};
-    setErrors(newErrors);
-    setIsLoading(false);
+    const newErrors = validate ? validate(values) : initialValues;
+
     if (Object.keys(newErrors).length === 0) {
       await onSubmit(values);
     }
+
+    setErrors(newErrors);
+    setIsLoading(false);
   };
 
   return { values, errors, isLoading, handleChange, handleSubmit };

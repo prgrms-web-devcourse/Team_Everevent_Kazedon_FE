@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { HTMLInputTypeAttribute } from 'react';
 import styled from '@emotion/styled';
 import Common from '@styles/index';
 
 export interface InputProps {
+  type?: HTMLInputTypeAttribute;
   sizeType: 'small' | 'large';
   error: boolean | 'undefined';
   name?: string;
@@ -28,8 +29,8 @@ const InputContainer = styled.input<InputProps>`
   }
 `;
 
-const Input: React.FC<InputProps> = ({ ...props }) => (
-  <InputContainer {...props} />
+const Input: React.FC<InputProps> = ({ type = 'text', ...props }) => (
+  <InputContainer type={type} {...props} />
 );
 
 export default Input;
