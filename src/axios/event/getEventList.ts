@@ -1,5 +1,7 @@
+import { request } from '@axios/index';
+
 const getEventList = async () => {
-  const res = await fetch('/v3/1649e9bd-0272-47cb-85c2-60f1fa19c722');
+  const res = await request.get('/v3/96effad6-e14a-4094-9ab4-d7932bf1bc33');
   return res;
 };
 

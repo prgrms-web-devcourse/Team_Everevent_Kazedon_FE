@@ -11,7 +11,7 @@ interface optionsType {
 
 // TODO: 추후 백엔드와 협의 후 설정사항이 있다면 request에 옵션을 넣어 설정하기로 한다.
 /* eslint-disable prefer-destructuring */
-const API_END_POINT = process.env.API_END_POINT;
+const API_END_POINT = 'https://run.mocky.io'; // Mock Test API BASE URL
 
 const configInterceptorCallback = (config: AxiosRequestConfig) => config;
 const errorCallback = (error: AxiosError) => Promise.reject(error.response);
@@ -20,7 +20,7 @@ const setInterceptors = (instance: AxiosInstance) => {
 
   instance.interceptors.response.use(
     (response: AxiosResponse) => {
-      return response;
+      return response.data;
     },
     (error) => {
       return Promise.reject(error.response);
@@ -29,7 +29,7 @@ const setInterceptors = (instance: AxiosInstance) => {
   return instance;
 };
 
-const createInstance = ({ options }: optionsType) => {
+const createInstance = (options: optionsType) => {
   const instance: AxiosInstance = axios.create({
     ...options,
   });

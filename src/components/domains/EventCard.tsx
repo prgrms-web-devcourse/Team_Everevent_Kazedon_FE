@@ -2,6 +2,7 @@ import CardContainer, {
   CardBgColorTypes,
 } from '@components/atoms/CardContainer';
 import Text from '@components/atoms/Text';
+import { Event } from '@contexts/eventList/types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import styles from '@styles/index';
@@ -38,12 +39,20 @@ export interface EventType {
 }
 
 export interface EventCardProps {
-  eventData: EventType;
+  eventData: Event;
   idx: number;
   width?: number | string;
+  marginWidth?: number | string;
+  marginHeight?: number | string;
 }
 
-const EventCard = ({ eventData, idx, width = 'auto' }: EventCardProps) => {
+const EventCard = ({
+  eventData,
+  idx,
+  width = 'auto',
+  marginWidth = 0,
+  marginHeight = 10,
+}: EventCardProps) => {
   const {
     expiredAt,
     name,
@@ -51,7 +60,7 @@ const EventCard = ({ eventData, idx, width = 'auto' }: EventCardProps) => {
     isLike,
     likeCount,
     reviewCount,
-    remainingParticipants,
+    maxParticipants,
   } = eventData;
   const cardBgColorKeys = Object.keys(styles.cardBackgroundColors);
   const colorLength = cardBgColorKeys.length;
@@ -59,10 +68,11 @@ const EventCard = ({ eventData, idx, width = 'auto' }: EventCardProps) => {
     <CardContainer
       width={width}
       padding={20}
-      margin="8px 0"
       bgColorName={cardBgColorKeys[idx % colorLength] as CardBgColorTypes}
       cardType="default"
       key={expiredAt + marketName}
+      marginWidth={marginWidth}
+      marginHeight={marginHeight}
     >
       <Text
         block
@@ -72,7 +82,7 @@ const EventCard = ({ eventData, idx, width = 'auto' }: EventCardProps) => {
       <Text block bold css={marginBottomCSS('16')}>
         {name}
       </Text>
-      <Text block size="micro">{`${remainingParticipants}명 남음`}</Text>
+      <Text block size="micro">{`${maxParticipants}명 남음`}</Text>
       <Text block size="micro">
         {marketName}
       </Text>
@@ -84,7 +94,7 @@ const EventCard = ({ eventData, idx, width = 'auto' }: EventCardProps) => {
           color={styles.colors.background}
           css={marginLeftCSS()}
         >
-          {reviewCount}
+          {`${reviewCount || 0}`}
         </Text>
       </StyledReviewCount>
       <StyledLikeButton>
@@ -92,7 +102,7 @@ const EventCard = ({ eventData, idx, width = 'auto' }: EventCardProps) => {
           {isLike ? '💗' : '🖤'}
         </Text>
         <Text block size="micro" color={styles.colors.background}>
-          {likeCount}
+          {`${likeCount || 0}`}
         </Text>
       </StyledLikeButton>
     </CardContainer>

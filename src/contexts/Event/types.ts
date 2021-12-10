@@ -1,4 +1,5 @@
 export interface Event {
+  eventId: string;
   name: string;
   expiredAt: string | Date;
   marketName: string;
@@ -9,12 +10,3 @@ export interface Event {
   pictures: [];
   isParticipated: boolean | null;
 }
-
-export type eventListType = Event[] | [];
-
-export interface InitialStateType {
-  eventList: eventListType;
-  event: Event;
-}
-
-export const GET_EVENTLIST = 'EVENT/GET_EVENTLIST' as const;

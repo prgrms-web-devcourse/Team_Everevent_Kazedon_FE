@@ -40,7 +40,7 @@ const StyledDefaultCardContainer = styled('article')<StyledDefaultCardProps>`
       typeof marginWidth === 'string' ? marginWidth : `${marginWidth}px`;
     const mh =
       typeof marginHeight === 'string' ? marginHeight : `${marginHeight}px`;
-    const margin = `${mw} ${mh} ${mw} ${mh}`;
+    const margin = `${mh} ${mw} ${mh} ${mw}`;
     return css`
       width: ${typeof width === 'string' ? width : `${width}px`};
       padding: ${typeof padding === 'string' ? padding : `${padding}px`};
