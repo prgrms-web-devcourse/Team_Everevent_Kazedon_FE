@@ -7,7 +7,7 @@ import useForm from '@hooks/useForm';
 import { useRouter } from 'next/dist/client/router';
 import Text from '@components/atoms/Text';
 import Common from '@styles/index';
-import { UserContext } from '@contexts/UserContext';
+import UserContext from '@contexts/UserContext';
 
 const LoginFormContainer = styled.div`
   display: flex;
