@@ -1,4 +1,4 @@
-import { ErrorType } from '../types';
+import { ErrorType } from '@axios/types';
 
 export interface Event {
   eventId: string | null;

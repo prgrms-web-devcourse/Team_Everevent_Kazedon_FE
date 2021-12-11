@@ -1,4 +1,5 @@
-import request, { ResType } from '@axios/index';
+import request from '@axios/index';
+import { ResType } from '@axios/types';
 
 const getEventList = async () => {
   const res: ResType = await request.get(
