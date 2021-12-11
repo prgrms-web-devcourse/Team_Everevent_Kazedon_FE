@@ -41,4 +41,4 @@ const request = createInstance({
   timeout: 5000,
 });
 
-export { request };
+export default request;
