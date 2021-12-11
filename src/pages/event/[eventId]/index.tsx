@@ -1,13 +1,14 @@
 import { MainContainer } from '@components/atoms';
 import { Header } from '@components/domains';
+import EventDescriptions from '@components/domains/EventDetail/EventDescriptions';
 import EventDetailHeader from '@components/domains/EventDetail/EventDetailHeader';
+import MarketDescriptions from '@components/domains/EventDetail/MarketDescriptions';
 import { Event } from '@contexts/event/types';
 import eventData from 'fixtures/event';
 import React from 'react';
 
 const EventDetailPage = () => {
   const {
-    eventId,
     name,
     expiredAt,
     marketName,
@@ -29,6 +30,11 @@ const EventDetailPage = () => {
         isFavorite={isFavorite}
         isParticipated={isParticipated}
       />
+      <MarketDescriptions
+        marketDescription={marketDescription}
+        pictures={pictures}
+      />
+      <EventDescriptions eventDescription={eventDescription} />
     </MainContainer>
   );
 };

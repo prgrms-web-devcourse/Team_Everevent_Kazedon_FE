@@ -11,7 +11,13 @@ const event = {
   isFavorite: true,
   pictures: [
     {
-      url: '1234.png',
+      url: 'https://picsum.photos/200',
+    },
+    {
+      url: 'https://picsum.photos/200',
+    },
+    {
+      url: 'https://picsum.photos/200',
     },
   ],
   isParticipated: true,
