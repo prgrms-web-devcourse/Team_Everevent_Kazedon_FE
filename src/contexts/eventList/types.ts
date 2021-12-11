@@ -1,3 +1,5 @@
+import { ErrorType } from '../types';
+
 export interface Event {
   eventId: string | null;
   name: string;
@@ -14,6 +16,7 @@ export type EventListType = Array<Event> | [];
 export interface InitialStateType {
   eventList: EventListType;
   event: Event;
+  eventError: ErrorType;
 }
 
 export interface ContextType extends InitialStateType {
@@ -24,5 +27,8 @@ export const GET_EVENTLIST = 'EVENTLIST/GET' as const;
 export const INITIALIZE_EVENTLIST = 'EVENTLIST/INITIALIZE' as const;
 
 export type Action =
-  | { type: 'EVENTLIST/GET'; payload: EventListType }
+  | {
+      type: 'EVENTLIST/GET';
+      payload: { eventList: EventListType; eventError: ErrorType };
+    }
   | { type: 'EVENTLIST/INITIALIZE' };

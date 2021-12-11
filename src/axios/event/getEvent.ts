@@ -1,5 +1,4 @@
-import request from '@axios/index';
-import { Event } from '@contexts/event/types';
+import request, { ResType } from '@axios/index';
 
 interface GetEventParamTypes {
   eventId: string | undefined | string[];
@@ -11,7 +10,9 @@ const getEvent = async ({ eventId }: GetEventParamTypes) => {
     console.warn('nowParam is array ', eventId);
   }
 
-  const res: Event = await request.get('/e49e47f9-739a-4014-8395-efa1f810aebb');
+  const res: ResType = await request.get(
+    '/e49e47f9-739a-4014-8395-efa1f810aebb'
+  );
   return res;
 };
 

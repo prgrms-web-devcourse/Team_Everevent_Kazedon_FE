@@ -26,7 +26,7 @@ const requestConfigCallback = (
 const rejectRequestConfigCallback = (error: any) =>
   Promise.reject(error.response);
 
-interface ResType {
+export interface ResType {
   data: keyof AxiosResponse;
   headers: AxiosResponseHeaders;
   error: {
@@ -34,19 +34,21 @@ interface ResType {
     message: string | null;
   };
 }
+
 const successResponseCallback = (res: AxiosResponse): ResType => {
   return {
     data: res.data,
     headers: res.headers,
     error: {
-      code: res.status,
+      code: null,
       message: null,
     },
   };
 };
 const errorResponseCallback = (res: any) => {
   return {
-    ...res,
+    data: res.data,
+    headers: res.headers,
     error: {
       code: res?.response?.status || 500,
       message: '', // TODO: 백엔드 쪽에서 메시지를 전달해줄 것인지 협의한다.
