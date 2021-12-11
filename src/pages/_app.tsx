@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import ContextProvider from '@contexts/index';
-=======
-import { UserProvider } from '@contexts/UserContext';
->>>>>>> ef08e0d (feat: ContextProvider 적용)
 import '@styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
@@ -28,15 +24,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=block"
         />
       </Head>
-<<<<<<< HEAD
       <ContextProvider>
         <Component {...pageProps} />
       </ContextProvider>
-=======
-      <UserProvider>
-        <Component {...pageProps} />
-      </UserProvider>
->>>>>>> ef08e0d (feat: ContextProvider 적용)
     </>
   );
 }
