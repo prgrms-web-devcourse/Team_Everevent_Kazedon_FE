@@ -8,7 +8,8 @@ import { useEvent } from '@contexts/eventList';
 import { css } from '@emotion/react';
 import styles from '@styles/index';
 import type { NextPage } from 'next';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
+import { useRouter } from 'next/router';
 
 const AddressButtonCSS = css`
   margin-top: 60px;
@@ -17,7 +18,14 @@ const AddressButtonCSS = css`
 `;
 const MainPage: NextPage = () => {
   const { eventList, dispatchEventList, initailizeEventList } = useEvent();
+  const router = useRouter();
 
+  const handleCardClick = useCallback(
+    (eventId = 'e49e47f9-739a-4014-8395-efa1f810aebb') => {
+      router.push(`/event/${eventId}`);
+    },
+    [router]
+  );
   useEffect(() => {
     dispatchEventList();
     return () => initailizeEventList();
@@ -30,6 +38,7 @@ const MainPage: NextPage = () => {
     ['마감순', () => console.log('마감순')],
     ['좋아요순', () => console.log('좋아요순')],
   ] as buttonArrType[];
+
   return (
     <MainContainer paddingWidth={24}>
       <Header isVisiblePrev={false} />
@@ -46,6 +55,7 @@ const MainPage: NextPage = () => {
       <CardList flexType="column" padding={0} margin="10px 0 0 0">
         {eventList.map((data, idx) => (
           <EventCard
+            onClick={() => handleCardClick()}
             key={data.eventId}
             eventData={data}
             idx={idx}
