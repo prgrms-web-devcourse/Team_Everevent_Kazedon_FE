@@ -1,6 +1,7 @@
 import Button from '@components/atoms/Button';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import styles from '@styles/index';
 import React from 'react';
 
 export type widthType = string | number;
@@ -17,6 +18,9 @@ export interface SortButtonsProps extends StyledSortButtonsProps {
   [prop: string]: any;
 }
 
+const buttonColorCSS = css`
+  color: ${styles.colors.primary};
+`;
 const StyledSortButtons: React.FC<StyledSortButtonsProps> = styled.section`
   display: flex;
   width: ${({ width }: { width: widthType }) =>
@@ -49,6 +53,7 @@ const SortButtons = ({ width, buttonArr, buttonMargin }: SortButtonsProps) => {
           onClick={cb}
           reversal
           padding={0}
+          css={buttonColorCSS}
         >
           {name}
         </Button>
