@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import HeaderText from '@components/atoms/HeaderText';
 import Input from '@components/atoms/Input';
@@ -7,6 +7,7 @@ import useForm from '@hooks/useForm';
 import { useRouter } from 'next/dist/client/router';
 import Text from '@components/atoms/Text';
 import Common from '@styles/index';
+import UserContext from '@contexts/UserContext';
 
 const LoginFormContainer = styled.div`
   display: flex;
@@ -39,13 +40,14 @@ const ButtonWrapper = styled.div`
   gap: 10px;
 `;
 
-type Data = {
+interface Data {
   email?: string;
   password?: string;
-};
+}
 
 const LoginForm = () => {
   const router = useRouter();
+
   const text = {
     default: '',
     emailReg: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/, //eslint-disable-line
@@ -53,24 +55,36 @@ const LoginForm = () => {
     emailFormat: '이메일 형식을 확인해주세요.',
     passwordInput: '비밀번호를 입력해주세요.',
   };
+
+  const { handleLogIn } = useContext(UserContext);
+
   const { errors, handleChange, handleSubmit } = useForm<Data>({
     initialValues: {
       email: '',
       password: '',
     },
-    onSubmit: (values) => {//eslint-disable-line
-      router.push('/');
+    onSubmit: async (values) => {
+      try {
+        handleLogIn(values);
+        // router.push('/');
+      } catch (e) {
+        throw new Error('로그인 실패');
+      }
     },
     validate: ({ email, password }: Data) => {
       const newErrors: Data = {};
 
-      newErrors.email = email
-        ? !text.emailReg.test(email)
-          ? text.emailFormat
-          : text.default
-        : text.emailInput;
+      if (email) {
+        if (!text.emailReg.test(email)) {
+          newErrors.email = text.emailFormat;
+        }
+      } else {
+        newErrors.email = text.emailInput;
+      }
 
-      newErrors.password = password ? text.default : text.passwordInput;
+      if (!password) {
+        newErrors.password = text.passwordInput;
+      }
 
       return newErrors;
     },
@@ -86,7 +100,7 @@ const LoginForm = () => {
             placeholder="이메일"
             name="email"
             onChange={handleChange}
-            error={errors.email !== text.default}
+            error={!!errors.email}
           />
           {errors.email && (
             <Text
@@ -106,7 +120,7 @@ const LoginForm = () => {
             name="password"
             onChange={handleChange}
             placeholder="비밀번호"
-            error={errors.password !== text.default}
+            error={!!errors.password}
           />
           {errors.password && (
             <Text
