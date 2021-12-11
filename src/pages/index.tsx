@@ -1,4 +1,5 @@
 import CardList from '@components/atoms/CardList';
+import MainContainer from '@components/atoms/MainContainer';
 import EventCard from '@components/domains/EventCard';
 import Header from '@components/domains/Header';
 import SortButtons, { buttonArrType } from '@components/domains/SortButtons';
@@ -22,10 +23,10 @@ const MainPage: NextPage = () => {
     ['좋아요순', () => console.log('좋아요순')],
   ] as buttonArrType[];
   return (
-    <div css={{ width: '375px' }}>
+    <MainContainer paddingWidth={24}>
       <Header />
       <SortButtons width={230} buttonArr={buttonArr} buttonMargin={16} />
-      <CardList flexType="column" width={375} padding={0} margin={0}>
+      <CardList flexType="column" padding={0} margin={0}>
         {eventList.map((data, idx) => (
           <EventCard
             key={data.eventId}
@@ -35,7 +36,7 @@ const MainPage: NextPage = () => {
           />
         ))}
       </CardList>
-    </div>
+    </MainContainer>
   );
 };
 
