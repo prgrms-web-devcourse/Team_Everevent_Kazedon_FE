@@ -5,12 +5,9 @@ import Input from '@components/atoms/Input';
 import Button from '@components/atoms/Button';
 import useForm from '@hooks/useForm';
 import { useRouter } from 'next/dist/client/router';
-<<<<<<< HEAD
 import Text from '@components/atoms/Text';
 import Common from '@styles/index';
-=======
-import { UserDispatchContext } from '@contexts/UserContext';
->>>>>>> 5f9fcda (feat: mockdata적용)
+import { UserContext } from '@contexts/UserContext';
 
 const LoginFormContainer = styled.div`
   display: flex;
@@ -50,7 +47,7 @@ type Data = {
 
 const LoginForm = () => {
   const router = useRouter();
-<<<<<<< HEAD
+
   const text = {
     default: '',
     emailReg: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/, //eslint-disable-line
@@ -58,39 +55,21 @@ const LoginForm = () => {
     emailFormat: '이메일 형식을 확인해주세요.',
     passwordInput: '비밀번호를 입력해주세요.',
   };
-  const { errors, handleChange, handleSubmit } = useForm<Data>({
-=======
-  const dispatch = useContext(UserDispatchContext);
 
-  const { handleChange, handleSubmit } = useForm<Data>({
->>>>>>> 5f9fcda (feat: mockdata적용)
+  const { handleLogIn } = useContext(UserContext);
+
+  const { errors, handleChange, handleSubmit } = useForm<Data>({
     initialValues: {
       email: '',
       password: '',
     },
-<<<<<<< HEAD
-    onSubmit: (values) => {//eslint-disable-line
-      router.push('/');
-=======
     onSubmit: async (values) => {
       try {
-        // 로그인 API통신 body: values
-        // 통신 이후 mock 데이터
-        const id = 'seonjae';
-        const token = 'fdsafwe123';
-
-        dispatch({
-          type: 'LOG_IN',
-          user: {
-            id,
-            token,
-          },
-        });
+        handleLogIn();
         router.push('/');
       } catch (e) {
         throw new Error('로그인 실패');
       }
->>>>>>> 5f9fcda (feat: mockdata적용)
     },
     validate: ({ email, password }: Data) => {
       const newErrors: Data = {};
