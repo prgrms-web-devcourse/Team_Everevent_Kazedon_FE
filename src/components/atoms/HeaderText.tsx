@@ -19,12 +19,18 @@ const StyledHeaderTag: React.FC<HeaderTextProps> = styled.div`
     return fontSizes[level];
   }};
   font-weight: 700;
+  word-break: keep-all;
 `;
 
-const HeaderText = ({ children, level = 1 }: HeaderTextProps) => {
+const HeaderText = ({ children, level = 1, ...props }: HeaderTextProps) => {
   const HeaderTag = `h${level}` as keyof JSX.IntrinsicElements;
   return (
-    <StyledHeaderTag as={HeaderTag} level={level} HeaderTag={HeaderTag}>
+    <StyledHeaderTag
+      as={HeaderTag}
+      level={level}
+      HeaderTag={HeaderTag}
+      {...props}
+    >
       {children}
     </StyledHeaderTag>
   );
