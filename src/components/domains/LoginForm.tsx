@@ -40,10 +40,10 @@ const ButtonWrapper = styled.div`
   gap: 10px;
 `;
 
-type Data = {
+interface Data {
   email?: string;
   password?: string;
-};
+}
 
 const LoginForm = () => {
   const router = useRouter();
@@ -65,8 +65,8 @@ const LoginForm = () => {
     },
     onSubmit: async (values) => {
       try {
-        handleLogIn();
-        router.push('/');
+        handleLogIn(values);
+        // router.push('/');
       } catch (e) {
         throw new Error('로그인 실패');
       }
@@ -74,13 +74,17 @@ const LoginForm = () => {
     validate: ({ email, password }: Data) => {
       const newErrors: Data = {};
 
-      newErrors.email = email
-        ? !text.emailReg.test(email)
-          ? text.emailFormat
-          : text.default
-        : text.emailInput;
+      if (email) {
+        if (!text.emailReg.test(email)) {
+          newErrors.email = text.emailFormat;
+        }
+      } else {
+        newErrors.email = text.emailInput;
+      }
 
-      newErrors.password = password ? text.default : text.passwordInput;
+      if (!password) {
+        newErrors.password = text.passwordInput;
+      }
 
       return newErrors;
     },
@@ -96,7 +100,7 @@ const LoginForm = () => {
             placeholder="이메일"
             name="email"
             onChange={handleChange}
-            error={errors.email !== text.default}
+            error={!!errors.email}
           />
           {errors.email && (
             <Text
@@ -116,7 +120,7 @@ const LoginForm = () => {
             name="password"
             onChange={handleChange}
             placeholder="비밀번호"
-            error={errors.password !== text.default}
+            error={!!errors.password}
           />
           {errors.password && (
             <Text
