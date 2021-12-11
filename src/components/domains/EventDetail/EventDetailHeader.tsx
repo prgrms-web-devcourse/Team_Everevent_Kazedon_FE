@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 const EventDetailHeaderCSS = css`
-  margin: 24px 0;
+  margin: 20px 0;
 `;
 const LikeButtonCSS = css`
   margin-right: 10px;
@@ -22,7 +22,7 @@ const LikeExpiredAtBox = styled.div`
 const MarketInfo = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 `;
 
 const HeaderTextCSS = css`

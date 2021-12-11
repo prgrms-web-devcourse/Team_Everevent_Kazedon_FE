@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 const StyledEventDescriptions = styled.article`
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const DescriptionBox = styled.div`

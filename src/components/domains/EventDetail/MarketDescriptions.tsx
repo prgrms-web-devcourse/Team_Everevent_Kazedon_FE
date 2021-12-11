@@ -9,7 +9,7 @@ const DescriptionCSS = css`
 
 const StyledMarketDescriptions = styled.article`
   margin-top: 4px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 `;
 
 const MarketImageBox = styled.section`

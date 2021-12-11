@@ -1,5 +1,5 @@
 import { MainContainer } from '@components/atoms';
-import { Header } from '@components/domains';
+import { EventReview, Header } from '@components/domains';
 import EventDescriptions from '@components/domains/EventDetail/EventDescriptions';
 import EventDetailHeader from '@components/domains/EventDetail/EventDetailHeader';
 import MarketDescriptions from '@components/domains/EventDetail/MarketDescriptions';
@@ -35,6 +35,7 @@ const EventDetailPage = () => {
         pictures={pictures}
       />
       <EventDescriptions eventDescription={eventDescription} />
+      <EventReview />
     </MainContainer>
   );
 };
