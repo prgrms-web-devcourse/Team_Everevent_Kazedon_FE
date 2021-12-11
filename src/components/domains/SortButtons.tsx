@@ -19,6 +19,7 @@ export interface SortButtonsProps extends StyledSortButtonsProps {
 }
 
 const buttonColorCSS = css`
+  height: auto;
   color: ${styles.colors.primary};
 `;
 const StyledSortButtons: React.FC<StyledSortButtonsProps> = styled.section`

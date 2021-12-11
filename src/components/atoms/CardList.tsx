@@ -6,7 +6,7 @@ export interface CardListProps {
   box?: boolean;
   children: ReactNode;
   flexType: 'default' | 'column' | 'none';
-  width: string | number;
+  width?: string | number;
   padding: string | number;
   margin: string | number;
   overflowHeight?: string | number | undefined;
