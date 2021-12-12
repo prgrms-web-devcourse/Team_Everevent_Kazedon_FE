@@ -6,4 +6,5 @@ export { default as ModalButtons } from './ModalButtons';
 export { default as RegisterForm } from './RegisterForm';
 export { default as SortButtons } from './SortButtons';
 export { default as ReviewCard } from './ReviewCard';
+export { default as UserChangeForm } from './UserChangeForm';
 export * from './EventDetail/index';
