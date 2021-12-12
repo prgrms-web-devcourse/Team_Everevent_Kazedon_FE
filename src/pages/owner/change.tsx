@@ -1,7 +1,14 @@
 import React from 'react';
+import { MainContainer } from '@components/atoms';
+import { UserChangeForm, Header } from '@components/domains/index';
 
 const UserChangeOwnerPage = () => {
-  return <div>유저 사업자 전환 페이지</div>;
+  return (
+    <MainContainer paddingWidth={27}>
+      <Header />
+      <UserChangeForm />
+    </MainContainer>
+  );
 };
 
 export default UserChangeOwnerPage;
