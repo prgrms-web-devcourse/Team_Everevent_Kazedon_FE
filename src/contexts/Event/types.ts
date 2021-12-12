@@ -46,6 +46,7 @@ export const INITIALIZE_EVENTLIST = 'EVENTLIST/INITIALIZE' as const;
 export const GET_EVENT = 'EVENT/GET' as const;
 export const INITIALIZE_EVENT = 'EVENT/INITIALIZE' as const;
 export const LIKE_EVENT = 'EVENT/LIKE' as const;
+export const FAVORITE_EVENT = 'EVENT/FAVORITE' as const;
 
 export type Action =
   | {
@@ -61,4 +62,5 @@ export type Action =
       payload: { event: EventDetail; eventError: ErrorType };
     }
   | { type: 'EVENT/INITIALIZE' }
-  | { type: 'EVENT/LIKE' };
+  | { type: 'EVENT/LIKE' }
+  | { type: 'EVENT/FAVORITE' };

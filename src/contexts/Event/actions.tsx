@@ -2,6 +2,7 @@ import getEvent from '@axios/event/getEvent';
 import getEventList from '@axios/event/getEventList';
 import {
   EVENT_LOADING,
+  FAVORITE_EVENT,
   GET_EVENT,
   GET_EVENTLIST,
   INITIALIZE_EVENT,
@@ -47,7 +48,17 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
       dispatch({
         type: LIKE_EVENT,
       });
-    }, 1000);
+    }, 250);
+  }, [dispatch, dispatchLoading]);
+
+  const dispatchEventFavorite = useCallback(async () => {
+    dispatchLoading();
+    /* eslint-disable no-console */
+    await setTimeout(() => {
+      dispatch({
+        type: FAVORITE_EVENT,
+      });
+    }, 250);
   }, [dispatch, dispatchLoading]);
 
   const initializeEvent = useCallback(async () => {
@@ -61,6 +72,7 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     dispatchEvent,
     initializeEvent,
     dispatchEventLike,
+    dispatchEventFavorite,
   };
 };
 

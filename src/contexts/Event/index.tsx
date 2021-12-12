@@ -10,6 +10,7 @@ import {
   Action,
   ContextType,
   EVENT_LOADING,
+  FAVORITE_EVENT,
   GET_EVENT,
   GET_EVENTLIST,
   INITIALIZE_EVENT,
@@ -85,6 +86,16 @@ const eventReducer = (state: InitialStateType, action: Action) => {
         },
       };
     }
+    case FAVORITE_EVENT: {
+      return {
+        ...state,
+        isLoading: false,
+        event: {
+          ...state.event,
+          isFavorite: !state.event.isFavorite,
+        },
+      };
+    }
     default: {
       return state;
     }
@@ -106,6 +117,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     dispatchEvent,
     initializeEvent,
     dispatchEventLike,
+    dispatchEventFavorite,
   } = useEventProvider(dispatch);
 
   const contextValue = useMemo(
@@ -119,6 +131,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       initializeEvent,
       initializeEventList,
       dispatchEventLike,
+      dispatchEventFavorite,
     }),
     [
       isLoading,
@@ -130,6 +143,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       initializeEvent,
       initializeEventList,
       dispatchEventLike,
+      dispatchEventFavorite,
     ]
   );
 

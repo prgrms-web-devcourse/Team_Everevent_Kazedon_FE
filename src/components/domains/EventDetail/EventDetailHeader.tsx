@@ -42,27 +42,32 @@ const EventDetailHeader = ({
   isFavorite,
   isParticipated,
 }: EventDetailHeaderProps) => {
-  const { isLoading, dispatchEventLike } = useEvent();
+  const { isLoading, dispatchEventLike, dispatchEventFavorite } = useEvent();
   const handleLikeButtonClick = useCallback(async () => {
     if (isLoading) return;
     await dispatchEventLike();
   }, [isLoading, dispatchEventLike]);
+
+  const handleFavoriteButtonClick = useCallback(async () => {
+    if (isLoading) return;
+    await dispatchEventFavorite();
+  }, [isLoading, dispatchEventFavorite]);
 
   return (
     <StyledEventDetailHeader>
       <LikeExpiredAtBox>
         <Button
           buttonType="primary"
-          reversal
+          reversal={isLike}
           borderRadius={8}
-          width={70}
+          width={isLike ? 88 : 72}
           height={24}
           fontSize={11}
           border
           css={LikeButtonCSS}
           onClick={handleLikeButtonClick}
         >
-          {!isLike ? '+ 좋아요' : '- 좋아요 취소'}
+          {isLike ? '- 좋아요 취소' : '+ 좋아요'}
         </Button>
         <Text size="small">{`~${expiredAt} 까지`}</Text>
       </LikeExpiredAtBox>
@@ -71,21 +76,20 @@ const EventDetailHeader = ({
       </HeaderText>
       <MarketInfo>
         <Text size="small">{marketName || ''}</Text>
-        {isFavorite && (
-          <Button
-            buttonType="primary"
-            reversal
-            borderRadius={8}
-            width={76}
-            height={24}
-            fontSize={11}
-            padding={0}
-            border
-            css={FavoriteButtonCSS}
-          >
-            ⭐ 즐겨찾기
-          </Button>
-        )}
+        <Button
+          buttonType="primary"
+          reversal={isFavorite}
+          borderRadius={8}
+          width={isFavorite ? 100 : 80}
+          height={24}
+          fontSize={11}
+          padding={0}
+          border
+          css={FavoriteButtonCSS}
+          onClick={handleFavoriteButtonClick}
+        >
+          {isFavorite ? '👀 즐겨찾기 완료' : '⭐ 즐겨찾기'}
+        </Button>
       </MarketInfo>
       <Button buttonType="primary">
         {isParticipated ? '참여 완료' : '참여 하기'}
