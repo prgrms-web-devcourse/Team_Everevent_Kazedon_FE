@@ -1,5 +1,5 @@
 import React from 'react';
-import EventListProvider from './eventList';
+import EventListProvider from './event';
 import { UserProvider } from './UserContext';
 
 const ContextProvider: React.FC<React.ReactNode> = ({ children }) => {

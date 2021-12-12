@@ -1,4 +1,4 @@
-import useEventProvider from '@contexts/eventList/actions';
+import useEventProvider from '@contexts/event/actions';
 import React, {
   createContext,
   ReactNode,
@@ -9,10 +9,12 @@ import React, {
 import {
   Action,
   ContextType,
+  GET_EVENT,
   GET_EVENTLIST,
+  INITIALIZE_EVENT,
   INITIALIZE_EVENTLIST,
   InitialStateType,
-} from '@contexts/eventList/types';
+} from '@contexts/event/types';
 
 const initialState: InitialStateType = {
   eventList: [],
@@ -22,9 +24,11 @@ const initialState: InitialStateType = {
     expiredAt: '',
     marketName: '',
     isLike: null,
-    likeCount: null,
-    reviewCount: null,
-    maxParticipants: null,
+    marketDescription: '',
+    eventDescription: '',
+    isFavorite: null,
+    pictures: [],
+    isParticipated: null,
   },
   eventError: {
     code: null,
@@ -47,8 +51,22 @@ const eventReducer = (state: InitialStateType, action: Action) => {
         initialState,
       };
     }
-    default:
+    case GET_EVENT: {
+      const { event } = action.payload;
+      return {
+        ...state,
+        event,
+      };
+    }
+    case INITIALIZE_EVENT: {
+      return {
+        ...state,
+        initialState,
+      };
+    }
+    default: {
       return state;
+    }
   }
 };
 
@@ -56,23 +74,37 @@ const EventContext = createContext<ContextType>(initialState);
 export const useEvent = () => useContext(EventContext);
 
 const EventListProvider: React.FC<ReactNode> = ({ children }) => {
-  const [{ eventList, event, eventError }, dispatchEvent] = useReducer(
+  const [{ eventList, event, eventError }, dispatch] = useReducer(
     eventReducer,
     initialState
   );
 
-  const { dispatchEventList, initailizeEventList } =
-    useEventProvider(dispatchEvent);
+  const {
+    dispatchEventList,
+    initializeEventList,
+    dispatchEvent,
+    initializeEvent,
+  } = useEventProvider(dispatch);
 
   const contextValue = useMemo(
     () => ({
       eventList,
       event,
       eventError,
+      dispatchEvent,
       dispatchEventList,
-      initailizeEventList,
+      initializeEvent,
+      initializeEventList,
     }),
-    [event, eventList, eventError, dispatchEventList, initailizeEventList]
+    [
+      eventList,
+      event,
+      eventError,
+      dispatchEvent,
+      dispatchEventList,
+      initializeEvent,
+      initializeEventList,
+    ]
   );
 
   return (

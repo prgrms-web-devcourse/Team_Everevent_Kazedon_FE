@@ -1,6 +1,7 @@
 import { MainContainer } from '@components/atoms';
 import { CategoryList, EventDetailHeader, Header } from '@components/domains';
 import ReviewCard from '@components/domains/ReviewCard';
+import { EventDetail } from '@contexts/event/types';
 import { css } from '@emotion/react';
 import event from 'fixtures/event';
 import reviews from 'fixtures/reviews';
@@ -12,7 +13,7 @@ const CategoryListCSS = css`
 
 const ReviewDetailPage = () => {
   const { expiredAt, marketName, name, isLike, isFavorite, isParticipated } =
-    event;
+    event as EventDetail;
   return (
     <MainContainer paddingWidth={24}>
       <Header />

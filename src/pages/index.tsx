@@ -4,7 +4,7 @@ import MainContainer from '@components/atoms/MainContainer';
 import EventCard from '@components/domains/EventCard';
 import Header from '@components/domains/Header';
 import SortButtons, { buttonArrType } from '@components/domains/SortButtons';
-import { useEvent } from '@contexts/eventList';
+import { useEvent } from '@contexts/event';
 import { css } from '@emotion/react';
 import styles from '@styles/index';
 import type { NextPage } from 'next';

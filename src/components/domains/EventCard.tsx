@@ -2,7 +2,7 @@ import CardContainer, {
   CardBgColorTypes,
 } from '@components/atoms/CardContainer';
 import Text from '@components/atoms/Text';
-import { Event } from '@contexts/eventList/types';
+import { Event } from '@contexts/event/types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import styles from '@styles/index';

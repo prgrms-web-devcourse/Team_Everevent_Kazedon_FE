@@ -3,7 +3,7 @@ import { EventReview, Header } from '@components/domains';
 import EventDescriptions from '@components/domains/EventDetail/EventDescriptions';
 import EventDetailHeader from '@components/domains/EventDetail/EventDetailHeader';
 import MarketDescriptions from '@components/domains/EventDetail/MarketDescriptions';
-import { Event } from '@contexts/event/types';
+import { EventDetail } from '@contexts/event/types';
 import eventData from 'fixtures/event';
 import React from 'react';
 
@@ -18,7 +18,7 @@ const EventDetailPage = () => {
     isFavorite,
     pictures,
     isParticipated,
-  } = eventData as Event;
+  } = eventData as EventDetail;
   return (
     <MainContainer paddingWidth={24}>
       <Header />
