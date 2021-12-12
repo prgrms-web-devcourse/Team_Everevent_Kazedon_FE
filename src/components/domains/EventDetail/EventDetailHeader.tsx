@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React from 'react';
 
-const EventDetailHeaderCSS = css`
+const StyledEventDetailHeader = styled.header`
   margin: 20px 0;
 `;
 const LikeButtonCSS = css`
@@ -42,7 +42,7 @@ const EventDetailHeader = ({
   isParticipated,
 }: EventDetailHeaderProps) => {
   return (
-    <header css={EventDetailHeaderCSS}>
+    <StyledEventDetailHeader>
       <LikeExpiredAtBox>
         {isLike && (
           <Button
@@ -84,7 +84,7 @@ const EventDetailHeader = ({
       <Button buttonType="primary">
         {isParticipated ? '참여 완료' : '참여 하기'}
       </Button>
-    </header>
+    </StyledEventDetailHeader>
   );
 };
 
