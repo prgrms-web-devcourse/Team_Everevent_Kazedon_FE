@@ -12,8 +12,14 @@ const CategoryListCSS = css`
 `;
 
 const ReviewDetailPage = () => {
-  const { expiredAt, marketName, name, isLike, isFavorite, isParticipated } =
-    event as EventDetail;
+  const {
+    expiredAt,
+    marketName,
+    name,
+    isLike,
+    isFavorite,
+    isParticipated,
+  }: EventDetail = event;
   return (
     <MainContainer paddingWidth={24}>
       <Header />

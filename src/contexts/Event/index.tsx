@@ -9,14 +9,17 @@ import React, {
 import {
   Action,
   ContextType,
+  EVENT_LOADING,
   GET_EVENT,
   GET_EVENTLIST,
   INITIALIZE_EVENT,
   INITIALIZE_EVENTLIST,
   InitialStateType,
+  LIKE_EVENT,
 } from '@contexts/event/types';
 
 const initialState: InitialStateType = {
+  isLoading: false,
   eventList: [],
   event: {
     eventId: '',
@@ -38,10 +41,17 @@ const initialState: InitialStateType = {
 
 const eventReducer = (state: InitialStateType, action: Action) => {
   switch (action.type) {
+    case EVENT_LOADING: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
     case GET_EVENTLIST: {
       const { eventList } = action.payload;
       return {
         ...state,
+        isLoading: false,
         eventList,
       };
     }
@@ -55,6 +65,7 @@ const eventReducer = (state: InitialStateType, action: Action) => {
       const { event } = action.payload;
       return {
         ...state,
+        isLoading: false,
         event,
       };
     }
@@ -62,6 +73,16 @@ const eventReducer = (state: InitialStateType, action: Action) => {
       return {
         ...state,
         initialState,
+      };
+    }
+    case LIKE_EVENT: {
+      return {
+        ...state,
+        isLoading: false,
+        event: {
+          ...state.event,
+          isLike: !state.event.isLike,
+        },
       };
     }
     default: {
@@ -74,7 +95,7 @@ const EventContext = createContext<ContextType>(initialState);
 export const useEvent = () => useContext(EventContext);
 
 const EventListProvider: React.FC<ReactNode> = ({ children }) => {
-  const [{ eventList, event, eventError }, dispatch] = useReducer(
+  const [{ isLoading, eventList, event, eventError }, dispatch] = useReducer(
     eventReducer,
     initialState
   );
@@ -84,10 +105,12 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     initializeEventList,
     dispatchEvent,
     initializeEvent,
+    dispatchEventLike,
   } = useEventProvider(dispatch);
 
   const contextValue = useMemo(
     () => ({
+      isLoading,
       eventList,
       event,
       eventError,
@@ -95,8 +118,10 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       dispatchEventList,
       initializeEvent,
       initializeEventList,
+      dispatchEventLike,
     }),
     [
+      isLoading,
       eventList,
       event,
       eventError,
@@ -104,6 +129,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       dispatchEventList,
       initializeEvent,
       initializeEventList,
+      dispatchEventLike,
     ]
   );
 

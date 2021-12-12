@@ -22,23 +22,21 @@ const EventDetailPage = () => {
     isFavorite,
     pictures,
     isParticipated,
-  } = event as EventDetail;
+  }: EventDetail = event;
 
   useEffect(() => {
     dispatchEvent({ eventId });
     return () => initializeEvent();
   }, [dispatchEvent, initializeEvent, eventId]);
 
-  useEffect(() => {}, [event]);
-
   return (
     <MainContainer paddingWidth={24}>
       <Header />
       <EventDetailHeader
-        expiredAt={expiredAt}
+        expiredAt={expiredAt as string}
         marketName={marketName}
         name={name}
-        isLike={isLike}
+        isLike={isLike as boolean}
         isFavorite={isFavorite}
         isParticipated={isParticipated}
       />
