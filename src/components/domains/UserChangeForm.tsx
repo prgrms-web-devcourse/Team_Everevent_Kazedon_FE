@@ -77,7 +77,7 @@ const UserChangeForm = () => {
         <HeaderText level={2}>가게 이름</HeaderText>
         <Input
           sizeType="small"
-          placeholder="가게이름"
+          placeholder="가게 이름"
           name="marketName"
           onChange={handleChange}
           error={!!errors.marketName?.length}
