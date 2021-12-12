@@ -1,7 +1,10 @@
 import request from '@axios/index';
+import { ResType } from '@axios/types';
 
 const getEventList = async () => {
-  const res = await request.get('/96effad6-e14a-4094-9ab4-d7932bf1bc33');
+  const res: ResType = await request.get(
+    '/96effad6-e14a-4094-9ab4-d7932bf1bc33'
+  );
   return res;
 };
 

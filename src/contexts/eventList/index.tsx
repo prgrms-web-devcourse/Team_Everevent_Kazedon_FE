@@ -26,12 +26,16 @@ const initialState: InitialStateType = {
     reviewCount: null,
     maxParticipants: null,
   },
+  eventError: {
+    code: null,
+    message: null,
+  },
 };
 
 const eventReducer = (state: InitialStateType, action: Action) => {
   switch (action.type) {
     case GET_EVENTLIST: {
-      const { payload: eventList } = action;
+      const { eventList } = action.payload;
       return {
         ...state,
         eventList,
@@ -52,7 +56,7 @@ const EventContext = createContext<ContextType>(initialState);
 export const useEvent = () => useContext(EventContext);
 
 const EventListProvider: React.FC<ReactNode> = ({ children }) => {
-  const [{ eventList, event }, dispatchEvent] = useReducer(
+  const [{ eventList, event, eventError }, dispatchEvent] = useReducer(
     eventReducer,
     initialState
   );
@@ -61,8 +65,14 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     useEventProvider(dispatchEvent);
 
   const contextValue = useMemo(
-    () => ({ eventList, event, dispatchEventList, initailizeEventList }),
-    [event, eventList, dispatchEventList, initailizeEventList]
+    () => ({
+      eventList,
+      event,
+      eventError,
+      dispatchEventList,
+      initailizeEventList,
+    }),
+    [event, eventList, eventError, dispatchEventList, initailizeEventList]
   );
 
   return (
