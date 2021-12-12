@@ -27,7 +27,7 @@ const ImageContainerCSS = css`
 `;
 
 interface reviewDataTypes {
-  marketName: string;
+  marketName?: string;
   pictureUrl: string | undefined;
   description: string;
 }
@@ -64,7 +64,7 @@ const ReviewCard = ({
             2021.12.09
           </Text>
           <Text block size="micro">
-            {reviewData.marketName}
+            {reviewData.marketName || ''}
           </Text>
         </>
       ) : (

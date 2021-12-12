@@ -17,7 +17,7 @@ export interface CategoryListProps extends StyledCategoryListProps {
   headerLevel: LevelTypes;
   headerMarginBottom: string | number;
   categoryName: string;
-  onClick: () => void;
+  onClick?: () => void;
   flexType: 'default' | 'column' | 'none';
   [prop: string]: any;
 }

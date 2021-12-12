@@ -1,19 +1,43 @@
-import getEvent from '@axios/event/getEvent';
-import { useRouter } from 'next/dist/client/router';
-import React, { useEffect, useState } from 'react';
+import { MainContainer } from '@components/atoms';
+import { EventReview, Header } from '@components/domains';
+import EventDescriptions from '@components/domains/EventDetail/EventDescriptions';
+import EventDetailHeader from '@components/domains/EventDetail/EventDetailHeader';
+import MarketDescriptions from '@components/domains/EventDetail/MarketDescriptions';
+import { Event } from '@contexts/event/types';
+import eventData from 'fixtures/event';
+import React from 'react';
 
 const EventDetailPage = () => {
-  const router = useRouter();
-  const [name, setName] = useState<string>('');
-  const { eventId } = router.query;
-  useEffect(() => {
-    async function getName() {
-      const res = await getEvent({ eventId });
-      setName(() => res.name);
-    }
-    getName();
-  }, [eventId]);
-  return <div>{name} 이벤트 상세 페이지</div>;
+  const {
+    name,
+    expiredAt,
+    marketName,
+    marketDescription,
+    eventDescription,
+    isLike,
+    isFavorite,
+    pictures,
+    isParticipated,
+  } = eventData as Event;
+  return (
+    <MainContainer paddingWidth={24}>
+      <Header />
+      <EventDetailHeader
+        expiredAt={expiredAt}
+        marketName={marketName}
+        name={name}
+        isLike={isLike}
+        isFavorite={isFavorite}
+        isParticipated={isParticipated}
+      />
+      <MarketDescriptions
+        marketDescription={marketDescription}
+        pictures={pictures}
+      />
+      <EventDescriptions eventDescription={eventDescription} />
+      <EventReview />
+    </MainContainer>
+  );
 };
 
 export default EventDetailPage;

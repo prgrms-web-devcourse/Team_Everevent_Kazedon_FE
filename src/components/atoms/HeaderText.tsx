@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { ReactNode } from 'react';
 
@@ -6,9 +7,10 @@ export type LevelTypes = 1 | 2 | 3 | 4;
 export interface HeaderTextProps {
   children: ReactNode;
   level: LevelTypes;
+  marginBottom?: number | string;
   [prop: string]: any;
 }
-const StyledHeaderTag: React.FC<HeaderTextProps> = styled.div`
+const StyledHeaderTag = styled.div<HeaderTextProps>`
   font-size: ${({ level }: { level: LevelTypes }) => {
     const fontSizes = {
       1: '24px',
@@ -19,12 +21,31 @@ const StyledHeaderTag: React.FC<HeaderTextProps> = styled.div`
     return fontSizes[level];
   }};
   font-weight: 700;
+  word-break: keep-all;
+  ${({ marginBottom }) =>
+    marginBottom &&
+    css`
+      margin-bottom: ${typeof marginBottom === 'string'
+        ? marginBottom
+        : `${marginBottom}px`};
+    `}
 `;
 
-const HeaderText = ({ children, level = 1 }: HeaderTextProps) => {
+const HeaderText = ({
+  children,
+  level = 1,
+  marginBottom = 0,
+  ...props
+}: HeaderTextProps) => {
   const HeaderTag = `h${level}` as keyof JSX.IntrinsicElements;
   return (
-    <StyledHeaderTag as={HeaderTag} level={level} HeaderTag={HeaderTag}>
+    <StyledHeaderTag
+      as={HeaderTag}
+      level={level}
+      HeaderTag={HeaderTag}
+      marginBottom={marginBottom}
+      {...props}
+    >
       {children}
     </StyledHeaderTag>
   );
