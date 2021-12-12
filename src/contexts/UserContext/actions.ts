@@ -14,14 +14,15 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
         throw new Error(`로그인 실패${res.error.code}`);
       }
       // header에서 토큰이 어떻게 돌아오는지 확인해야됨
-      const { accessToken } = await res.headers;
+      const xToken = 'x-auth-token';
+      const header = await res.headers;
       const { id } = await res.data;
 
       dispatch({
         type: LOGIN,
-        user: { id, token: accessToken },
+        user: { id, token: header[xToken] },
       });
-      setStorage(TOKEN, accessToken);
+      setStorage(TOKEN, header[xToken]);
     },
     [dispatch]
   );
