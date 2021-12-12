@@ -30,10 +30,19 @@ interface reviewDataTypes {
   marketName?: string;
   pictureUrl: string | undefined;
   description: string;
+  [prop: string]: any;
 }
+interface EventReviewPageDataTypes {
+  pictureUrl: string | undefined;
+  description: string;
+  author: string;
+  createAt: string;
+  [prop: string]: any;
+}
+
 interface ReviewCardProps {
   cardType: 'default' | 'box';
-  reviewData: reviewDataTypes;
+  reviewData: reviewDataTypes | EventReviewPageDataTypes;
   marginWidth?: string | number;
   marginHeight?: string | number;
   [prop: string]: any;
