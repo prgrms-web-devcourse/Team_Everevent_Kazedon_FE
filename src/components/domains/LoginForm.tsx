@@ -4,7 +4,6 @@ import HeaderText from '@components/atoms/HeaderText';
 import Input from '@components/atoms/Input';
 import Button from '@components/atoms/Button';
 import useForm from '@hooks/useForm';
-import { useRouter } from 'next/dist/client/router';
 import Text from '@components/atoms/Text';
 import Common from '@styles/index';
 import UserContext from '@contexts/UserContext';
@@ -46,8 +45,6 @@ interface Data {
 }
 
 const LoginForm = () => {
-  const router = useRouter();
-
   const text = {
     default: '',
     emailReg: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/, //eslint-disable-line

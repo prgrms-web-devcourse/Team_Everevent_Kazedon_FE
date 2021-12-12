@@ -1,9 +1,5 @@
-import axios, {
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
-  AxiosResponseHeaders,
-} from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { ResType } from '@axios/types';
 
 // TODO: 추후 백엔드와 협의 후 설정사항이 있다면 request에 옵션을 넣어 설정하기로 한다.
 /* eslint-disable prefer-destructuring */
@@ -26,27 +22,20 @@ const requestConfigCallback = (
 const rejectRequestConfigCallback = (error: any) =>
   Promise.reject(error.response);
 
-interface ResType {
-  data: keyof AxiosResponse;
-  headers: AxiosResponseHeaders;
-  error: {
-    code: number | null;
-    message: string | null;
-  };
-}
 const successResponseCallback = (res: AxiosResponse): ResType => {
   return {
     data: res.data,
     headers: res.headers,
     error: {
-      code: res.status,
+      code: null,
       message: null,
     },
   };
 };
 const errorResponseCallback = (res: any) => {
   return {
-    ...res,
+    data: res.data,
+    headers: res.headers,
     error: {
       code: res?.response?.status || 500,
       message: '', // TODO: 백엔드 쪽에서 메시지를 전달해줄 것인지 협의한다.
