@@ -26,14 +26,37 @@ const ImageContainerCSS = css`
   margin-right: 16px;
 `;
 
+const CardFooterBox = styled.div`
+  position: relative;
+  bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  ${TextMarginBottomCSS}
+`;
+
+const StyledDescriptionBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
 interface reviewDataTypes {
   marketName?: string;
   pictureUrl: string | undefined;
   description: string;
+  [prop: string]: any;
 }
+interface EventReviewPageDataTypes {
+  pictureUrl: string | undefined;
+  description: string;
+  author: string;
+  createAt: string;
+  [prop: string]: any;
+}
+
 interface ReviewCardProps {
   cardType: 'default' | 'box';
-  reviewData: reviewDataTypes;
+  reviewData: reviewDataTypes | EventReviewPageDataTypes;
   marginWidth?: string | number;
   marginHeight?: string | number;
   [prop: string]: any;
@@ -50,7 +73,7 @@ const ReviewCard = ({
   return (
     <CardContainer
       cardType={cardType}
-      padding="24px 16px"
+      padding="20px 16px"
       marginWidth={marginWidth}
       marginHeight={marginHeight}
       css={CardBackgroundCSS}
@@ -60,8 +83,11 @@ const ReviewCard = ({
           <Text block size="small" css={DescriptionMarginBottomCSS}>
             {reviewData.description}
           </Text>
-          <Text block size="micro" css={TextMarginBottomCSS}>
+          <Text block size="micro">
             2021.12.09
+          </Text>
+          <Text block size="micro" css={TextMarginBottomCSS}>
+            {`by ${reviewData.author}`}
           </Text>
           <Text block size="micro">
             {reviewData.marketName || ''}
@@ -72,18 +98,23 @@ const ReviewCard = ({
           <ImageContainer
             src={reviewData.pictureUrl as string}
             alt="리뷰 사진"
-            width={72}
-            height={72}
+            width={80}
+            height={80}
             css={ImageContainerCSS}
           />
-          <div>
+          <StyledDescriptionBox>
             <Text block size="small" css={TextMarginBottomCSS}>
               {reviewData.description}
             </Text>
-            <Text block size="micro" css={TextMarginBottomCSS}>
-              2021.12.09
-            </Text>
-          </div>
+            <CardFooterBox>
+              <Text block size="micro">
+                2021.12.09
+              </Text>
+              <Text block size="micro">
+                {`by ${reviewData.author}`}
+              </Text>
+            </CardFooterBox>
+          </StyledDescriptionBox>
         </DefaultTypeReviewInner>
       )}
     </CardContainer>

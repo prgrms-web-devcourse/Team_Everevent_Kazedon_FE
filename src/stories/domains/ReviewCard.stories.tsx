@@ -31,6 +31,7 @@ export const Default: ComponentStory<typeof ReviewCard> = (args) => {
     description:
       '회덮밥이 너무나 맛있었어요~ 너무나 맛난 저녁에다 맥주 공짜로 먹어서 좋았어요!',
     marketName: '티모네 횟집',
+    author: '젱영',
     pictureUrl: 'https://picsum.photos/200',
   };
   return (

@@ -52,9 +52,15 @@ const CategoryList = ({
   margin = 0,
   onClick,
   flexType = 'column',
+  ...props
 }: CategoryListProps) => {
   return (
-    <StyledCategoryList width={width} padding={padding} margin={margin}>
+    <StyledCategoryList
+      width={width}
+      padding={padding}
+      margin={margin}
+      {...props}
+    >
       <header>
         <HeaderCategoryTitle headerMarginBottom={headerMarginBottom}>
           <HeaderText level={headerLevel}>{categoryName}</HeaderText>

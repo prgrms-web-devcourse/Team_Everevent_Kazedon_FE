@@ -14,10 +14,10 @@ const event = {
       url: 'https://picsum.photos/200',
     },
     {
-      url: 'https://picsum.photos/200',
+      url: 'https://picsum.photos/201',
     },
     {
-      url: 'https://picsum.photos/200',
+      url: 'https://picsum.photos/202',
     },
   ],
   isParticipated: true,
