@@ -11,7 +11,7 @@ const getEvent = async ({ eventId }: GetEventParamTypes) => {
     console.warn('nowParam is array ', eventId);
   }
 
-  const res: ResType = await request.get(
+const res: ResType = await request.get(
     '/e49e47f9-739a-4014-8395-efa1f810aebb'
   );
   return res;

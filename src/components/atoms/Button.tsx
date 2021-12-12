@@ -6,7 +6,7 @@ import Common from '@styles/index';
 export interface ButtonProps {
   buttonType?: 'primary' | 'warning' | 'confirm';
   children?: ReactNode;
-  fontSize?: number;
+  fontSize?: number | string;
   bold?: boolean;
   display?: string;
   width?: string | number;
@@ -39,7 +39,7 @@ const StyledButton = styled.button`
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${typeof height === 'string' ? height : `${height}px`};
     padding: ${typeof padding === 'string' ? padding : `${padding}px`};
-    font-size: ${fontSize}px;
+    font-size: ${typeof fontSize === 'string' ? fontSize : `${fontSize}px`};
     font-weight: ${bold ? 'bold' : 'normal'};
     color: ${reversal ? backgroundColor : color || Common.colors.background};
     background-color: ${reversal

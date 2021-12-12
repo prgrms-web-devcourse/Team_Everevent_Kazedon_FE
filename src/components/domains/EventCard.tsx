@@ -44,6 +44,7 @@ export interface EventCardProps {
   width?: number | string;
   marginWidth?: number | string;
   marginHeight?: number | string;
+  onClick: (eventId: string) => void;
 }
 
 const EventCard = ({
@@ -52,6 +53,7 @@ const EventCard = ({
   width = 'auto',
   marginWidth = 0,
   marginHeight = 10,
+  onClick,
 }: EventCardProps) => {
   const {
     expiredAt,
@@ -73,6 +75,7 @@ const EventCard = ({
       key={expiredAt + marketName}
       marginWidth={marginWidth}
       marginHeight={marginHeight}
+      onClick={onClick}
     >
       <Text
         block
