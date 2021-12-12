@@ -9,9 +9,10 @@ export interface TextareaProps {
   error?: boolean | 'undefined';
   name: string;
   placeholder?: string;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const TextareaContainer = styled.input`
+const TextareaContainer = styled.textarea`
   ${({ width, height, error = false }: TextareaProps) => css`
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${typeof height === 'string' ? height : `${height}px`};

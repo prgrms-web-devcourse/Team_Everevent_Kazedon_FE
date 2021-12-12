@@ -16,6 +16,11 @@ const useForm = <T>({ initialValues, onSubmit, validate }: InitialData<T>) => {
     setValues({ ...values, [name]: value });
   };
 
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  };
+
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -32,7 +37,14 @@ const useForm = <T>({ initialValues, onSubmit, validate }: InitialData<T>) => {
     setIsLoading(false);
   };
 
-  return { values, errors, isLoading, handleChange, handleSubmit };
+  return {
+    values,
+    errors,
+    isLoading,
+    handleChange,
+    handleTextareaChange,
+    handleSubmit,
+  };
 };
 
 export default useForm;
