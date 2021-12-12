@@ -11,7 +11,9 @@ const useForm = <T>({ initialValues, onSubmit, validate }: InitialData<T>) => {
   const [errors, setErrors] = useState<T>(initialValues);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setValues({ ...values, [name]: value });
   };
@@ -32,7 +34,13 @@ const useForm = <T>({ initialValues, onSubmit, validate }: InitialData<T>) => {
     setIsLoading(false);
   };
 
-  return { values, errors, isLoading, handleChange, handleSubmit };
+  return {
+    values,
+    errors,
+    isLoading,
+    handleChange,
+    handleSubmit,
+  };
 };
 
 export default useForm;
