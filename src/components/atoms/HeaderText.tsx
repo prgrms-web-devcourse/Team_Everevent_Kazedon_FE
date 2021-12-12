@@ -11,8 +11,6 @@ export interface HeaderTextProps {
   [prop: string]: any;
 }
 const StyledHeaderTag = styled.div<HeaderTextProps>`
-  font-weight: 700;
-  word-break: keep-all;
   font-size: ${({ level }: { level: LevelTypes }) => {
     const fontSizes = {
       1: '24px',
@@ -22,6 +20,8 @@ const StyledHeaderTag = styled.div<HeaderTextProps>`
     };
     return fontSizes[level];
   }};
+  font-weight: 700;
+  word-break: keep-all;
   ${({ marginBottom }) =>
     marginBottom &&
     css`

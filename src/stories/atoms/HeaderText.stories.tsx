@@ -21,9 +21,23 @@ export default {
         type: 'text',
       },
     },
+    marginBottom: {
+      name: 'marginBottom',
+      defaultValue: 0,
+      control: {
+        type: 'range',
+        min: 0,
+        max: 50,
+      },
+    },
   },
 };
 
-const Template = (args: HeaderTextProps) => <HeaderText {...args} />;
+const Template = (args: HeaderTextProps) => (
+  <div>
+    <HeaderText {...args} />
+    <span>Content!</span>
+  </div>
+);
 
 export const Default = Template.bind({});
