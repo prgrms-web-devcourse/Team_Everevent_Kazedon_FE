@@ -42,6 +42,8 @@ const RegisterForm = () => {
       nickname: '',
     },
     onSubmit: (values) => {
+      // TODO: 현재 간단한 로직만 구현하였으므로 콘솔로 처리한다.
+      /* eslint-disable no-console */
       console.log(values);
     },
     validate: ({ email, password, passwordCheck, nickname }) => {
