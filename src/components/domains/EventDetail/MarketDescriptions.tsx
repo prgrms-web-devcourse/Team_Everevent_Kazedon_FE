@@ -18,11 +18,11 @@ const MarketImageBox = styled.section`
   margin-top: 10px;
 
   div {
-    &:first-child {
+    &:first-of-type {
       margin-left: 0;
     }
 
-    &:last-child {
+    &:last-of-type {
       margin-right: 0;
     }
   }
@@ -51,8 +51,9 @@ const MarketDescriptions = ({
         {marketDescription || '등록된 가게 소개가 없어요!'}
       </Text>
       <MarketImageBox>
-        {pictures.map(({ url }) => (
+        {pictures.map(({ url }, idx) => (
           <ImageContainer
+            key={`${url + idx}`}
             src={url}
             alt="가게 사진"
             width={96}
