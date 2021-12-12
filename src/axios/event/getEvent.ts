@@ -12,8 +12,9 @@ const getEvent = async ({ eventId }: GetEventParamTypes) => {
   }
 
   const res: ResType = await request.get(
-    '/e49e47f9-739a-4014-8395-efa1f810aebb'
+    '/200741df-e6f8-4930-81c5-fb2446246e9e'
   );
+  console.log(res);
   return res;
 };
 

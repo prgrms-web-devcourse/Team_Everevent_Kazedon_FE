@@ -3,11 +3,15 @@ import { EventReview, Header } from '@components/domains';
 import EventDescriptions from '@components/domains/EventDetail/EventDescriptions';
 import EventDetailHeader from '@components/domains/EventDetail/EventDetailHeader';
 import MarketDescriptions from '@components/domains/EventDetail/MarketDescriptions';
+import { useEvent } from '@contexts/event';
 import { EventDetail } from '@contexts/event/types';
-import eventData from 'fixtures/event';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 
 const EventDetailPage = () => {
+  const router = useRouter();
+  const { eventId } = router.query;
+  const { event, dispatchEvent, initializeEvent } = useEvent();
   const {
     name,
     expiredAt,
@@ -18,7 +22,15 @@ const EventDetailPage = () => {
     isFavorite,
     pictures,
     isParticipated,
-  } = eventData as EventDetail;
+  } = event as EventDetail;
+
+  useEffect(() => {
+    dispatchEvent({ eventId });
+    return () => initializeEvent();
+  }, [dispatchEvent, initializeEvent, eventId]);
+
+  useEffect(() => {}, [event]);
+
   return (
     <MainContainer paddingWidth={24}>
       <Header />

@@ -17,7 +17,7 @@ const AddressButtonCSS = css`
   color: ${styles.colors.primary};
 `;
 const MainPage: NextPage = () => {
-  const { eventList, dispatchEventList, initailizeEventList } = useEvent();
+  const { eventList, dispatchEventList, initializeEventList } = useEvent();
   const router = useRouter();
 
   const handleCardClick = useCallback(
@@ -28,8 +28,8 @@ const MainPage: NextPage = () => {
   );
   useEffect(() => {
     dispatchEventList();
-    return () => initailizeEventList();
-  }, [dispatchEventList, initailizeEventList]);
+    return () => initializeEventList();
+  }, [dispatchEventList, initializeEventList]);
 
   /* eslint-disable no-console */
   const buttonArr = [
