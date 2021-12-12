@@ -17,15 +17,14 @@ const UserChangeFormContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-top: 60px;
+  margin-top: 58px;
 `;
 
 const UserChangeFormItem = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 17px;
   align-items: left;
-  margin-bottom: 31px;
+  margin-bottom: 28px;
 `;
 
 const ButtonWrapper = styled.div`
@@ -71,10 +70,12 @@ const UserChangeForm = () => {
   return (
     <UserChangeFormContainer>
       <UserChangeFormItem>
-        <HeaderText level={1} marginBottom={43}>
+        <HeaderText level={1} marginBottom={44}>
           사업자 등록
         </HeaderText>
-        <HeaderText level={2}>가게 이름</HeaderText>
+        <HeaderText level={2} marginBottom={18}>
+          가게 이름
+        </HeaderText>
         <Input
           sizeType="small"
           placeholder="가게 이름"
@@ -94,7 +95,9 @@ const UserChangeForm = () => {
         )}
       </UserChangeFormItem>
       <UserChangeFormItem>
-        <HeaderText level={2}>가게 설명</HeaderText>
+        <HeaderText level={2} marginBottom={18}>
+          가게 설명
+        </HeaderText>
         <Textarea
           name="marketDescription"
           onChange={handleChange}
@@ -115,7 +118,9 @@ const UserChangeForm = () => {
         )}
       </UserChangeFormItem>
       <UserChangeFormItem>
-        <HeaderText level={2}>가게 주소</HeaderText>
+        <HeaderText level={2} marginBottom={18}>
+          가게 주소
+        </HeaderText>
         <Input
           sizeType="small"
           placeholder="서울시 광진구 OOO동"
