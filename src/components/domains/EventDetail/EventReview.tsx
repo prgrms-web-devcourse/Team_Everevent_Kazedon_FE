@@ -2,7 +2,10 @@ import React from 'react';
 import { CategoryList, ReviewCard } from '@components/domains';
 import reviews from 'fixtures/reviews';
 
-const EventReview = () => {
+interface EventReviewProps {
+  onHeaderOptionClick?: () => void;
+}
+const EventReview = ({ onHeaderOptionClick }: EventReviewProps) => {
   const review = reviews[0];
   return (
     <CategoryList
@@ -13,6 +16,7 @@ const EventReview = () => {
       categoryName="이벤트 리뷰"
       headerMarginBottom={16}
       headerLevel={2}
+      onHeaderOptionClick={onHeaderOptionClick}
     >
       <ReviewCard
         cardType="default"

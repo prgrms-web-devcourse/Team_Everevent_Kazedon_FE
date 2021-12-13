@@ -2,11 +2,12 @@ import CardContainer, {
   CardBgColorTypes,
 } from '@components/atoms/CardContainer';
 import Text from '@components/atoms/Text';
-import { Event } from '@contexts/eventList/types';
+import { Event } from '@contexts/event/types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import styles from '@styles/index';
 import React from 'react';
+import LikeButton from '@components/domains/LikeButton';
 
 const StyledReviewCount = styled.section`
   position: absolute;
@@ -14,29 +15,14 @@ const StyledReviewCount = styled.section`
   bottom: 20px;
   display: flex;
 `;
-const StyledLikeButton = styled.section`
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  text-align: center;
-`;
 
 const marginBottomCSS = (width = '4') => css`
   margin-bottom: ${width}px;
 `;
+
 const marginLeftCSS = (width = '4') => css`
   margin-left: ${width}px;
 `;
-
-export interface EventType {
-  expiredAt: string;
-  name: string;
-  marketName: string;
-  isLike: boolean;
-  likeCount: string;
-  reviewCount: string;
-  remainingParticipants?: string;
-}
 
 export interface EventCardProps {
   eventData: Event;
@@ -63,9 +49,16 @@ const EventCard = ({
     likeCount,
     reviewCount,
     maxParticipants,
-  } = eventData;
+  } = eventData as Event;
   const cardBgColorKeys = Object.keys(styles.cardBackgroundColors);
   const colorLength = cardBgColorKeys.length;
+
+  const handleLikeButtonClick = (e: MouseEvent) => {
+    e.stopPropagation();
+    // TODO: 로딩을 걸어서, 만약 로딩 중에 또 눌렀다면 dispatch가 실행되지 않도록 해야 한다.
+    /* eslint-disable no-console */
+    console.log(`좋아요가 등록되었습니다.`);
+  };
   return (
     <CardContainer
       width={width}
@@ -100,14 +93,11 @@ const EventCard = ({
           {`${reviewCount || 0}`}
         </Text>
       </StyledReviewCount>
-      <StyledLikeButton>
-        <Text block size="large" css={marginBottomCSS()}>
-          {isLike ? '💗' : '🖤'}
-        </Text>
-        <Text block size="micro" color={styles.colors.background}>
-          {`${likeCount || 0}`}
-        </Text>
-      </StyledLikeButton>
+      <LikeButton
+        isLike={isLike}
+        likeCount={likeCount}
+        onClick={handleLikeButtonClick}
+      />
     </CardContainer>
   );
 };

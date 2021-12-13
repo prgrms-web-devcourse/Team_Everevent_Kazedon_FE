@@ -1,7 +1,7 @@
 import { Button, HeaderText, Text } from '@components/atoms';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 const StyledEventDescriptions = styled.article`
   margin-bottom: 20px;
@@ -21,13 +21,24 @@ interface EventDescriptionsProps extends Partial<Event> {
 }
 
 const EventDescriptions = ({ eventDescription }: EventDescriptionsProps) => {
+  const [isEllipsis, setIsEllipsis] = useState(false);
+  useEffect(() => {
+    if (eventDescription?.length > 20) {
+      setIsEllipsis(true);
+    }
+  }, [eventDescription?.length]);
+
+  const handleMoreDescriptionButtonClick = useCallback(() => {
+    setIsEllipsis(() => false);
+  }, []);
+
   return (
     <StyledEventDescriptions>
       <HeaderText level={2} marginBottom={16}>
         소개
       </HeaderText>
       <DescriptionBox>
-        {eventDescription?.length > 20 ? (
+        {isEllipsis ? (
           <>
             <Text size="small" width={40} height="auto">
               {`${eventDescription.slice(0, 20)}...`}
@@ -40,6 +51,7 @@ const EventDescriptions = ({ eventDescription }: EventDescriptionsProps) => {
               height="auto"
               padding={0}
               css={MoreDescriptionButtonCSS}
+              onClick={handleMoreDescriptionButtonClick}
             >
               더보기
             </Button>

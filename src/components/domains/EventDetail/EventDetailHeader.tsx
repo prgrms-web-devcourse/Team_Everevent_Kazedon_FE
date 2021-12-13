@@ -1,8 +1,10 @@
 import { Button, HeaderText, Text } from '@components/atoms';
+import { useEvent } from '@contexts/event';
 import { Event } from '@contexts/event/types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import React from 'react';
+import router from 'next/router';
+import React, { useCallback } from 'react';
 
 const StyledEventDetailHeader = styled.header`
   margin: 20px 0;
@@ -12,6 +14,9 @@ const LikeButtonCSS = css`
 `;
 const FavoriteButtonCSS = css`
   margin-left: 10px;
+`;
+const PrticipateButtonCSS = css`
+  margin: 0 auto;
 `;
 
 const LikeExpiredAtBox = styled.div`
@@ -41,23 +46,41 @@ const EventDetailHeader = ({
   isFavorite,
   isParticipated,
 }: EventDetailHeaderProps) => {
+  const { isLoading, dispatchEventLike, dispatchEventFavorite } = useEvent();
+  const handleLikeButtonClick = useCallback(async () => {
+    if (isLoading) return;
+    await dispatchEventLike();
+  }, [isLoading, dispatchEventLike]);
+
+  const handleFavoriteButtonClick = useCallback(async () => {
+    if (isLoading) return;
+    await dispatchEventFavorite();
+  }, [isLoading, dispatchEventFavorite]);
+
+  const onParticipateButtonClick = useCallback(async () => {
+    if (isLoading) return;
+    if (isParticipated) {
+      const { eventId } = router.query;
+      router.push(`/event/${eventId}/create`);
+    }
+  }, [isLoading, isParticipated]);
+
   return (
     <StyledEventDetailHeader>
       <LikeExpiredAtBox>
-        {isLike && (
-          <Button
-            buttonType="primary"
-            reversal
-            borderRadius={8}
-            width={70}
-            height={24}
-            fontSize={11}
-            border
-            css={LikeButtonCSS}
-          >
-            +좋아요
-          </Button>
-        )}
+        <Button
+          buttonType="primary"
+          reversal={isLike}
+          borderRadius={8}
+          width={isLike ? 88 : 72}
+          height={24}
+          fontSize={11}
+          border
+          css={LikeButtonCSS}
+          onClick={handleLikeButtonClick}
+        >
+          {isLike ? '- 좋아요 취소' : '+ 좋아요'}
+        </Button>
         <Text size="small">{`~${expiredAt} 까지`}</Text>
       </LikeExpiredAtBox>
       <HeaderText level={1} css={HeaderTextCSS}>
@@ -65,24 +88,30 @@ const EventDetailHeader = ({
       </HeaderText>
       <MarketInfo>
         <Text size="small">{marketName || ''}</Text>
-        {isFavorite && (
-          <Button
-            buttonType="primary"
-            reversal
-            borderRadius={8}
-            width={76}
-            height={24}
-            fontSize={11}
-            padding={0}
-            border
-            css={FavoriteButtonCSS}
-          >
-            ⭐ 즐겨찾기
-          </Button>
-        )}
+        <Button
+          buttonType="primary"
+          reversal={isFavorite}
+          borderRadius={8}
+          width={isFavorite ? 100 : 80}
+          height={24}
+          fontSize={11}
+          padding={0}
+          border
+          css={FavoriteButtonCSS}
+          onClick={handleFavoriteButtonClick}
+        >
+          {isFavorite ? '👀 즐겨찾기 완료' : '⭐ 즐겨찾기'}
+        </Button>
       </MarketInfo>
-      <Button buttonType="primary">
-        {isParticipated ? '참여 완료' : '참여 하기'}
+      <Button
+        display="block"
+        buttonType="primary"
+        css={PrticipateButtonCSS}
+        padding={0}
+        fontSize={16}
+        onClick={onParticipateButtonClick}
+      >
+        {isParticipated ? '리뷰 작성하기' : '참여하기'}
       </Button>
     </StyledEventDetailHeader>
   );

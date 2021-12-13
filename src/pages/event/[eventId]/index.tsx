@@ -3,11 +3,15 @@ import { EventReview, Header } from '@components/domains';
 import EventDescriptions from '@components/domains/EventDetail/EventDescriptions';
 import EventDetailHeader from '@components/domains/EventDetail/EventDetailHeader';
 import MarketDescriptions from '@components/domains/EventDetail/MarketDescriptions';
-import { Event } from '@contexts/event/types';
-import eventData from 'fixtures/event';
-import React from 'react';
+import { useEvent } from '@contexts/event';
+import { EventDetail } from '@contexts/event/types';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect } from 'react';
 
 const EventDetailPage = () => {
+  const router = useRouter();
+  const { eventId } = router.query;
+  const { event, dispatchEvent, initializeEvent } = useEvent();
   const {
     name,
     expiredAt,
@@ -18,15 +22,25 @@ const EventDetailPage = () => {
     isFavorite,
     pictures,
     isParticipated,
-  } = eventData as Event;
+  }: EventDetail = event;
+
+  const handleHeaderOptionClick = useCallback(async () => {
+    router.push(`${router.asPath}/reviews`);
+  }, [router]);
+
+  useEffect(() => {
+    dispatchEvent({ eventId });
+    return () => initializeEvent();
+  }, [dispatchEvent, initializeEvent, eventId]);
+
   return (
     <MainContainer paddingWidth={24}>
       <Header />
       <EventDetailHeader
-        expiredAt={expiredAt}
+        expiredAt={expiredAt as string}
         marketName={marketName}
         name={name}
-        isLike={isLike}
+        isLike={isLike as boolean}
         isFavorite={isFavorite}
         isParticipated={isParticipated}
       />
@@ -35,7 +49,7 @@ const EventDetailPage = () => {
         pictures={pictures}
       />
       <EventDescriptions eventDescription={eventDescription} />
-      <EventReview />
+      <EventReview onHeaderOptionClick={handleHeaderOptionClick} />
     </MainContainer>
   );
 };

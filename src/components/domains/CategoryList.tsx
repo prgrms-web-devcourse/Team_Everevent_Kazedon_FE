@@ -17,10 +17,14 @@ export interface CategoryListProps extends StyledCategoryListProps {
   headerLevel: LevelTypes;
   headerMarginBottom: string | number;
   categoryName: string;
-  onClick?: () => void;
+  onHeaderOptionClick?: () => void;
   flexType: 'default' | 'column' | 'none';
   [prop: string]: any;
 }
+
+const CategoryHeaderOptionButtonCSS = css`
+  margin-left: auto;
+`;
 
 const StyledCategoryList: React.FC<StyledCategoryListProps> = styled.article`
   ${({ width, padding, margin }: StyledCategoryListProps) => css`
@@ -29,6 +33,7 @@ const StyledCategoryList: React.FC<StyledCategoryListProps> = styled.article`
     margin: ${typeof margin === 'string' ? margin : `${margin}px`};
   `}
 `;
+
 const HeaderCategoryTitle = styled.div`
   display: flex;
   margin-bottom: ${({
@@ -50,7 +55,7 @@ const CategoryList = ({
   width = 320,
   padding = 0,
   margin = 0,
-  onClick,
+  onHeaderOptionClick,
   flexType = 'column',
   ...props
 }: CategoryListProps) => {
@@ -64,14 +69,17 @@ const CategoryList = ({
       <header>
         <HeaderCategoryTitle headerMarginBottom={headerMarginBottom}>
           <HeaderText level={headerLevel}>{categoryName}</HeaderText>
-          {!!onClick && (
+          {!!onHeaderOptionClick && (
             <Button
               fontSize={14}
               bold
               buttonType="primary"
-              color="primary"
               reversal
-              onClick={onClick}
+              width={64}
+              height={16}
+              padding={0}
+              onClick={onHeaderOptionClick}
+              css={CategoryHeaderOptionButtonCSS}
             >
               전체 보기
             </Button>
@@ -79,7 +87,7 @@ const CategoryList = ({
         </HeaderCategoryTitle>
         {headerChildren && headerChildren}
       </header>
-      <CardList flexType={flexType} width="100%" padding={0} margin="">
+      <CardList flexType={flexType} width="100%" padding={0} margin={0}>
         {children}
       </CardList>
     </StyledCategoryList>
