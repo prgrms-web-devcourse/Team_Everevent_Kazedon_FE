@@ -60,7 +60,8 @@ const EventDetailHeader = ({
   const onParticipateButtonClick = useCallback(async () => {
     if (isLoading) return;
     if (isParticipated) {
-      router.push(`${router.asPath}/create`);
+      const { eventId } = router.query;
+      router.push(`/event/${eventId}/create`);
     }
   }, [isLoading, isParticipated]);
 
