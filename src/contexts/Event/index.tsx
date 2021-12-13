@@ -7,6 +7,7 @@ import React, {
   useReducer,
 } from 'react';
 import { ContextType, InitialStateType } from '@contexts/event/types';
+/* eslint-disable import/no-cycle */
 import eventReducer from './reducer';
 
 export const initialState: InitialStateType = {

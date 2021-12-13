@@ -1,4 +1,5 @@
-import { Button, HeaderText, MainContainer, Textarea } from '@components/atoms';
+import { HeaderText, MainContainer, Textarea } from '@components/atoms';
+import Upload from '@components/atoms/Upload';
 import { css } from '@emotion/react';
 import React from 'react';
 
@@ -19,16 +20,7 @@ const ReviewCreatePage = () => {
       <HeaderText level={2} marginBottom={16}>
         사진
       </HeaderText>
-      <Button
-        buttonType="primary"
-        width={88}
-        height={40}
-        border
-        reversal
-        borderRadius={20}
-      >
-        + 올리기
-      </Button>
+      <Upload />
     </MainContainer>
   );
 };
