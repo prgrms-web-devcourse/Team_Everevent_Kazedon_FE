@@ -142,6 +142,7 @@ const LoginForm = () => {
           width={280}
           height={48}
           borderRadius="15px"
+          onClick={() => router.push('/register')}
           reversal
           border
           bold
