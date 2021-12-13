@@ -20,7 +20,7 @@ const ReviewCreatePage = () => {
       <HeaderText level={2} marginBottom={16}>
         사진
       </HeaderText>
-      <Upload />
+      <Upload uploadType="multiple" />
     </MainContainer>
   );
 };

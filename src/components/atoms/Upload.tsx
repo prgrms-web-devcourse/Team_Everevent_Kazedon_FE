@@ -69,45 +69,22 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
     }
   }, [file.files.length, uploadType]);
 
-  const onSingleChange = (e: ChangeEvent) => {
-    /* eslint-disable prefer-destructuring */
-    const target = e.target as HTMLInputElement;
-    const imageFile: File = (target.files as FileList)[0];
-    if (!imageFile) return;
-
-    const { name, size } = imageFile;
-    if (!name.match(FILE_EXTENSION_REGEX)) {
-      /* eslint-disable no-alert */
-      alert(IMAGE_FILE_EXTENSION_ERROR);
-      return;
-    }
-    if (size > IMAGE_MAX_SIZE) {
-      /* eslint-disable no-alert */
-      alert(IMAGE_FILE_SIZE_ERROR);
-      return;
-    }
-
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setFile((state) => ({
-        ...state,
-        files: [imageFile],
-        urls: [fileReader.result],
-      }));
-    };
-    fileReader.readAsDataURL(imageFile);
-
-    target.value = '';
-  };
-
-  const onMultipleChange = (e: ChangeEvent) => {
+  const onChange = (e: ChangeEvent) => {
     /* eslint-disable prefer-destructuring */
     const target = e.target as HTMLInputElement;
     const imageFiles: FileList | null = target.files;
     if (!imageFiles) return;
-    if (imageFiles.length + file.files.length > 3) {
-      alert(IMAGE_FILES_LENGTH_ERROR);
-      return;
+
+    if (
+      (uploadType === 'single' && file.files.length === 1) ||
+      (uploadType === 'multiple' && file.files.length === 3)
+    ) {
+      /* eslint-disable no-alert */
+      alert(
+        uploadType === 'single'
+          ? IMAGE_FILE_LENGTH_ERROR
+          : IMAGE_FILES_LENGTH_ERROR
+      );
     }
 
     for (let i = 0; i < imageFiles.length; i += 1) {
@@ -127,8 +104,14 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
       fileReader.onload = () => {
         setFile((state) => ({
           ...state,
-          files: [...state.files, imageFiles[i]],
-          urls: [...state.urls, fileReader.result],
+          files: [
+            ...(uploadType === 'single' ? [] : state.files),
+            imageFiles[i],
+          ],
+          urls: [
+            ...(uploadType === 'single' ? [] : state.urls),
+            fileReader.result,
+          ],
         }));
       };
       fileReader.readAsDataURL(imageFiles[i]);
@@ -143,7 +126,7 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
         ref={inputRef}
         type="file"
         accept="image/*"
-        onChange={uploadType === 'single' ? onSingleChange : onMultipleChange}
+        onChange={onChange}
         multiple
       />
       <Button
@@ -163,8 +146,8 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
             key={`${url}`}
             src={url as string}
             alt="이미지"
-            width={uploadType === 'single' ? 200 : 92}
-            height={uploadType === 'single' ? 200 : 92}
+            width={uploadType === 'single' ? 312 : 92}
+            height={uploadType === 'single' ? 312 : 92}
             css={ImageContainerCSS}
           />
         ))}
