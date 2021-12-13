@@ -3,6 +3,7 @@ import { useEvent } from '@contexts/event';
 import { Event } from '@contexts/event/types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import router from 'next/router';
 import React, { useCallback } from 'react';
 
 const StyledEventDetailHeader = styled.header`
@@ -13,6 +14,9 @@ const LikeButtonCSS = css`
 `;
 const FavoriteButtonCSS = css`
   margin-left: 10px;
+`;
+const PrticipateButtonCSS = css`
+  margin: 0 auto;
 `;
 
 const LikeExpiredAtBox = styled.div`
@@ -53,6 +57,13 @@ const EventDetailHeader = ({
     await dispatchEventFavorite();
   }, [isLoading, dispatchEventFavorite]);
 
+  const onParticipateButtonClick = useCallback(async () => {
+    if (isLoading) return;
+    if (isParticipated) {
+      router.push(`${router.asPath}/create`);
+    }
+  }, [isLoading, isParticipated]);
+
   return (
     <StyledEventDetailHeader>
       <LikeExpiredAtBox>
@@ -91,8 +102,15 @@ const EventDetailHeader = ({
           {isFavorite ? '👀 즐겨찾기 완료' : '⭐ 즐겨찾기'}
         </Button>
       </MarketInfo>
-      <Button buttonType="primary">
-        {isParticipated ? '참여 완료' : '참여 하기'}
+      <Button
+        display="block"
+        buttonType="primary"
+        css={PrticipateButtonCSS}
+        padding={0}
+        fontSize={16}
+        onClick={onParticipateButtonClick}
+      >
+        {isParticipated ? '리뷰 작성하기' : '참여하기'}
       </Button>
     </StyledEventDetailHeader>
   );
