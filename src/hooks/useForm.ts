@@ -38,6 +38,7 @@ const useForm = <T>({ initialValues, onSubmit, validate }: InitialData<T>) => {
     values,
     errors,
     isLoading,
+    setErrors,
     handleChange,
     handleSubmit,
   };
