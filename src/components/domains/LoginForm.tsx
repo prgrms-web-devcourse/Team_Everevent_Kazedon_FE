@@ -7,6 +7,8 @@ import useForm from '@hooks/useForm';
 import Text from '@components/atoms/Text';
 import Common from '@styles/index';
 import UserContext from '@contexts/UserContext';
+import { text } from '@utils/constantUser';
+import { useRouter } from 'next/dist/client/router';
 
 const LoginFormContainer = styled.div`
   display: flex;
@@ -45,14 +47,7 @@ interface Data {
 }
 
 const LoginForm = () => {
-  const text = {
-    default: '',
-    emailReg: /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/, //eslint-disable-line
-    emailInput: '이메일을 입력해주세요.',
-    emailFormat: '이메일 형식을 확인해주세요.',
-    passwordInput: '비밀번호를 입력해주세요.',
-  };
-
+  const router = useRouter();
   const { handleLogIn } = useContext(UserContext);
 
   const { errors, handleChange, handleSubmit } = useForm<Data>({
@@ -62,8 +57,8 @@ const LoginForm = () => {
     },
     onSubmit: async (values) => {
       try {
-        handleLogIn(values);
-        // router.push('/');
+        await handleLogIn(values);
+        router.push('/');
       } catch (e) {
         throw new Error('로그인 실패');
       }

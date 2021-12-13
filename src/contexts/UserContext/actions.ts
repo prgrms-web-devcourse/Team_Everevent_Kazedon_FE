@@ -1,36 +1,55 @@
+import {
+  HEADERTOKEN,
+  LOGIN,
+  LOGOUT,
+  REGISTER,
+  TOKEN,
+} from '@utils/constantUser';
+import { removeStorage, setStorage } from '@utils/storage';
 import { Dispatch, useCallback } from 'react';
-import { LoginUserInfo, RegisterUserInfo, User } from './types';
+import { onLogIn, onRegister, onLogOut } from '@axios/user';
+import { LoginUserInfo, RegisterUserInfo } from './types';
 
 const useUserProvider = (dispatch: Dispatch<any>) => {
   const handleLogIn = useCallback(
-    (userInfo: LoginUserInfo) => {
-      // 로그인 API통신 body: values
-      // 통신 이후 mock 데이터
+    async (userInfo: LoginUserInfo) => {
+      const res = await onLogIn(userInfo);
 
-      const currentUser: User = { id: 'seonjae', token: 'fdsafwe123' };
+      if (res.error.code) {
+        throw new Error(`로그인 실패${res.error.code}`);
+      }
+
+      const header = await res.headers;
+      const { id } = await res.data;
 
       dispatch({
-        type: 'LOG_IN',
-        user: currentUser,
+        type: LOGIN,
+        user: { id, token: header[HEADERTOKEN] },
       });
+      setStorage(TOKEN, header[HEADERTOKEN]);
     },
     [dispatch]
   );
 
   const handleRegister = useCallback(
-    (registerUserInfo: RegisterUserInfo) => {
-      // 로그인 API통신 body: values
-      // 통신 이후 mock 데이터
+    async (registerUserInfo: RegisterUserInfo) => {
+      const res = await onRegister(registerUserInfo);
+
+      if (res.error.code) {
+        throw new Error(`회원가입 실패${res.error.code}`);
+      }
 
       dispatch({
-        type: 'REGISTER',
+        type: REGISTER,
       });
     },
     [dispatch]
   );
 
-  const handleLogOut = useCallback(() => {
-    dispatch({ type: 'LOG_OUT' });
+  const handleLogOut = useCallback(async () => {
+    await onLogOut();
+    dispatch({ type: LOGOUT });
+    removeStorage(TOKEN);
   }, [dispatch]);
 
   return {
