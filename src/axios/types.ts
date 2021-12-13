@@ -5,7 +5,7 @@ export interface ErrorType {
   message: string | null;
 }
 
-export interface ResType<T = any> {
+export interface ResType<T> {
   data: T;
   headers: AxiosResponseHeaders;
   error: ErrorType;

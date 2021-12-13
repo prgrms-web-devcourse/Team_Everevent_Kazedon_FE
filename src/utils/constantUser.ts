@@ -9,3 +9,4 @@ export const text = {
   emailFormat: '이메일 형식을 확인해주세요.',
   passwordInput: '비밀번호를 입력해주세요.',
 };
+export const HEADERTOKEN = 'x-auth-token';
