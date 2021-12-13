@@ -17,6 +17,7 @@ const TextareaContainer = styled.textarea`
     width: ${typeof width === 'string' ? width : `${width}px`};
     height: ${typeof height === 'string' ? height : `${height}px`};
     font-size: ${Common.fontSize.medium};
+    resize: none;
     border: 1px solid
       ${error ? Common.colors.warning : Common.colors.placeholder};
     border-radius: 8px;
