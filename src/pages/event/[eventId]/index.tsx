@@ -6,7 +6,7 @@ import MarketDescriptions from '@components/domains/EventDetail/MarketDescriptio
 import { useEvent } from '@contexts/event';
 import { EventDetail } from '@contexts/event/types';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 const EventDetailPage = () => {
   const router = useRouter();
@@ -23,6 +23,10 @@ const EventDetailPage = () => {
     pictures,
     isParticipated,
   }: EventDetail = event;
+
+  const handleHeaderOptionClick = useCallback(async () => {
+    router.push(`${router.asPath}/reviews`);
+  }, [router]);
 
   useEffect(() => {
     dispatchEvent({ eventId });
@@ -45,7 +49,7 @@ const EventDetailPage = () => {
         pictures={pictures}
       />
       <EventDescriptions eventDescription={eventDescription} />
-      <EventReview />
+      <EventReview onHeaderOptionClick={handleHeaderOptionClick} />
     </MainContainer>
   );
 };
