@@ -47,6 +47,7 @@ const Header: React.FC<HeaderProps> = ({
   height = 40,
   justifyContent = 'none',
   isVisiblePrev = true,
+  isVisibleMenu = true,
   ...props
 }) => {
   return (
@@ -57,7 +58,9 @@ const Header: React.FC<HeaderProps> = ({
         justifyContent="space-between"
       >
         <Image src={logo.src} width={logo.width} height={logo.height} isLogo />
-        <Image src={menu.src} width={menu.width} height={menu.height} />
+        {isVisibleMenu && (
+          <Image src={menu.src} width={menu.width} height={menu.height} />
+        )}
       </HeaderSection>
       {isVisiblePrev && (
         <HeaderSection
