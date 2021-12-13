@@ -42,6 +42,8 @@ const IMAGE_FILES_LENGTH_ERROR = '이미지 파일 첨부 가능 갯수는 최�
 const IMAGE_FILE_LENGTH_ERROR = '이미지 파일 첨부 가능 갯수는 최대 1개입니다.';
 const FILE_EXTENSION_REGEX = /(.*?)\.(jpg|jpeg|png|PNG|gif|bmp)$/;
 const IMAGE_MAX_SIZE = 5 * 1024 * 1024;
+const UPLOAD_TYPE_SINGLE = 'single';
+const UPLOAD_TYPE_MULTIPLE = 'multiple';
 
 const Upload = ({ children, uploadType, ...props }: UploadProps) => {
   const initialState: InitialStateStateType = {
@@ -50,16 +52,17 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
   };
 
   const [file, setFile] = useState<InitialStateStateType>(initialState);
+  const [imageIdx, setImageIdx] = useState(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleButtonClick = useCallback(() => {
     if (
-      (uploadType === 'single' && file.files.length === 1) ||
-      (uploadType === 'multiple' && file.files.length === 3)
+      (uploadType === UPLOAD_TYPE_SINGLE && file.files.length === 1) ||
+      (uploadType === UPLOAD_TYPE_MULTIPLE && file.files.length === 3)
     ) {
       /* eslint-disable no-alert */
       alert(
-        uploadType === 'single'
+        uploadType === UPLOAD_TYPE_SINGLE
           ? IMAGE_FILE_LENGTH_ERROR
           : IMAGE_FILES_LENGTH_ERROR
       );
@@ -69,6 +72,13 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
     }
   }, [file.files.length, uploadType]);
 
+  const handleImageClick = useCallback((idx) => {
+    setImageIdx(() => idx);
+    if (inputRef.current) {
+      inputRef.current.click();
+    }
+  }, []);
+
   const onChange = (e: ChangeEvent) => {
     /* eslint-disable prefer-destructuring */
     const target = e.target as HTMLInputElement;
@@ -76,12 +86,16 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
     if (!imageFiles) return;
 
     if (
-      (uploadType === 'single' && file.files.length === 1) ||
-      (uploadType === 'multiple' && file.files.length === 3)
+      (!imageIdx &&
+        uploadType === UPLOAD_TYPE_SINGLE &&
+        file.files.length === 1) ||
+      (!imageIdx &&
+        uploadType === UPLOAD_TYPE_MULTIPLE &&
+        file.files.length === 3)
     ) {
       /* eslint-disable no-alert */
       alert(
-        uploadType === 'single'
+        uploadType === UPLOAD_TYPE_SINGLE
           ? IMAGE_FILE_LENGTH_ERROR
           : IMAGE_FILES_LENGTH_ERROR
       );
@@ -89,6 +103,7 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
 
     for (let i = 0; i < imageFiles.length; i += 1) {
       const { name, size } = imageFiles[i];
+      const nowFile = imageFiles[i];
       if (!name.match(FILE_EXTENSION_REGEX)) {
         /* eslint-disable no-alert */
         alert(IMAGE_FILE_EXTENSION_ERROR);
@@ -104,17 +119,28 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
       fileReader.onload = () => {
         setFile((state) => ({
           ...state,
-          files: [
-            ...(uploadType === 'single' ? [] : state.files),
-            imageFiles[i],
-          ],
-          urls: [
-            ...(uploadType === 'single' ? [] : state.urls),
-            fileReader.result,
-          ],
+          files:
+            imageIdx !== null
+              ? state.files.map((stateFile, stateIdx) =>
+                  imageIdx === stateIdx ? nowFile : stateFile
+                )
+              : [
+                  ...(uploadType === UPLOAD_TYPE_SINGLE ? [] : state.files),
+                  nowFile,
+                ],
+          urls:
+            imageIdx !== null
+              ? state.urls.map((stateUrl, urlIdx) =>
+                  imageIdx === urlIdx ? fileReader.result : stateUrl
+                )
+              : [
+                  ...(uploadType === UPLOAD_TYPE_SINGLE ? [] : state.urls),
+                  fileReader.result,
+                ],
         }));
       };
       fileReader.readAsDataURL(imageFiles[i]);
+      setImageIdx(() => null);
     }
 
     target.value = '';
@@ -141,14 +167,15 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
         + 올리기
       </Button>
       <ImagesBox>
-        {file.urls.map((url) => (
+        {file.urls.map((url, idx) => (
           <ImageContainer
             key={`${url}`}
             src={url as string}
-            alt="이미지"
-            width={uploadType === 'single' ? 312 : 92}
-            height={uploadType === 'single' ? 312 : 92}
+            alt="Event Review Image"
+            width={uploadType === UPLOAD_TYPE_SINGLE ? 312 : 92}
+            height={uploadType === UPLOAD_TYPE_SINGLE ? 312 : 92}
             css={ImageContainerCSS}
+            onClick={() => handleImageClick(idx)}
           />
         ))}
       </ImagesBox>
