@@ -17,11 +17,15 @@ const StyledMainContainer: React.FC<MainContainerProps> = styled.main`
     width: 100%;
   }
 
-  ${({ paddingWidth, paddingHeight }: StyledMainContainerProps) => css`
-    padding: ${typeof paddingHeight === 'string'
-        ? paddingHeight
-        : `${paddingHeight}px`}
+  ${({ paddingWidth }: StyledMainContainerProps) => css`
+    padding: 0
       ${typeof paddingWidth === 'string' ? paddingWidth : `${paddingWidth}px`};
+  `}
+
+  ${({ paddingHeight }: StyledMainContainerProps) => css`
+    padding-top: ${typeof paddingHeight === 'string'
+      ? paddingHeight
+      : `${paddingHeight}px`};
   `}
 `;
 
