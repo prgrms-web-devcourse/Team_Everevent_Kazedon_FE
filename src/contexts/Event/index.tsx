@@ -6,20 +6,10 @@ import React, {
   useMemo,
   useReducer,
 } from 'react';
-import {
-  Action,
-  ContextType,
-  EVENT_LOADING,
-  FAVORITE_EVENT,
-  GET_EVENT,
-  GET_EVENTLIST,
-  INITIALIZE_EVENT,
-  INITIALIZE_EVENTLIST,
-  InitialStateType,
-  LIKE_EVENT,
-} from '@contexts/event/types';
+import { ContextType, InitialStateType } from '@contexts/event/types';
+import eventReducer from './reducer';
 
-const initialState: InitialStateType = {
+export const initialState: InitialStateType = {
   isLoading: false,
   eventList: [],
   event: {
@@ -38,68 +28,6 @@ const initialState: InitialStateType = {
     code: null,
     message: null,
   },
-};
-
-const eventReducer = (state: InitialStateType, action: Action) => {
-  switch (action.type) {
-    case EVENT_LOADING: {
-      return {
-        ...state,
-        isLoading: true,
-      };
-    }
-    case GET_EVENTLIST: {
-      const { eventList } = action.payload;
-      return {
-        ...state,
-        isLoading: false,
-        eventList,
-      };
-    }
-    case INITIALIZE_EVENTLIST: {
-      return {
-        ...state,
-        initialState,
-      };
-    }
-    case GET_EVENT: {
-      const { event } = action.payload;
-      return {
-        ...state,
-        isLoading: false,
-        event,
-      };
-    }
-    case INITIALIZE_EVENT: {
-      return {
-        ...state,
-        initialState,
-      };
-    }
-    case LIKE_EVENT: {
-      return {
-        ...state,
-        isLoading: false,
-        event: {
-          ...state.event,
-          isLike: !state.event.isLike,
-        },
-      };
-    }
-    case FAVORITE_EVENT: {
-      return {
-        ...state,
-        isLoading: false,
-        event: {
-          ...state.event,
-          isFavorite: !state.event.isFavorite,
-        },
-      };
-    }
-    default: {
-      return state;
-    }
-  }
 };
 
 const EventContext = createContext<ContextType>(initialState);
