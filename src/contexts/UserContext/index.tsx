@@ -1,16 +1,17 @@
 import React, { createContext, useMemo, useReducer } from 'react';
 import useUserProvider from './actions';
 import { User, UserContextType } from './types';
-import reducer from './reducer';
+import { userContextreducer } from './reducer';
 
-const initialState: User = { id: '', token: '' };
+const initialState: User = { email: '', token: '', nickname: '' };
 
 const UserContext = createContext<UserContextType>(initialState);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(userContextreducer, initialState);
   const { handleLogIn, handleRegister, handleLogOut } =
     useUserProvider(dispatch);
+
   const value = useMemo(
     () => ({
       state,

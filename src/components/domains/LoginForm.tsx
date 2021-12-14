@@ -1,14 +1,12 @@
 import React, { useContext } from 'react';
 import styled from '@emotion/styled';
-import HeaderText from '@components/atoms/HeaderText';
-import Input from '@components/atoms/Input';
-import Button from '@components/atoms/Button';
+import { Input, HeaderText, Button, Text } from '@components/atoms';
 import useForm from '@hooks/useForm';
-import Text from '@components/atoms/Text';
 import Common from '@styles/index';
 import UserContext from '@contexts/UserContext';
 import { text } from '@utils/constantUser';
 import { useRouter } from 'next/dist/client/router';
+import { ErrorUserForm, LoginUserInfo } from '@contexts/UserContext/types';
 
 const LoginFormContainer = styled.div`
   display: flex;
@@ -41,16 +39,11 @@ const ButtonWrapper = styled.div`
   gap: 10px;
 `;
 
-interface Data {
-  email?: string;
-  password?: string;
-}
-
 const LoginForm = () => {
   const router = useRouter();
   const { handleLogIn } = useContext(UserContext);
 
-  const { errors, handleChange, handleSubmit } = useForm<Data>({
+  const { errors, handleChange, handleSubmit } = useForm<LoginUserInfo>({
     initialValues: {
       email: '',
       password: '',
@@ -63,8 +56,8 @@ const LoginForm = () => {
         throw new Error('로그인 실패');
       }
     },
-    validate: ({ email, password }: Data) => {
-      const newErrors: Data = {};
+    validate: ({ email, password }) => {
+      const newErrors: ErrorUserForm = {};
 
       if (email) {
         if (!text.emailReg.test(email)) {
