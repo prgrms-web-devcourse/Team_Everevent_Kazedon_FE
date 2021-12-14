@@ -1,5 +1,5 @@
 import * as React from 'react';
-import NextImage, { ImageLoaderProps } from 'next/image';
+import NextImage from 'next/image';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 
@@ -62,8 +62,6 @@ const ImageContainer: React.FC<ImageContainerProps> = ({
   sizes = '100vw',
   ...props
 }) => {
-  /* eslint-disable no-shadow */
-  const myLoader = ({ src, width }: ImageLoaderProps) => `${src}/${width}`;
   return (
     <StyledImageContainer
       {...props}
@@ -75,7 +73,6 @@ const ImageContainer: React.FC<ImageContainerProps> = ({
       position={position}
     >
       <NextImage
-        loader={myLoader}
         src={src}
         alt={alt}
         width={width}
