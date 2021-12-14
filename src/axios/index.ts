@@ -23,7 +23,7 @@ const requestConfigCallback = (
 const rejectRequestConfigCallback = (error: any) =>
   Promise.reject(error.response);
 
-const successResponseCallback = (res: AxiosResponse): ResType => {
+const successResponseCallback = (res: AxiosResponse): ResType<any> => {
   return {
     data: res.data,
     headers: res.headers,

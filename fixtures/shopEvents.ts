@@ -22,14 +22,14 @@ const shopEvents = [
     reviewCount: '90',
   },
   {
-    name: '생맥주 1700ml 시키면 생맥주 500ml 더!',
+    name: '생맥주 1700ml 주문시 500ml 더!',
     expiredAt: '20210921',
     marketName: '오비맥주 광진점',
     likeCount: '981',
     reviewCount: '165',
   },
   {
-    name: '코로나 같이 이겨봐요! 맥주 전 종류 10% 할인',
+    name: '코로나 같이 이겨봐요!',
     expiredAt: '20210816',
     marketName: '오비맥주 광진점',
     likeCount: '32',

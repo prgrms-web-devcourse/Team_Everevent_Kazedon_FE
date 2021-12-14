@@ -1,9 +1,10 @@
 // TODO: 가게의 정보를 조회할 수 있다.
 
 const shopInfo = {
-  marketId: '오비맥주 광진점',
+  marketName: '오비맥주 광진점',
+  description: '매일 새롭게 따르는 생맥주를 맛보세요~!',
   eventCount: '4',
-  likeCount: '329',
+  favoriteCount: '329',
   reviewCount: '72',
 };
 

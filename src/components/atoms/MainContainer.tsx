@@ -12,7 +12,7 @@ export interface MainContainerProps extends StyledMainContainerProps {
 }
 const StyledMainContainer: React.FC<MainContainerProps> = styled.main`
   width: 375px;
-  height: 100vh;
+  min-height: 100vh;
   @media ${styles.media.mobile} {
     width: 100%;
   }
