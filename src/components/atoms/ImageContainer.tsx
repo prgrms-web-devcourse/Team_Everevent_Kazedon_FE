@@ -75,8 +75,8 @@ const ImageContainer: React.FC<ImageContainerProps> = ({
       <NextImage
         src={src}
         alt={alt}
-        width="100%"
-        height="100%"
+        width={width}
+        height={height}
         placeholder={placeholder}
         layout={layout}
         sizes={layout === 'fill' || layout === 'responsive' ? sizes : undefined}
