@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useCallback, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { Button, ImageContainer } from '.';
@@ -15,6 +21,7 @@ const UPLOAD_TYPE_SINGLE = 'single';
 const UPLOAD_TYPE_MULTIPLE = 'multiple';
 interface UploadProps {
   uploadType: 'single' | 'multiple';
+  dispatchEvent?: (param: any) => void;
   children?: React.ReactNode;
   [prop: string]: any;
 }
@@ -44,7 +51,12 @@ const ImageContainerCSS = css`
   }
 `;
 
-const Upload = ({ children, uploadType, ...props }: UploadProps) => {
+const Upload = ({
+  children,
+  uploadType,
+  dispatchEvent,
+  ...props
+}: UploadProps) => {
   const initialState: InitialStateStateType = {
     files: [],
     urls: [],
@@ -53,6 +65,15 @@ const Upload = ({ children, uploadType, ...props }: UploadProps) => {
   const [file, setFile] = useState<InitialStateStateType>(initialState);
   const [imageIdx, setImageIdx] = useState(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (dispatchEvent) {
+      const payload = UPLOAD_TYPE_SINGLE
+        ? { name: 'picture', value: file.files[0] }
+        : { name: 'pictures', value: file.files };
+      dispatchEvent(payload);
+    }
+  }, [file, dispatchEvent]);
 
   const handleButtonClick = useCallback(() => {
     if (

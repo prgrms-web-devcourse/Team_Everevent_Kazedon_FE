@@ -24,27 +24,56 @@ export const initialState: InitialStateType = {
   },
 };
 
-const EventContext = createContext<ContextType>(initialState);
-export const useEvent = () => useContext(EventContext);
+const ReviewContext = createContext<ContextType>(initialState);
+export const useReview = () => useContext(ReviewContext);
 
-const EventListProvider: React.FC<ReactNode> = ({ children }) => {
+const ReviewProvider: React.FC<ReactNode> = ({ children }) => {
   const [{ isLoading, reviewList, review, reviewError }, dispatch] = useReducer(
     reviewReducer,
     initialState
   );
 
-  const { dispatchLoading } = useReviewProvider(dispatch);
+  const {
+    dispatchLoading,
+    dispatchGetReviewList,
+    dispatchGetReview,
+    dispatchChangeReviewContent,
+    dispatchCreateReview,
+    dispatchUpdateReview,
+  } = useReviewProvider(dispatch);
 
   const contextValue = useMemo(
-    () => ({ isLoading, reviewList, review, reviewError, dispatchLoading }),
-    [isLoading, reviewList, review, reviewError, dispatchLoading]
+    () => ({
+      isLoading,
+      reviewList,
+      review,
+      reviewError,
+      dispatchLoading,
+      dispatchGetReviewList,
+      dispatchGetReview,
+      dispatchChangeReviewContent,
+      dispatchCreateReview,
+      dispatchUpdateReview,
+    }),
+    [
+      isLoading,
+      reviewList,
+      review,
+      reviewError,
+      dispatchLoading,
+      dispatchGetReviewList,
+      dispatchGetReview,
+      dispatchChangeReviewContent,
+      dispatchCreateReview,
+      dispatchUpdateReview,
+    ]
   );
 
   return (
-    <EventContext.Provider value={contextValue}>
+    <ReviewContext.Provider value={contextValue}>
       {children}
-    </EventContext.Provider>
+    </ReviewContext.Provider>
   );
 };
 
-export default EventListProvider;
+export default ReviewProvider;
