@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Common from '@styles/index';
+import { ReactNode } from 'react';
 
 type sizeTypes = 'micro' | 'small' | 'medium' | 'large';
 
 export interface TextProps {
-  children: string;
+  children: string | ReactNode;
   size?: string | number;
   color?: string;
   underline?: boolean;
