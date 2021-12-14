@@ -5,7 +5,12 @@ import useForm from '@hooks/useForm';
 import Common from '@styles/index';
 import { onRegister, onRegisterCheck } from '@axios/user';
 import { text } from '@utils/constantUser';
-import { RegisterUserInfo } from '@contexts/UserContext/types';
+import {
+  ErrorUserForm,
+  RegisterUserFormData,
+} from '@contexts/UserContext/types';
+import { registerReducer } from '@contexts/UserContext/reducer';
+import { useRouter } from 'next/router';
 
 const RegisterFormContainer = styled.div`
   display: flex;
@@ -40,82 +45,37 @@ const NicknameWrapper = styled.div`
   margin: 32px 0;
 `;
 
-interface Data {
-  email?: string;
-  password?: string;
-  passwordCheck?: string;
-  nickname?: string;
-}
-
-interface ErrorState {
-  email: boolean;
-  password: boolean;
-  passwordCheck: boolean;
-  nickname: boolean;
-}
-
-interface Action {
-  name: string;
-  value: string;
-  password?: string;
-}
-
-const reducer = (state: ErrorState, action: Action) => {
-  switch (action.name) {
-    case text.email: {
-      if (text.emailReg.test(action.value)) return { ...state, email: false };
-      return { ...state, email: true };
-    }
-    case text.password: {
-      if (text.passwordReg.test(action.value))
-        return { ...state, password: false };
-      return { ...state, password: true };
-    }
-    case text.passwordCheck: {
-      if (action.password === action.value)
-        return { ...state, passwordCheck: false };
-      return { ...state, passwordCheck: true };
-    }
-    case text.nickname: {
-      if (text.nicknameReg.test(action.value))
-        return { ...state, nickname: false };
-      return { ...state, nickname: true };
-    }
-    default: {
-      return state;
-    }
-  }
-};
-
 const RegisterForm = () => {
-  const initialErrors = {
+  const router = useRouter();
+  const [validateErrors, dispatch] = useReducer(registerReducer, {
     email: false,
     password: false,
     passwordCheck: false,
     nickname: false,
-  };
-  const [validateErrors, dispatch] = useReducer(reducer, initialErrors);
+  });
   const { values, errors, setErrors, handleChange, handleSubmit } =
-    useForm<Data>({
+    useForm<RegisterUserFormData>({
       initialValues: {
         email: '',
         password: '',
         passwordCheck: '',
         nickname: '',
       },
-      onSubmit: async (values) => {
-        const toss: RegisterUserInfo = {
-          email: values.email || '',
-          password: values.password || '',
-          nickname: values.nickname || '',
+      onSubmit: async (formData: RegisterUserFormData) => {
+        const registerUserInfo = {
+          email: formData.email,
+          password: formData.password,
+          nickname: formData.nickname,
         };
-        const res = await onRegister(toss);
+        const res = await onRegister(registerUserInfo);
+
         if (!res.error.code) {
-          console.log('회원가입성공');
+          router.push('/register/success');
         }
       },
       validate: ({ email, password, passwordCheck, nickname }) => {
-        const newErrors: Data = {};
+        const newErrors: ErrorUserForm = {};
+
         if (!email) newErrors.email = '이메일을 입력해주세요.';
         if (!password) newErrors.password = '비밀번호를 입력해주세요.';
         if (!passwordCheck)
@@ -128,6 +88,7 @@ const RegisterForm = () => {
 
   const onOverlapCheck = async () => {
     if (validateErrors.email) return;
+
     const checkInfo = {
       type: 'email',
       value: values.email,
@@ -135,7 +96,7 @@ const RegisterForm = () => {
     const res = await onRegisterCheck(checkInfo);
 
     if (res.error.code) {
-      const newErrors: Data = {};
+      const newErrors: ErrorUserForm = {};
       newErrors.email = text.overlapEmail;
       setErrors(newErrors);
     }

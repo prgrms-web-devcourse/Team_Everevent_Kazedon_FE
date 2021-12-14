@@ -15,16 +15,12 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
     async (userInfo: LoginUserInfo) => {
       const res = await onLogIn(userInfo);
 
-      if (res.error.code) {
-        throw new Error(`로그인 실패${res.error.code}`);
-      }
-
       const header = await res.headers;
-      const { id } = await res.data;
+      const { email, nickname } = await res.data;
 
       dispatch({
         type: LOGIN,
-        user: { id, token: header[HEADERTOKEN] },
+        user: { email, nickname, token: header[HEADERTOKEN] },
       });
       setStorage(TOKEN, header[HEADERTOKEN]);
     },
