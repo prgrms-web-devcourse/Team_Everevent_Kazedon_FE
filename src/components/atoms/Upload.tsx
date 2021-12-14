@@ -3,6 +3,16 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { Button, ImageContainer } from '.';
 
+const IMAGE_FILE_EXTENSION_ERROR =
+  '이미지 파일만 등록이 가능합니다. (jpg|jpeg|png|gif|bmp)';
+const IMAGE_FILE_SIZE_ERROR =
+  '이미지파일 사이즈는 5MB 이내로 등록이 가능합니다.';
+const IMAGE_FILES_LENGTH_ERROR = '이미지 파일 첨부 가능 갯수는 최대 3개입니다.';
+const IMAGE_FILE_LENGTH_ERROR = '이미지 파일 첨부 가능 갯수는 최대 1개입니다.';
+const FILE_EXTENSION_REGEX = /(.*?)\.(jpg|jpeg|png|PNG|gif|bmp)$/;
+const IMAGE_MAX_SIZE = 5 * 1024 * 1024;
+const UPLOAD_TYPE_SINGLE = 'single';
+const UPLOAD_TYPE_MULTIPLE = 'multiple';
 interface UploadProps {
   uploadType: 'single' | 'multiple';
   children?: React.ReactNode;
@@ -33,17 +43,6 @@ const ImageContainerCSS = css`
     margin-right: 0;
   }
 `;
-
-const IMAGE_FILE_EXTENSION_ERROR =
-  '이미지 파일만 등록이 가능합니다. (jpg|jpeg|png|gif|bmp)';
-const IMAGE_FILE_SIZE_ERROR =
-  '이미지파일 사이즈는 5MB 이내로 등록이 가능합니다.';
-const IMAGE_FILES_LENGTH_ERROR = '이미지 파일 첨부 가능 갯수는 최대 3개입니다.';
-const IMAGE_FILE_LENGTH_ERROR = '이미지 파일 첨부 가능 갯수는 최대 1개입니다.';
-const FILE_EXTENSION_REGEX = /(.*?)\.(jpg|jpeg|png|PNG|gif|bmp)$/;
-const IMAGE_MAX_SIZE = 5 * 1024 * 1024;
-const UPLOAD_TYPE_SINGLE = 'single';
-const UPLOAD_TYPE_MULTIPLE = 'multiple';
 
 const Upload = ({ children, uploadType, ...props }: UploadProps) => {
   const initialState: InitialStateStateType = {
