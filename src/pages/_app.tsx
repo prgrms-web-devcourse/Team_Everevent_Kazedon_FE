@@ -26,6 +26,8 @@ const NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET =
 const NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID =
   process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID;
 const NEXT_PUBLIC_FIREBASE_APP_ID = process.env.NEXT_PUBLIC_FIREBASE_APP_ID;
+const NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID =
+  process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID;
 
 function MyApp({ Component, pageProps }: AppProps) {
   // Your web app's Firebase configuration
@@ -40,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       storageBucket: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
       messagingSenderId: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
       appId: NEXT_PUBLIC_FIREBASE_APP_ID,
-      measurementId: '${config.measurementId}',
+      measurementId: NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
     };
 
     const handleRouteChange = (url: string) => {
