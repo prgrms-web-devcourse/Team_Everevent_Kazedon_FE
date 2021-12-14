@@ -5,15 +5,7 @@ import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { IconContext } from 'react-icons';
-import {
-  MdStarBorder,
-  MdStar,
-  MdFavoriteBorder,
-  MdFavorite,
-  MdOutlineMenu,
-  MdOutlineArrowBackIosNew,
-  MdAdd,
-} from 'react-icons/md';
+import { MdFavorite } from 'react-icons/md';
 
 export interface IconProps {
   children?: ReactNode;
