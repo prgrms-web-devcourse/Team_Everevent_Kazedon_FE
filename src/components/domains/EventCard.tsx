@@ -78,7 +78,9 @@ const EventCard = ({
       <Text block bold css={marginBottomCSS('16')}>
         {name}
       </Text>
-      <Text block size="micro">{`${maxParticipants}명 남음`}</Text>
+      <Text block size="micro">
+        {maxParticipants ? `${maxParticipants}명 남음` : ``}
+      </Text>
       <Text block size="micro">
         {marketName}
       </Text>
