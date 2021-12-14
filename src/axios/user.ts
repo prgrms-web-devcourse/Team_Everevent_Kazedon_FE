@@ -1,17 +1,14 @@
 import request from '@axios/index';
 import { ResType } from '@axios/types';
-import { LoginUserInfo, RegisterUserInfo } from '@contexts/UserContext/types';
-
-interface LoginUser {
-  id: string;
-  nickname: string;
-}
+import {
+  LoginUserInfo,
+  OverlapCheckInfo,
+  RegisterUserInfo,
+  User,
+} from '@contexts/UserContext/types';
 
 export const onLogIn = async (userInfo: LoginUserInfo) => {
-  const res: ResType<LoginUser> = await request.post(
-    'ffcd9492-1fe8-476b-9eff-30074dd1c121',
-    userInfo
-  );
+  const res: ResType<User> = await request.post('login', userInfo);
 
   return res;
 };
@@ -25,9 +22,14 @@ export const onLogOut = async () => {
 };
 
 export const onRegister = async (registerUserInfo: RegisterUserInfo) => {
-  const res: ResType<any> = await request.post(
-    '1e872d4a-2267-4f77-a5cb-4e229f5eb94c',
-    registerUserInfo
+  const res: ResType<any> = await request.post('signup', registerUserInfo);
+
+  return res;
+};
+
+export const onRegisterCheck = async (check: OverlapCheckInfo) => {
+  const res: ResType<any> = await request.get(
+    `/signup/check?type=${check.type}&value=${check.value}`
   );
 
   return res;

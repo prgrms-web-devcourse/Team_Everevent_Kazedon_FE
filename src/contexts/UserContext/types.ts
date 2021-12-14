@@ -1,16 +1,16 @@
-export interface User {
-  id: string;
+export interface Info {
+  email: string;
+  password: string;
+  passwordCheck: string;
+  nickname: string;
   token: string;
 }
 
-export interface LoginUserInfo {
-  id: string;
-  password: string;
-}
-
-export interface RegisterUserInfo extends LoginUserInfo {
-  nickname: string;
-}
+export type User = Partial<Pick<Info, 'email' | 'token' | 'nickname'>>;
+export type LoginUserInfo = Required<Pick<Info, 'email' | 'password'>>;
+export type RegisterUserFormData = Required<Omit<Info, 'token'>>;
+export type RegisterUserInfo = Required<Omit<Info, 'passwordCheck' | 'token'>>;
+export type ErrorUserForm = Partial<Omit<Info, 'token'>>;
 
 export type Action =
   | { type: 'LOG_IN'; user: User }
@@ -19,4 +19,21 @@ export type Action =
 
 export interface UserContextType {
   [dispatchEvent: string]: any;
+}
+
+export interface ErrorState {
+  email: boolean;
+  password: boolean;
+  passwordCheck: boolean;
+  nickname: boolean;
+}
+export interface RegisterAction {
+  name: string;
+  value: string;
+  password?: string;
+}
+
+export interface OverlapCheckInfo {
+  type: string;
+  value?: string;
 }
