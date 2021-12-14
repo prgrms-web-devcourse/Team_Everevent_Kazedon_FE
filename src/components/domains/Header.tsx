@@ -1,15 +1,15 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import Text from '@components/atoms/Text';
+import { Text, Icon } from '@components/atoms';
 import { css } from '@emotion/react';
-import prevArrow from '../../../public/icons/prevArrow.svg';
+import { MdOutlineMenu, MdOutlineArrowBackIosNew } from 'react-icons/md';
 import logo from '../../../public/logo.svg';
-import menu from '../../../public/icons/menu.svg';
 
 export interface HeaderProps {
   children?: ReactNode;
   size?: string | number;
   width?: string | number;
+  logoWidth?: string | number;
   height?: string | number;
   display?: 'none' | 'flex';
   isLogo?: boolean;
@@ -35,8 +35,8 @@ const HeaderSection = styled.div`
 `;
 
 const Image: React.FC<HeaderProps> = styled.img`
-  ${({ size, isLogo }: Partial<HeaderProps>) => css`
-    width: ${isLogo ? '108px' : typeof size === 'string' ? size : `${size}px`};
+  ${({ logoWidth, size }: Partial<HeaderProps>) => css`
+    width: ${typeof logoWidth === 'string' ? logoWidth : `${logoWidth}px`};
     height: ${typeof size === 'string' ? size : `${size}px`};
   `}
 `;
@@ -44,7 +44,9 @@ const Image: React.FC<HeaderProps> = styled.img`
 const Header: React.FC<HeaderProps> = ({
   children,
   width = 'auto',
-  height = 40,
+  logoWidth = 108,
+  height = 48,
+  size = 24,
   justifyContent = 'none',
   isVisiblePrev = true,
   isVisibleMenu = true,
@@ -57,9 +59,11 @@ const Header: React.FC<HeaderProps> = ({
         height={height}
         justifyContent="space-between"
       >
-        <Image src={logo.src} width={logo.width} height={logo.height} isLogo />
+        <Image src={logo} width={logoWidth} height={height} />
         {isVisibleMenu && (
-          <Image src={menu.src} width={menu.width} height={menu.height} />
+          <Icon size={size}>
+            <MdOutlineMenu />
+          </Icon>
         )}
       </HeaderSection>
       {isVisiblePrev && (
@@ -68,11 +72,9 @@ const Header: React.FC<HeaderProps> = ({
           height={height}
           justifyContent={justifyContent}
         >
-          <Image
-            src={prevArrow.src}
-            width={prevArrow.width}
-            height={prevArrow.height}
-          />
+          <Icon size={size}>
+            <MdOutlineArrowBackIosNew />
+          </Icon>
           <Text size="small">뒤로</Text>
         </HeaderSection>
       )}
