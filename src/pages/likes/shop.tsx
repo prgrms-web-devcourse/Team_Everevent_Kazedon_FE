@@ -28,11 +28,9 @@ const UserFavoriteDetailPage = () => {
     router.push(`/likes/shop`);
   }, [router]);
 
-  const handleCardClick = (marketId) => {
+  const handleCardClick = (marketId: string | number) => {
     router.push(`/shop/${marketId}`);
   };
-
-  console.log(favoriteShopList)
 
   useEffect(() => {
     dispatchFavoriteShops(user.userId);
@@ -51,7 +49,6 @@ const UserFavoriteDetailPage = () => {
         isLeftFocused={false}
         leftText="즐겨찾기"
         rightText="좋아요"
-        onClick={(id) => handleCardClick(id)}
         onClickLeft={handleTabLeftClick}
         onClickRight={handleTabRightClick}
         css={marginBottom(16)}
@@ -60,7 +57,6 @@ const UserFavoriteDetailPage = () => {
         {favoriteShopList.map((favoriteShop) => (
           <ShopCard
             onClick={() => handleCardClick(favoriteShop.marketId)}
-            name={favoriteShop.name}
             key={favoriteShop.marketId}
             shopData={favoriteShop}
             marginHeight={10}

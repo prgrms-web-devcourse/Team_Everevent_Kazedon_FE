@@ -1,9 +1,9 @@
 import { CardContainer, Text } from '@components/atoms';
 import { Shop } from '@contexts/Shop/types';
+import { FavoriteShop } from '@contexts/userHistory/types';
 
 export interface ShopCardProps {
-  shopData?: Shop;
-  idx: number;
+  shopData?: Shop | FavoriteShop;
   width?: number | string;
   marginWidth?: number | string;
   marginHeight?: number | string;
