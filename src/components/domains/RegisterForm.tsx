@@ -1,10 +1,11 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer } from 'react';
 import styled from '@emotion/styled';
 import { Button, Input, HeaderText, Text } from '@components/atoms';
 import useForm from '@hooks/useForm';
 import Common from '@styles/index';
-import { onRegisterCheck } from '@axios/user';
+import { onRegister, onRegisterCheck } from '@axios/user';
 import { text } from '@utils/constantUser';
+import { RegisterUserInfo } from '@contexts/UserContext/types';
 
 const RegisterFormContainer = styled.div`
   display: flex;
@@ -102,10 +103,16 @@ const RegisterForm = () => {
         passwordCheck: '',
         nickname: '',
       },
-      onSubmit: (values) => {
-        // TODO: 현재 간단한 로직만 구현하였으므로 콘솔로 처리한다.
-        /* eslint-disable no-console */
-        console.log(values);
+      onSubmit: async (values) => {
+        const toss: RegisterUserInfo = {
+          email: values.email || '',
+          password: values.password || '',
+          nickname: values.nickname || '',
+        };
+        const res = await onRegister(toss);
+        if (!res.error.code) {
+          console.log('회원가입성공');
+        }
       },
       validate: ({ email, password, passwordCheck, nickname }) => {
         const newErrors: Data = {};

@@ -30,10 +30,7 @@ export const onLogOut = async () => {
 };
 
 export const onRegister = async (registerUserInfo: RegisterUserInfo) => {
-  const res: ResType<any> = await request.post(
-    '1e872d4a-2267-4f77-a5cb-4e229f5eb94c',
-    registerUserInfo
-  );
+  const res: ResType<any> = await request.post('signup', registerUserInfo);
 
   return res;
 };
