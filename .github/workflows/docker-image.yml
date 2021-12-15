@@ -10,38 +10,15 @@ on:
   workflow_dispatch:
 
 jobs:
-
   build:
 
     runs-on: ubuntu-latest
-
+    
+    strategy:
+      matrix:
+        node-version: [16.x]
+    
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Install Dependencies
-      working-directory: ./
-      run: yarn install
-      
-    - name: Build ReactJS
-      env:
-        CI: false
-      working-directory: ./
-      run: yarn run build
-      
-    - name: Login to DockerHub
-      uses: docker/login-action@v1.8.0
-      with:
-        username: ${{ secrets.DOCKERHUB_FRONT_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_FRONT_PASSWORD }}
-    
-    - name: Build and push Docker images
-      uses: docker/build-push-action@v2.4.0
-      with:
-        context: .
-        file: Dockerfile
-        push: true
-        tags: ${{ secrets.DOCKERHUB_FRONT_USERNAME }}/kazedon_fe:latest
-
     - name: Check out repository
       uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
@@ -50,7 +27,28 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: Install a project with a clean slate
-      run: npm ci
+      run: rm -rf node_modules && yarn install --frozen-lockfile
     - name: Lint
       run: npm run lint
-
+      
+    - uses: actions/checkout@v2
+    - name: Install Dependencies
+      working-directory: ./
+      run: yarn install
+    - name: Build ReactJS
+      env:
+        CI: false
+      working-directory: ./
+      run: yarn run build
+    - name: Login to DockerHub
+      uses: docker/login-action@v1.8.0
+      with:
+        username: ${{ secrets.DOCKERHUB_FRONT_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_FRONT_PASSWORD }}
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v2.4.0
+      with:
+        context: .
+        file: Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_FRONT_USERNAME }}/kazedon_fe:latest
