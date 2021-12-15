@@ -41,3 +41,16 @@ jobs:
         file: Dockerfile
         push: true
         tags: ${{ secrets.DOCKERHUB_FRONT_USERNAME }}/kazedon_fe:latest
+
+    - name: Check out repository
+      uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: Install a project with a clean slate
+      run: npm ci
+    - name: Lint
+      run: npm run lint
+
