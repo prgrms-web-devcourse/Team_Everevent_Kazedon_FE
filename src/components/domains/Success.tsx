@@ -32,9 +32,9 @@ interface Props {
   onClick: () => void;
 }
 
-const Success: React.FC<Props> = ({ text, onClick }) => {
+const Success: React.FC<Props> = ({ text, onClick, ...props }) => {
   return (
-    <SuccessContainer>
+    <SuccessContainer {...props}>
       <ElementWrapper css={marginBottom(44)}>
         <HeaderText level={1}>{text.successMessage}</HeaderText>
       </ElementWrapper>
