@@ -34,6 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   /* eslint-disable no-template-curly-in-string */
   const router = useRouter();
+  console.log('rendering CSR');
   useEffect(() => {
     const firebaseConfig = {
       apiKey: NEXT_PUBLIC_FIREBASE_API_KEY,
