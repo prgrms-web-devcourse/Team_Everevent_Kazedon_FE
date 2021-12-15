@@ -28,9 +28,6 @@ jobs:
       run: npm run lint
       
     - uses: actions/checkout@v2
-    - name: Install Dependencies
-      working-directory: ./
-      run: yarn install
     - name: Build ReactJS
       env:
         CI: false
