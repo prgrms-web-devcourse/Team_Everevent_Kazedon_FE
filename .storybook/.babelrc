@@ -1,0 +1,30 @@
+{
+  "presets": [
+    [
+      "next/babel",
+      {
+        "preset-react": {
+          "runtime": "automatic",
+          "importSource": "@emotion/react"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "@emotion/babel-plugin",
+    [
+      "module-resolver", {
+        "alias": {
+          "@components": "./src/components",
+          "@hooks": "./src/hooks",
+          "@pages": "./src/pages",
+          "@styles": "./src/styles",
+          "@stories": "./src/stories",
+          "@axios": "./src/axios",
+          "@apis": "./src/apis",
+          "@contexts": "./src/contexts"
+        }
+      }
+    ]
+  ]
+}

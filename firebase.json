@@ -1,0 +1,37 @@
+{
+  "hosting": {
+    "public": "out",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "cleanUrls": true,
+    "rewrites": [
+      {
+        "regex": "^(?:/((?:[^/]+?)(?:/(?:[^/]+?))*))/$",
+        "destination": "/:path+.html"
+      },
+      {
+        "destination": "/event/[eventId].html",
+        "regex": "^/event/([^/]+?)(?:/)?$"
+      },
+      {
+        "destination": "/event/[eventId]/create.html",
+        "regex": "^/event/([^/]+?)/create(?:/)?$"
+      },
+      {
+        "destination": "/event/[eventId]/reviews.html",
+        "regex": "^/event/([^/]+?)/reviews(?:/)?$"
+      },
+      {
+        "destination": "/shop/[shopId].html",
+        "regex": "^/shop/([^/]+?)(?:/)?$"
+      },
+      {
+        "destination": "/shop/[shopId]/create.html",
+        "regex": "^/shop/([^/]+?)/create(?:/)?$"
+      },
+      {
+        "destination": "/user/[userId].html",
+        "regex": "^/user/([^/]+?)(?:/)?$"
+      }
+    ]
+  }
+}
