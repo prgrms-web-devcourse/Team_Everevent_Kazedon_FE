@@ -36,6 +36,7 @@ module.exports = {
           '@apis': toPath('src/apis'),
           '@contexts': toPath('src/contexts'),
           '@utils': toPath('src/utils'),
+          '@fixtures': toPath('/fixtures'),
         },
       },
     };

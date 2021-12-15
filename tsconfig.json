@@ -26,6 +26,7 @@
       "@apis/*": ["./src/apis/*"],
       "@contexts/*": ["./src/contexts/*"],
       "@utils/*": ["./src/utils/*"],
+      "@fixtures/*": ["./fixtures/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/hooks/useClickAway.ts", "src/components/atoms/Modal.tsx"],

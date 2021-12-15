@@ -22,7 +22,8 @@
           "@stories": "./src/stories",
           "@axios": "./src/axios",
           "@apis": "./src/apis",
-          "@contexts": "./src/contexts"
+          "@contexts": "./src/contexts",
+          "@fixtures": "./fixtures"
         }
       }
     ]
