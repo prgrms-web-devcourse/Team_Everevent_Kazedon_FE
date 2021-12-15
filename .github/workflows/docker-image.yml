@@ -40,4 +40,4 @@ jobs:
         context: .
         file: Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_FRONT_USERNAME }}/front:latest
+        tags: ${{ secrets.DOCKERHUB_FRONT_USERNAME }}/kazedon_fe:latest
