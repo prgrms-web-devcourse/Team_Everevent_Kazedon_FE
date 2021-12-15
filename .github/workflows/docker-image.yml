@@ -27,7 +27,6 @@ jobs:
     - name: Lint
       run: npm run lint
       
-    - uses: actions/checkout@v2
     - name: Build ReactJS
       env:
         CI: false
