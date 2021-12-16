@@ -11,6 +11,7 @@ import {
 } from '@contexts/UserContext/types';
 import { registerReducer } from '@contexts/UserContext/reducer';
 import { useRouter } from 'next/router';
+import { css } from '@emotion/react';
 
 const RegisterFormContainer = styled.div`
   display: flex;
@@ -20,30 +21,18 @@ const RegisterFormContainer = styled.div`
   width: 100%;
 `;
 
-const EmailWrapper = styled.div`
+const OverlapCheck = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: end;
-  justify-content: space-between;
-  width: 280px;
-  height: 113px;
-  margin-top: 9px;
+  margin-bottom: 19px;
 `;
 
 const PasswordWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  height: 134px;
-  margin-top: 19px;
 `;
 
-const NicknameWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 70px;
-  margin: 32px 0;
-`;
+type OverlapParams = 'email' | 'nickname';
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -76,28 +65,35 @@ const RegisterForm = () => {
       validate: ({ email, password, passwordCheck, nickname }) => {
         const newErrors: ErrorUserForm = {};
 
-        if (!email) newErrors.email = '이메일을 입력해주세요.';
-        if (!password) newErrors.password = '비밀번호를 입력해주세요.';
-        if (!passwordCheck)
-          newErrors.passwordCheck = '비밀번호 확인을 입력해주세요.';
-        if (!nickname) newErrors.nickname = '닉네임을 입력해주세요.';
+        if (!email) newErrors.email = text.emailFormat;
+        else if (errors.email) newErrors.email = errors.email;
+        if (!nickname) newErrors.nickname = text.nicknameFail;
+        else if (errors.nickname) newErrors.nickname = errors.nickname;
+        if (!password) newErrors.password = text.passwordFail;
+        if (!passwordCheck) newErrors.passwordCheck = text.passwordFail;
 
         return newErrors;
       },
     });
 
-  const onOverlapCheck = async () => {
-    if (validateErrors.email) return;
+  const onOverlapCheck = async (e: React.MouseEvent) => {
+    const { name } = e.target as HTMLButtonElement;
+    const key = name as OverlapParams;
+
+    if (validateErrors[key]) return;
 
     const checkInfo = {
-      type: 'email',
-      value: values.email,
+      type: key,
+      value: values[key],
     };
     const res = await onRegisterCheck(checkInfo);
+    const newErrors: ErrorUserForm = {};
 
     if (res.error.code) {
-      const newErrors: ErrorUserForm = {};
-      newErrors.email = text.overlapEmail;
+      // 409
+      newErrors[key] = text.overlap[key];
+      setErrors(newErrors);
+    } else {
       setErrors(newErrors);
     }
   };
@@ -115,14 +111,19 @@ const RegisterForm = () => {
 
   return (
     <RegisterFormContainer>
-      <HeaderText level={1}>에브리벤트 가입하기</HeaderText>
-      <EmailWrapper>
+      <HeaderText level={1} marginBottom={25}>
+        에브리벤트 가입하기
+      </HeaderText>
+      <OverlapCheck>
         <Input
           sizeType="small"
           placeholder="이메일"
           name="email"
           onChange={onValidate}
           error={validateErrors.email}
+          css={css`
+            margin-bottom: 8px;
+          `}
         />
         {errors.email && (
           <Text
@@ -130,6 +131,9 @@ const RegisterForm = () => {
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.warning}
+            css={css`
+              margin-bottom: 8px;
+            `}
           >
             {errors.email}
           </Text>
@@ -142,16 +146,63 @@ const RegisterForm = () => {
           border
           onClick={onOverlapCheck}
           bold={false}
+          css={css`
+            margin-left: auto;
+          `}
+          name={text.email}
         >
           이메일 중복 체크
         </Button>
-      </EmailWrapper>
+      </OverlapCheck>
+      <OverlapCheck>
+        <Input
+          sizeType="small"
+          placeholder="닉네임"
+          name="nickname"
+          onChange={onValidate}
+          error={validateErrors.nickname}
+          css={css`
+            margin-bottom: 8px;
+          `}
+        />
+        {errors.nickname && (
+          <Text
+            size="micro"
+            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            block
+            color={Common.colors.warning}
+            css={css`
+              margin-bottom: 8px;
+            `}
+          >
+            {errors.nickname}
+          </Text>
+        )}
+        <Button
+          width={144}
+          height={40}
+          borderRadius="20px"
+          reversal
+          border
+          onClick={onOverlapCheck}
+          bold={false}
+          css={css`
+            margin-left: auto;
+          `}
+          name={text.nickname}
+        >
+          닉네임 중복 체크
+        </Button>
+      </OverlapCheck>
       <PasswordWrapper>
         <Input
           sizeType="small"
           placeholder="비밀번호"
           type="password"
           name="password"
+          css={css`
+            margin-bottom: 8px;
+          `}
           onChange={onValidate}
           error={validateErrors.password}
         />
@@ -160,45 +211,32 @@ const RegisterForm = () => {
           placeholder="비밀번호 확인"
           type="password"
           name="passwordCheck"
+          css={css`
+            margin-bottom: 8px;
+          `}
           onChange={onValidate}
           error={validateErrors.passwordCheck}
         />
-        {errors.password && (
-          <Text
-            size="micro"
-            fontStyle={{ display: 'flex', justifyContent: 'center' }}
-            block
-            color={Common.colors.warning}
-          >
-            {errors.password}
-          </Text>
-        )}
+        <Text
+          size="micro"
+          fontStyle={{ display: 'flex', justifyContent: 'center' }}
+          block
+          color={
+            errors.password ? Common.colors.warning : Common.colors.placeholder
+          }
+        >
+          {errors.password ? errors.password : text.default}
+        </Text>
       </PasswordWrapper>
-      <NicknameWrapper>
-        <Input
-          sizeType="small"
-          placeholder="닉네임"
-          name="nickname"
-          onChange={onValidate}
-          error={validateErrors.nickname}
-        />
-        {errors.nickname && (
-          <Text
-            size="micro"
-            fontStyle={{ display: 'flex', justifyContent: 'center' }}
-            block
-            color={Common.colors.warning}
-          >
-            {errors.nickname}
-          </Text>
-        )}
-      </NicknameWrapper>
       <Button
         buttonType="primary"
         width={280}
         height={48}
         borderRadius="15px"
         onClick={handleSubmit}
+        css={css`
+          margin-top: 8px;
+        `}
         bold
       >
         회원가입
