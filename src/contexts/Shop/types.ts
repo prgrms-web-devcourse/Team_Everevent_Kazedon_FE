@@ -6,10 +6,15 @@ export interface Shop {
   reviewCount: number | null;
 }
 
-export interface ShopEvent {
+interface PicturesType {
+  url: string;
+}
+
+export interface ShopEventInfo {
+  marketId: number | null;
   name: string | null;
-  expiredAt: string | null;
-  marketName: string | null;
-  favoriteCount: number | null;
-  reviewCount: number | null;
+  description: string | null;
+  expiredAt: string | Date;
+  maxParticipants: number | null;
+  pictures: PicturesType[] | [];
 }
