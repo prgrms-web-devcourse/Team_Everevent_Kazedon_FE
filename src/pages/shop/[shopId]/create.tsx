@@ -89,7 +89,7 @@ const EventCreatePage = () => {
       <HeaderText level={2} marginBottom={16}>
         사진
       </HeaderText>
-      <Upload uploadType="single" />
+      <Upload uploadType="multiple" />
       <Text size="micro" block>
         5mb 이하의 용량으로 올려주세요.
       </Text>
