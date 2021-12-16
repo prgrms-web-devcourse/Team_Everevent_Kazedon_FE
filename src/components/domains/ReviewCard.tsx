@@ -40,7 +40,7 @@ const StyledDescriptionBox = styled.div`
   justify-content: space-between;
 `;
 
-interface reviewDataTypes {
+export interface reviewDataTypes {
   marketName?: string;
   pictureUrl: string | undefined;
   description: string;
