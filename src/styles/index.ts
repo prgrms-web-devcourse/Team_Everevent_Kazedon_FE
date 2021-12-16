@@ -9,6 +9,7 @@ export default {
     primary: 'rgba(41, 41, 41, 1)',
     secondary: 'rgba(69, 69, 69, 1)',
     placeholder: 'rgba(186, 186, 186, 1)',
+    yellow: 'rgba(255, 221, 43, 1)',
   },
 
   fontSize: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { CategoryList, ReviewCard } from '@components/domains';
-import reviews from 'fixtures/reviews';
+import reviews from '@fixtures/reviews';
 
 interface EventReviewProps {
   onHeaderOptionClick?: () => void;

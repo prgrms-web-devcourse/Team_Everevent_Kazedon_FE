@@ -44,7 +44,6 @@ const Image: React.FC<HeaderProps> = styled.img`
 const Header: React.FC<HeaderProps> = ({
   children,
   width = 'auto',
-  logoWidth = 108,
   height = 48,
   size = 24,
   justifyContent = 'none',
@@ -59,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({
         height={height}
         justifyContent="space-between"
       >
-        <Image src={logo} width={logoWidth} height={height} />
+        <Image src={logo.src} width={logo.width} height={logo.height} />
         {isVisibleMenu && (
           <Icon size={size}>
             <MdOutlineMenu />
