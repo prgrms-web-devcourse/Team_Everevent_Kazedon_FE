@@ -6,6 +6,14 @@ export interface Shop {
   reviewCount: number | null;
 }
 
+export interface ShopEvent {
+  name: string | null;
+  expiredAt: string | null;
+  marketName: string | null;
+  favoriteCount: number | null;
+  reviewCount: number | null;
+}
+
 interface PicturesType {
   url: string;
 }
