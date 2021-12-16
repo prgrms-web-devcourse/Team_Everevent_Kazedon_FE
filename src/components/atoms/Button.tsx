@@ -6,6 +6,7 @@ import Common from '@styles/index';
 export interface ButtonProps {
   buttonType?: 'primary' | 'warning' | 'confirm';
   children?: ReactNode;
+  name?: string;
   fontSize?: number | string;
   bold?: boolean;
   display?: string;
