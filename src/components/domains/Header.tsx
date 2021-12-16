@@ -9,7 +9,6 @@ export interface HeaderProps {
   children?: ReactNode;
   size?: string | number;
   width?: string | number;
-  logoWidth?: string | number;
   height?: string | number;
   display?: 'none' | 'flex';
   isLogo?: boolean;
@@ -35,8 +34,7 @@ const HeaderSection = styled.div`
 `;
 
 const Image: React.FC<HeaderProps> = styled.img`
-  ${({ logoWidth, size }: Partial<HeaderProps>) => css`
-    width: ${typeof logoWidth === 'string' ? logoWidth : `${logoWidth}px`};
+  ${({ size }: Partial<HeaderProps>) => css`
     height: ${typeof size === 'string' ? size : `${size}px`};
   `}
 `;

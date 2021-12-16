@@ -4,7 +4,7 @@ import { ResType } from '@axios/types';
 // TODO: 추후 백엔드와 협의 후 설정사항이 있다면 request에 옵션을 넣어 설정하기로 한다.
 /* eslint-disable prefer-destructuring */
 
-const API_END_POINT = 'https://run.mocky.io/v3'; // Mock Test API BASE URL
+const API_END_POINT = process.env.NEXT_PUBLIC_API_END_POINT; // Mock Test API BASE URL
 const USER_AUTH_TOKEN_NAME = 'X-AUTH-TOKEN';
 
 const requestConfigCallback = (

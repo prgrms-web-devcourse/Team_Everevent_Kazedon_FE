@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import {
   HeaderText,
@@ -10,6 +10,8 @@ import {
 import useForm from '@hooks/useForm';
 import Constants from '@utils/index';
 import Common from '@styles/index';
+import { OwnerContext } from '@contexts/Owner';
+import { ChangeOwnerInfo } from '@contexts/Owner/types';
 
 const UserChangeFormContainer = styled.div`
   display: flex;
@@ -32,37 +34,48 @@ const ButtonWrapper = styled.div`
 `;
 
 type Data = {
-  marketName?: string;
-  marketDescription?: string;
-  marketAddress?: string;
+  name?: string;
+  description?: string;
+  location?: string;
 };
 
 const UserChangeForm = () => {
-  const { errors, handleChange, handleSubmit } = useForm<Data>({
+  const { handleChangeOwner } = useContext(OwnerContext);
+
+  const { errors, handleChange, handleSubmit } = useForm<
+    Partial<ChangeOwnerInfo>
+  >({
     initialValues: {
-      marketName: '',
-      marketDescription: '',
-      marketAddress: '',
+      name: '',
+      description: '',
+      location: '',
     },
     // TODO: onSubmit에서 values 받아서 처리할 예정
-    onSubmit: () => {},
-    validate: ({ marketName, marketDescription, marketAddress }: Data) => {
+    onSubmit: async (formData) => {
+      const ownerInfo = {
+        name: formData.name,
+        description: formData.description,
+        location: formData.location,
+      };
+      await handleChangeOwner(ownerInfo);
+    },
+    validate: ({ name, description, location }) => {
       const newErrors: Data = {};
 
-      newErrors.marketName = marketName
-        ? Constants.ERROR_MSG.default
-        : Constants.ERROR_MSG.marketNameInput;
+      if (!name) {
+        newErrors.name = Constants.ERROR_MSG.marketNameInput;
+      }
+      if (description) {
+        if (description.length > 200) {
+          newErrors.description = Constants.ERROR_MSG.marketDescriptionFormat;
+        }
+      } else {
+        newErrors.description = Constants.ERROR_MSG.marketDescriptionInput;
+      }
 
-      newErrors.marketDescription = marketDescription
-        ? marketDescription.length > 200
-          ? Constants.ERROR_MSG.marketDescriptionFormat
-          : Constants.ERROR_MSG.default
-        : Constants.ERROR_MSG.marketDescriptionInput;
-
-      newErrors.marketAddress = marketAddress
-        ? Constants.ERROR_MSG.default
-        : Constants.ERROR_MSG.marketAddressInput;
-
+      if (!location) {
+        newErrors.location = Constants.ERROR_MSG.marketAddressInput;
+      }
       return newErrors;
     },
   });
@@ -79,18 +92,18 @@ const UserChangeForm = () => {
         <Input
           sizeType="small"
           placeholder="가게 이름"
-          name="marketName"
+          name="name"
           onChange={handleChange}
-          error={!!errors.marketName?.length}
+          error={!!errors.name?.length}
         />
-        {errors.marketName && (
+        {errors.name && (
           <Text
             size="micro"
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.warning}
           >
-            {errors.marketName}
+            {errors.name}
           </Text>
         )}
       </UserChangeFormItem>
@@ -99,21 +112,21 @@ const UserChangeForm = () => {
           가게 설명
         </HeaderText>
         <Textarea
-          name="marketDescription"
+          name="description"
           onChange={handleChange}
           width={280}
           height={152}
           placeholder="200자 미만으로 작성해주세요."
-          error={!!errors.marketDescription?.length}
+          error={!!errors.description?.length}
         />
-        {errors.marketDescription && (
+        {errors.description && (
           <Text
             size="micro"
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.warning}
           >
-            {errors.marketDescription}
+            {errors.description}
           </Text>
         )}
       </UserChangeFormItem>
@@ -124,18 +137,18 @@ const UserChangeForm = () => {
         <Input
           sizeType="small"
           placeholder="서울시 광진구 OOO동"
-          name="marketAddress"
+          name="location"
           onChange={handleChange}
-          error={!!errors.marketAddress?.length}
+          error={!!errors.location?.length}
         />
-        {errors.marketAddress && (
+        {errors.location && (
           <Text
             size="micro"
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.warning}
           >
-            {errors.marketAddress}
+            {errors.location}
           </Text>
         )}
       </UserChangeFormItem>
