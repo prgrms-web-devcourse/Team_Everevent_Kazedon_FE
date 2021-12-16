@@ -16,109 +16,97 @@ const LoginFormContainer = styled.div`
   width: 100%;
 `;
 
-const InputContainer = styled.div`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 164px;
-  margin-top: 18px;
-  margin-bottom: 16px;
-`;
-
 const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 76px;
+  height: 77px;
+  margin-bottom: 8px;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin-top: 26px;
 `;
 
 const LoginForm = () => {
   const router = useRouter();
   const { handleLogIn } = useContext(UserContext);
 
-  const { errors, handleChange, handleSubmit } = useForm<LoginUserInfo>({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    onSubmit: async (values) => {
-      try {
-        await handleLogIn(values);
-        router.push('/');
-      } catch (e) {
-        throw new Error('로그인 실패');
-      }
-    },
-    validate: ({ email, password }) => {
-      const newErrors: ErrorUserForm = {};
+  const { errors, setErrors, handleChange, handleSubmit } =
+    useForm<LoginUserInfo>({
+      initialValues: {
+        email: '',
+        password: '',
+      },
+      onSubmit: async (values) => {
+        try {
+          await handleLogIn(values);
+          router.push('/');
+        } catch {
+          const newErrors: ErrorUserForm = {};
+          newErrors.password = text.fail;
 
-      if (email) {
-        if (!text.emailReg.test(email)) {
-          newErrors.email = text.emailFormat;
+          setErrors(newErrors);
         }
-      } else {
-        newErrors.email = text.emailInput;
-      }
+      },
+      validate: ({ email, password }) => {
+        const newErrors: ErrorUserForm = {};
 
-      if (!password) {
-        newErrors.password = text.passwordInput;
-      }
+        if (!text.emailReg.test(email)) newErrors.email = text.emailFormat;
+        if (!text.passwordReg.test(password))
+          newErrors.password = text.passwordInput;
 
-      return newErrors;
-    },
-  });
+        return newErrors;
+      },
+    });
 
   return (
     <LoginFormContainer>
-      <HeaderText level={1}>에브리벤트에 함께하세요!</HeaderText>
-      <InputContainer>
-        <InputWrapper>
-          <Input
-            sizeType="small"
-            placeholder="이메일"
-            name="email"
-            onChange={handleChange}
-            error={!!errors.email}
-          />
-          {errors.email && (
-            <Text
-              size="micro"
-              fontStyle={{ display: 'flex', justifyContent: 'center' }}
-              block
-              color={Common.colors.warning}
-            >
-              {errors.email}
-            </Text>
-          )}
-        </InputWrapper>
-        <InputWrapper>
-          <Input
-            type="password"
-            sizeType="small"
-            name="password"
-            onChange={handleChange}
-            placeholder="비밀번호"
-            error={!!errors.password}
-          />
-          {errors.password && (
-            <Text
-              size="micro"
-              fontStyle={{ display: 'flex', justifyContent: 'center' }}
-              block
-              color={Common.colors.warning}
-            >
-              {errors.password}
-            </Text>
-          )}
-        </InputWrapper>
-      </InputContainer>
+      <HeaderText level={1} marginBottom={32}>
+        에브리벤트에 함께하세요!
+      </HeaderText>
+      <InputWrapper>
+        <Input
+          sizeType="small"
+          placeholder="이메일"
+          name="email"
+          onChange={handleChange}
+          error={!!errors.email}
+        />
+        {errors.email && (
+          <Text
+            size="micro"
+            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            block
+            color={Common.colors.warning}
+          >
+            {errors.email}
+          </Text>
+        )}
+      </InputWrapper>
+      <InputWrapper>
+        <Input
+          type="password"
+          sizeType="small"
+          name="password"
+          onChange={handleChange}
+          placeholder="비밀번호"
+          error={errors.password === text.fail ? false : !!errors.password}
+        />
+        <Text
+          size="micro"
+          fontStyle={{ display: 'flex', justifyContent: 'center' }}
+          block
+          color={
+            errors.password ? Common.colors.warning : Common.colors.placeholder
+          }
+        >
+          {errors.password ? errors.password : text.default}
+        </Text>
+      </InputWrapper>
       <ButtonWrapper>
         <Button
           buttonType="primary"
