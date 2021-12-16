@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { HeaderText, Text } from '@components/atoms';
 import { Shop } from '@contexts/Shop/types';
 import styled from '@emotion/styled';
+import Common from '@styles/index';
 
 const ShopDetailHeaderWrapper = styled.div`
   display: flex;
@@ -17,8 +18,17 @@ const ShopDescriptionWrapper = styled.div`
   width: 318px;
 `;
 
+const DescriptionTextarea = styled.textarea`
+  width: 250px;
+  font-size: ${Common.fontSize.small};
+  resize: none;
+  border: 1px solid ${Common.colors.placeholder};
+  border-radius: 8px;
+`;
+
 const EditButton = styled.button`
   all: unset;
+  margin-left: auto;
 `;
 
 interface ShopDetailHeaderProps extends Partial<Shop> {
@@ -29,16 +39,34 @@ const ShopDetailHeader = ({
   marketName,
   description,
 }: ShopDetailHeaderProps) => {
+  const [visible, setVisible] = useState(false);
+  const [shopDescription, setShopDescription] = useState(description);
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleEdit = () => {
+    if (visible) setShopDescription(descriptionRef.current?.value);
+    // TODO: 추후 리팩토링할 예정입니다.
+    // eslint-disable-next-line no-unused-expressions
+    visible ? setVisible(false) : setVisible(true);
+  };
+
   return (
     <ShopDetailHeaderWrapper>
       <HeaderText level={1} marginBottom={24}>
         {marketName}
       </HeaderText>
       <ShopDescriptionWrapper>
-        <Text size="small" block fontStyle={{ overflow: 'hidden' }}>
-          {description || '가게소개가 없어요!'}
-        </Text>
-        <EditButton>✏️</EditButton>
+        {visible ? (
+          <DescriptionTextarea
+            ref={descriptionRef}
+            defaultValue={shopDescription || ''}
+          />
+        ) : (
+          <Text size="small" block fontStyle={{ overflow: 'hidden' }}>
+            {shopDescription || '가게소개가 없어요!'}
+          </Text>
+        )}
+        <EditButton onClick={handleEdit}>✏️</EditButton>
       </ShopDescriptionWrapper>
     </ShopDetailHeaderWrapper>
   );
