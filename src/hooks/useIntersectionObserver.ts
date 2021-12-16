@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 interface useIntersectionObserverTypes {
-  lastIdCurrent: number | string;
+  lastIdCurrent: number;
   observerCallback: (
     entries: IntersectionObserverEntry[],
     observer: IntersectionObserver
