@@ -15,6 +15,10 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
     async (userInfo: LoginUserInfo) => {
       const res = await onLogIn(userInfo);
 
+      if (res.error.code) {
+        throw new Error('로그인 실패');
+      }
+
       const header = await res.headers;
       const { email, nickname } = await res.data;
 
