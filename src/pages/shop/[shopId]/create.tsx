@@ -10,21 +10,26 @@ import {
 import React from 'react';
 import { css } from '@emotion/react';
 import { useRouter } from 'next/dist/client/router';
+import styled from '@emotion/styled';
+
+const ButtonWrapper = styled.div`
+  width: 310px;
+`;
 
 const InputCSS = css`
   margin-bottom: 8px;
 `;
 
 const InputNumberCSS = css`
-  width: 96px;
+  width: 98px;
   margin-bottom: 8px;
 `;
 
 const ButtonCSS = css`
   display: block;
-  width: 312px;
-  margin: 0 auto;
+  width: 98px;
   margin-top: 24px;
+  margin-left: auto;
 `;
 
 const EventCreatePage = () => {
@@ -86,9 +91,11 @@ const EventCreatePage = () => {
       </HeaderText>
       <Upload uploadType="single" />
       <Text size="micro" block>
-        5mb 이하의 용량으로 올려주세요.{' '}
+        5mb 이하의 용량으로 올려주세요.
       </Text>
-      <Button css={ButtonCSS}>만들기</Button>
+      <ButtonWrapper>
+        <Button css={ButtonCSS}>만들기</Button>
+      </ButtonWrapper>
     </MainContainer>
   );
 };
