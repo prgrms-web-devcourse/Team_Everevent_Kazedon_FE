@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useContext } from 'react';
 import { useRouter } from 'next/router';
 import MainContainer from '@components/atoms/MainContainer';
@@ -12,6 +13,7 @@ const UserEventHistoryPage: NextPage = () => {
   // const { eventList, dispatchEventList, initializeEventList } = useEvent();
   const router = useRouter();
   const useUser = () => useContext(UserContext);
+  /* eslint-disable-next-line */
   const { state } = useUser();
 
   const handleCardClick = useCallback(

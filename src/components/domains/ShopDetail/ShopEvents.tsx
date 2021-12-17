@@ -1,7 +1,7 @@
 import React from 'react';
 import { CardList } from '@components/atoms';
 import { EventCard } from '@components/domains';
-import { ShopEvent } from '@contexts/Shop/types';
+import { ShopEvent } from '@contexts/shop/types';
 
 interface ShopEventsProps extends Partial<ShopEvent> {
   [index: string]: any;
