@@ -7,7 +7,7 @@ export interface InputProps {
   sizeType: 'small' | 'large';
   error: boolean | 'undefined';
   name?: string;
-  placeholder: string;
+  placeholder?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 

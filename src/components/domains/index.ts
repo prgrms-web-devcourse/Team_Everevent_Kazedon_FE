@@ -8,4 +8,5 @@ export { default as SortButtons } from './SortButtons';
 export { default as ReviewCard } from './ReviewCard';
 export { default as UserChangeForm } from './UserChangeForm';
 export { default as Success } from './Success';
+export { default as OverlapConfirm } from './OverlapConfirm';
 export * from './EventDetail/index';
