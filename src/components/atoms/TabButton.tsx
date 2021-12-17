@@ -45,7 +45,8 @@ const StyledTab = styled.div`
     background-color: ${isLeftFocused
       ? Common.colors.point
       : Common.colors.background};
-    border: 2px solid ${borderColor};
+    border: 2px solid
+      ${isLeftFocused ? Common.colors.point : Common.colors.background};
     border-radius: ${isLeft ? '16px 0px 0px 16px' : '0px 16px 16px 0px'};
     box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
   `}

@@ -21,9 +21,16 @@ export default {
 };
 
 export const Default = (args: TabProps) => {
-  return <Tab {...args} />;
+  return <Tab {...args} leftText="참여한 이벤트" rightText="내가 쓴 리뷰" />;
 };
 
 export const Values = (args: TabProps) => {
-  return <Tab {...args} isLeftFocused={false} />;
+  return (
+    <Tab
+      {...args}
+      leftText="참여한 이벤트"
+      rightText="내가 쓴 리뷰"
+      isLeftFocused={false}
+    />
+  );
 };

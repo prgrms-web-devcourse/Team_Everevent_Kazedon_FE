@@ -21,7 +21,9 @@ export interface TabProps {
   isLeftFocused?: boolean;
   borderRadius?: string | number;
   size?: string | number;
-  color?: string;
+  color: string;
+  leftText: string;
+  rightText: string;
 }
 
 const TabContainer: React.FC<Partial<TabProps>> = styled.div`
@@ -43,6 +45,8 @@ const Tab: React.FC<TabProps> = ({
   padding = 0,
   isLeft = true,
   isLeftFocused = true,
+  leftText,
+  rightText,
   ...props
 }) => {
   return (
@@ -54,10 +58,10 @@ const Tab: React.FC<TabProps> = ({
       padding={padding}
     >
       <TabButton isLeft={isLeft} isLeftFocused={isLeftFocused}>
-        참여한 이벤트
+        {leftText}
       </TabButton>
       <TabButton isLeft={!isLeft} isLeftFocused={!isLeftFocused}>
-        내가 쓴 리뷰
+        {rightText}
       </TabButton>
     </TabContainer>
   );
