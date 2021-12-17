@@ -14,8 +14,7 @@ const requestConfigCallback = (
     ? localStorage.getItem(USER_AUTH_TOKEN_STORAGE_NAME)
     : '';
   if (X_USER_TOKEN) {
-    authConfig.headers[USER_AUTH_TOKEN_HEADER_NAME] =
-      USER_AUTH_TOKEN_HEADER_NAME;
+    authConfig.headers[USER_AUTH_TOKEN_HEADER_NAME] = X_USER_TOKEN;
   }
 
   return authConfig;
