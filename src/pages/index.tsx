@@ -8,8 +8,9 @@ import { useEvent } from '@contexts/event';
 import { css } from '@emotion/react';
 import styles from '@styles/index';
 import type { NextPage } from 'next';
-import { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
+import { Modal } from '@components/atoms';
 
 const AddressButtonCSS = css`
   margin-top: 60px;
@@ -17,6 +18,9 @@ const AddressButtonCSS = css`
   color: ${styles.colors.primary};
 `;
 const MainPage: NextPage = () => {
+  const [modalVisible, setModalVisible] = useState(false);
+  /* eslint-disable-next-line */
+  const [userAddress, setUserAddress] = useState(null);
   const { eventList, dispatchEventList, initializeEventList } = useEvent();
   const router = useRouter();
 
@@ -26,10 +30,24 @@ const MainPage: NextPage = () => {
     },
     [router]
   );
+
+  const closeModal = () => {
+    setModalVisible(() => false);
+  };
   useEffect(() => {
-    dispatchEventList();
+    if (!window) return;
+    if (!userAddress) {
+      setModalVisible(() => true);
+      return;
+    }
+    dispatchEventList({
+      location: userAddress,
+      sort: 'desc',
+      page: 0,
+      size: 10,
+    });
     return () => initializeEventList();
-  }, [dispatchEventList, initializeEventList]);
+  }, [userAddress, dispatchEventList, initializeEventList]);
 
   /* eslint-disable no-console */
   const buttonArr = [
@@ -63,6 +81,15 @@ const MainPage: NextPage = () => {
           />
         ))}
       </CardList>
+      <Modal
+        width={300}
+        height={400}
+        modalType="default"
+        padding={24}
+        visible={modalVisible}
+        onClose={closeModal}
+        clickAway={false}
+      />
     </MainContainer>
   );
 };
