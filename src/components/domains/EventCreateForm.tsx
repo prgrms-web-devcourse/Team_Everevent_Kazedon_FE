@@ -76,13 +76,17 @@ const CreateEventForm = () => {
           newErrors.expiredAt = Constants.ERROR_MSG.eventExpiredAtFormat;
         }
       }
+
       if (!maxParticipants) {
         newErrors.maxParticipants =
           Constants.ERROR_MSG.eventMaxParticipantsInput;
       } else if (Number(maxParticipants) > 99) {
         newErrors.maxParticipants =
           Constants.ERROR_MSG.eventMaxParticipantsFormat;
+      } else {
+        newErrors.maxParticipants = Constants.ERROR_MSG.default;
       }
+
       return newErrors;
     },
   });
@@ -160,7 +164,6 @@ const CreateEventForm = () => {
       <Input
         sizeType="large"
         name="maxParticipants"
-        type="number"
         placeholder="00"
         error={!!errors.maxParticipants?.length}
         css={InputNumberCSS}
