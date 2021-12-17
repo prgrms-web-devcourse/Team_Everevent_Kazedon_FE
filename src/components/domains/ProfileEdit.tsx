@@ -10,7 +10,7 @@ interface Props {
 }
 
 const ProfileEditContainer = styled.div`
-  width: 100%;
+  margin-top: 60px;
 `;
 
 const CheckWrapper = styled.div`
@@ -26,7 +26,7 @@ const marginBottom = (size: number) => css`
   margin-bottom: ${size}px;
 `;
 
-const marginTop = (size) => css`
+const marginTop = (size: number) => css`
   margin-top: ${size}px;
 `;
 
@@ -39,42 +39,44 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
       <HeaderText level={2} marginBottom={16}>
         Email
       </HeaderText>
-      <Text block size="medium">
+      <Text block size="medium" css={marginBottom(16)}>
         {email}
       </Text>
-      <HeaderText level={2} marginBottom={7}>
+      <HeaderText level={2} marginBottom={16}>
         비밀번호
       </HeaderText>
-      <CheckWrapper>
+      <CheckWrapper css={marginBottom(16)}>
         <Input
           type="password"
           sizeType="small"
           name="password"
           error={false}
           placeholder="비밀번호입력"
+          css={marginBottom(16)}
         />
         <Button reversal border width={95} css={ButtonRight}>
           비밀번호 확인
         </Button>
       </CheckWrapper>
-      <Tab width={279} />
-      <HeaderText level={2} marginBottom={7}>
+      <Tab width={279} css={marginBottom(16)} />
+      <HeaderText level={2} marginBottom={16}>
         닉네임 변경
       </HeaderText>
-      <CheckWrapper>
+      <CheckWrapper css={marginBottom(32)}>
         <Input
           type="password"
           sizeType="small"
           name="password"
           error={false}
           placeholder="닉네임"
+          css={marginBottom(16)}
         />
         <Button reversal border width={95} css={ButtonRight}>
           중복 확인
         </Button>
       </CheckWrapper>
-      <CheckWrapper>
-        <HeaderText level={2} marginBottom={7}>
+      <CheckWrapper css={marginBottom(32)}>
+        <HeaderText level={2} marginBottom={16}>
           비밀번호 변경
         </HeaderText>
         <Input
@@ -94,7 +96,7 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
           error={false}
         />
       </CheckWrapper>
-      <Button css={marginTop(32)}>확인</Button>
+      <Button>확인</Button>
     </ProfileEditContainer>
   );
 };
