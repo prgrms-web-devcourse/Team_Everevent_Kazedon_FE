@@ -1,8 +1,9 @@
-import React, { useMemo, useEffect, ReactNode } from 'react';
+import React, { useEffect, ReactNode, useState } from 'react';
 import styled from '@emotion/styled';
 import { createPortal } from 'react-dom';
 import useClickAway from '@hooks/useClickAway';
 import { css } from '@emotion/react';
+import { MainContainer } from '.';
 
 const BackgroundDim = styled.div`
   position: fixed;
@@ -15,7 +16,7 @@ const BackgroundDim = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   box-sizing: border-box;
@@ -61,25 +62,31 @@ const Modal = ({
     }
   });
 
-  const el = useMemo(() => document.createElement('div'), []);
+  const [el, setEl] = useState<HTMLDivElement | null>(null);
   useEffect(() => {
-    document.body.appendChild(el);
+    setEl(() => document.querySelector('#main-container'));
+  }, []);
+  useEffect(() => {
+    if (el) document.body.appendChild(el);
     return () => {
-      document.body.removeChild(el);
+      if (el) document.body.removeChild(el);
     };
   }, [el]);
 
+  if (!el) return null;
   return createPortal(
     <BackgroundDim style={{ display: visible ? 'block' : 'none' }}>
-      <ModalContainer
-        width={width}
-        height={height}
-        padding={padding}
-        ref={ref}
-        {...props}
-      >
-        {children}
-      </ModalContainer>
+      <MainContainer paddingWidth={24}>
+        <ModalContainer
+          width={width}
+          height={height}
+          padding={padding}
+          ref={ref}
+          {...props}
+        >
+          {children}
+        </ModalContainer>
+      </MainContainer>
     </BackgroundDim>,
     el
   );

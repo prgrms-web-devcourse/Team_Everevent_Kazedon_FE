@@ -8,11 +8,14 @@ interface StyledMainContainerProps {
   paddingHeight?: number | string;
 }
 export interface MainContainerProps extends StyledMainContainerProps {
+  id?: string;
   children: ReactNode;
 }
-const StyledMainContainer: React.FC<MainContainerProps> = styled.main`
+const StyledMainContainer = styled.main<StyledMainContainerProps>`
+  position: relative;
   width: 375px;
   min-height: 100vh;
+
   @media ${styles.media.mobile} {
     width: 100%;
   }
@@ -36,6 +39,7 @@ const MainContainer = ({
 }: MainContainerProps) => {
   return (
     <StyledMainContainer
+      id="main-container"
       paddingWidth={paddingWidth}
       paddingHeight={paddingHeight}
     >

@@ -43,12 +43,12 @@ const EventCard = ({
 }: EventCardProps) => {
   const {
     expiredAt,
-    name,
+    eventName,
     marketName,
-    isLike,
+    like,
     likeCount,
     reviewCount,
-    maxParticipants,
+    remainingParticipants,
   } = eventData as Event;
   const cardBgColorKeys = Object.keys(styles.cardBackgroundColors);
   const colorLength = cardBgColorKeys.length;
@@ -76,10 +76,10 @@ const EventCard = ({
         css={marginBottomCSS()}
       >{`~(${expiredAt})`}</Text>
       <Text block bold css={marginBottomCSS('16')}>
-        {name}
+        {eventName}
       </Text>
       <Text block size="micro">
-        {maxParticipants ? `${maxParticipants}명 남음` : ``}
+        {remainingParticipants ? `${remainingParticipants}명 남음` : ``}
       </Text>
       <Text block size="micro">
         {marketName}
@@ -96,7 +96,7 @@ const EventCard = ({
         </Text>
       </StyledReviewCount>
       <LikeButton
-        isLike={isLike}
+        isLike={like}
         likeCount={likeCount}
         onClick={handleLikeButtonClick}
       />

@@ -17,20 +17,35 @@ export interface EventDetail {
 }
 export interface Event {
   eventId: string;
-  name: string;
+  eventName: string;
   expiredAt: string;
   marketName: string;
+  pictureUrl: string;
   likeCount: number;
   reviewCount: number;
-  isLike: boolean;
-  maxParticipants: number;
+  like: boolean;
+  remainingParticipants: number;
+}
+
+export interface EventListResponse {
+  simpleEvents: {
+    content: EventListType;
+    totalPages: number;
+    totalElements: number;
+    last: boolean;
+  };
 }
 
 export type EventListType = Array<Event> | [];
-
+export interface EventListOptions {
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+}
 export interface InitialStateType {
   isLoading: boolean;
   eventList: EventListType;
+  eventListOptions: EventListOptions;
   event: EventDetail;
   eventError: ErrorType;
 }
