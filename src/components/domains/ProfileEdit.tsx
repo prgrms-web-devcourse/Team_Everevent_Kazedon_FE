@@ -26,10 +26,6 @@ const marginBottom = (size: number) => css`
   margin-bottom: ${size}px;
 `;
 
-const marginTop = (size: number) => css`
-  margin-top: ${size}px;
-`;
-
 const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
   return (
     <ProfileEditContainer {...props}>
