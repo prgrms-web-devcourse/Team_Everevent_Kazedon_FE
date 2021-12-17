@@ -25,6 +25,11 @@ export const initialState: InitialStateType = {
     pictures: [],
     isParticipated: null,
   },
+  eventListOptions: {
+    totalPages: 0,
+    totalElements: 0,
+    last: true,
+  },
   eventError: {
     code: null,
     message: null,
@@ -35,10 +40,10 @@ const EventContext = createContext<ContextType>(initialState);
 export const useEvent = () => useContext(EventContext);
 
 const EventListProvider: React.FC<ReactNode> = ({ children }) => {
-  const [{ isLoading, eventList, event, eventError }, dispatch] = useReducer(
-    eventReducer,
-    initialState
-  );
+  const [
+    { isLoading, eventList, eventListOptions, event, eventError },
+    dispatch,
+  ] = useReducer(eventReducer, initialState);
 
   const {
     dispatchEventList,
@@ -53,6 +58,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     () => ({
       isLoading,
       eventList,
+      eventListOptions,
       event,
       eventError,
       dispatchEvent,
@@ -65,6 +71,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     [
       isLoading,
       eventList,
+      eventListOptions,
       event,
       eventError,
       dispatchEvent,

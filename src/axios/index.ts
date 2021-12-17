@@ -11,7 +11,7 @@ const requestConfigCallback = (
   authConfig: any
 ): AxiosRequestConfig | Promise<AxiosRequestConfig<any>> => {
   const X_USER_TOKEN = window
-    ? localStorage.getItem(USER_AUTH_TOKEN_STORAGE_NAME)
+    ? JSON.parse(localStorage.getItem(USER_AUTH_TOKEN_STORAGE_NAME) || '')
     : '';
   if (X_USER_TOKEN) {
     authConfig.headers[USER_AUTH_TOKEN_HEADER_NAME] = X_USER_TOKEN;

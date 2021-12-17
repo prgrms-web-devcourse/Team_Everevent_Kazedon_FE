@@ -11,6 +11,8 @@ import type { NextPage } from 'next';
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
 import { CardContainer, Input, Modal, Text } from '@components/atoms';
+import { setStorage } from '@utils/storage';
+import { USER_ADDRESS_KEY } from '@utils/constantUser';
 
 const AddressButtonCSS = css`
   margin-top: 60px;
@@ -56,12 +58,12 @@ const MainPage: NextPage = () => {
     setModalVisible(() => false);
   };
   useEffect(() => {
-    const storageValue = localStorage.getItem('USER_ADDRESS');
-    if (storageValue) setUserAddress(() => storageValue);
+    const storageValue = localStorage.getItem(USER_ADDRESS_KEY);
+    if (storageValue) setUserAddress(() => JSON.parse(storageValue));
   }, []);
 
   useEffect(() => {
-    if (userAddress) localStorage.setItem('USER_ADDRESS', userAddress);
+    if (userAddress) setStorage(USER_ADDRESS_KEY, userAddress);
   }, [userAddress]);
 
   useEffect(() => {
@@ -98,7 +100,7 @@ const MainPage: NextPage = () => {
         padding={0}
         css={AddressButtonCSS}
       >
-        {userAddress}
+        <div>{userAddress || ''}</div>
       </Button>
       <SortButtons width={230} buttonArr={buttonArr} buttonMargin={16} />
       <CardList flexType="column" padding={0} margin="10px 0 0 0">

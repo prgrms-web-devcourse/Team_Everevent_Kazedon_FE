@@ -23,3 +23,4 @@ export const text = {
   nicknameReg: /^[가-힣ㄱ-ㅎa-zA-Z0-9._ -]{2,}$/,
 };
 export const HEADERTOKEN = 'x-auth-token';
+export const USER_ADDRESS_KEY = 'user-address';
