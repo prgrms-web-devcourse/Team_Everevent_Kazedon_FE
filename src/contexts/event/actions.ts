@@ -1,6 +1,7 @@
 import getEvent from '@axios/event/getEvent';
 import getEventList from '@axios/event/getEventList';
 import {
+  EventListParam,
   EVENT_LOADING,
   FAVORITE_EVENT,
   GET_EVENT,
@@ -16,14 +17,17 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     () => dispatch({ type: EVENT_LOADING }),
     [dispatch]
   );
-  const dispatchEventList = useCallback(async () => {
-    dispatchLoading();
-    const res = await getEventList();
-    dispatch({
-      type: GET_EVENTLIST,
-      payload: { eventList: res.data, eventError: res.error },
-    });
-  }, [dispatch, dispatchLoading]);
+  const dispatchEventList = useCallback(
+    async ({ location, sort, page, size }: EventListParam) => {
+      dispatchLoading();
+      const res = await getEventList({ location, sort, page, size });
+      dispatch({
+        type: GET_EVENTLIST,
+        payload: { eventList: res.data, eventError: res.error },
+      });
+    },
+    [dispatch, dispatchLoading]
+  );
 
   const initializeEventList = useCallback(async () => {
     dispatch({ type: INITIALIZE_EVENTLIST });

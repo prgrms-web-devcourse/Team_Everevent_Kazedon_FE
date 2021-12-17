@@ -36,6 +36,13 @@ export type Action =
   | { type: 'REVIEW/CREATE'; payload: { reviewError: ErrorType } }
   | { type: 'REVIEW/UPDATE'; payload: { reviewError: ErrorType } };
 
+export interface GetReviewListParam {
+  eventId: string;
+  sort?: 'asc' | 'desc';
+  page: number;
+  size: number;
+}
+
 export const REVIEW_LOADING = 'REVIEW/LOADING';
 export const GET_REVIEW_LIST = 'REVIEW/GET_REVIEW_LIST';
 export const GET_REVIEW = 'REVIEW/GET_REVIEW';
