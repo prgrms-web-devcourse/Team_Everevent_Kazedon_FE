@@ -21,9 +21,19 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     async ({ location, sort, page, size }: EventListParam) => {
       dispatchLoading();
       const res = await getEventList({ location, sort, page, size });
+      const simpleEvents: typeof res.data.simpleEvents =
+        res.data?.simpleEvents ?? null;
       dispatch({
         type: GET_EVENTLIST,
-        payload: { eventList: res.data, eventError: res.error },
+        payload: {
+          eventList: simpleEvents?.content || [],
+          eventListOption: {
+            totalPages: simpleEvents?.totalPages ?? null,
+            totalElements: simpleEvents?.totalElements ?? null,
+            last: simpleEvents?.last ?? null,
+          },
+          eventError: res.error,
+        },
       });
     },
     [dispatch, dispatchLoading]

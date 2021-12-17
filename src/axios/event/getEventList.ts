@@ -1,6 +1,6 @@
 import request from '@axios/index';
 import { ResType } from '@axios/types';
-import { EventListParam, EventListType } from '@contexts/event/types';
+import { EventListParam, EventListResponse } from '@contexts/event/types';
 
 const getEventList = async (queryParams: EventListParam) => {
   let queries = '';
@@ -10,7 +10,9 @@ const getEventList = async (queryParams: EventListParam) => {
       queries += !queries.length ? `?${nowQuery}` : `&${nowQuery}`;
     }
   }
-  const res: ResType<EventListType> = await request.get(`/events${queries}`);
+  const res: ResType<EventListResponse> = await request.get(
+    `/events${queries}`
+  );
   return res;
 };
 

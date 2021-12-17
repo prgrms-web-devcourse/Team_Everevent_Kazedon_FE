@@ -10,13 +10,24 @@ import styles from '@styles/index';
 import type { NextPage } from 'next';
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Input, Modal } from '@components/atoms';
+import { CardContainer, Input, Modal, Text } from '@components/atoms';
 
 const AddressButtonCSS = css`
   margin-top: 60px;
   margin-bottom: 20px;
   color: ${styles.colors.primary};
 `;
+
+const NoEventListCardCSS = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  strong {
+    font-weight: 700;
+  }
+`;
+
 const MainPage: NextPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   /* eslint-disable-next-line */
@@ -26,7 +37,7 @@ const MainPage: NextPage = () => {
   const router = useRouter();
 
   const handleCardClick = useCallback(
-    (eventId = 'e49e47f9-739a-4014-8395-efa1f810aebb') => {
+    (eventId: string) => {
       router.push(`/event/${eventId}`);
     },
     [router]
@@ -58,9 +69,11 @@ const MainPage: NextPage = () => {
       setModalVisible(() => true);
       return;
     }
+    setModalVisible(() => false);
+
     dispatchEventList({
       location: userAddress,
-      sort: 'desc',
+      sort: 'expiredAt,desc',
       page: 0,
       size: 10,
     });
@@ -85,19 +98,27 @@ const MainPage: NextPage = () => {
         padding={0}
         css={AddressButtonCSS}
       >
-        광진구 화양동
+        {userAddress}
       </Button>
       <SortButtons width={230} buttonArr={buttonArr} buttonMargin={16} />
       <CardList flexType="column" padding={0} margin="10px 0 0 0">
-        {eventList.map((data, idx) => (
-          <EventCard
-            onClick={() => handleCardClick()}
-            key={data.eventId}
-            eventData={data}
-            idx={idx}
-            marginHeight={10}
-          />
-        ))}
+        {eventList.length ? (
+          eventList.map((data, idx) => (
+            <EventCard
+              onClick={() => handleCardClick(data.eventId)}
+              key={data.eventId}
+              eventData={data}
+              idx={idx}
+              marginHeight={10}
+            />
+          ))
+        ) : (
+          <CardContainer cardType="default" css={NoEventListCardCSS}>
+            <Text size="large" bold color={styles.colors.background}>
+              <strong>앗! 이벤트가 없어요~</strong>😅
+            </Text>
+          </CardContainer>
+        )}
       </CardList>
       <Modal
         width={300}
