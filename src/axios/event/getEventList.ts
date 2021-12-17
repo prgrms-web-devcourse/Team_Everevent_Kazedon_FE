@@ -7,7 +7,8 @@ const getEventList = async (queryParams: EventListParam) => {
   let queries = '';
   for (const key in queryParams) {
     if (queryParams[key as keyof EventListParam]) {
-      queries += `&${key}=${queryParams[key as keyof EventListParam]}`;
+      const nowQuery = `${key}=${queryParams[key as keyof EventListParam]}`;
+      queries += !queries.length ? `?${nowQuery}` : `&${nowQuery}`;
     }
   }
   const res: ResType<EventListType> = await request.get(`/events${queries}`);

@@ -2,9 +2,19 @@ import request from '@axios/index';
 import { ResType } from '@axios/types';
 import { ReviewList } from '@contexts/review/types';
 
-const getReviewList = async () => {
+const getReviewList = async ({
+  eventId,
+  sort = 'asc',
+  page,
+  size = 0,
+}: {
+  eventId: string;
+  sort?: 'asc' | 'desc';
+  page: number;
+  size: number;
+}) => {
   const res: ResType<ReviewList> = await request.get(
-    '/3760323b-5d58-4393-bfbd-85517828347a'
+    `/events/${eventId}/?sort=createAt,${sort}&page=${page}&size=${size}`
   );
   return res;
 };
