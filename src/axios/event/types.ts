@@ -4,3 +4,7 @@ export interface EventListParam {
   page: number;
   size: number;
 }
+
+export interface GetEventParamTypes {
+  eventId: string | undefined | string[];
+}

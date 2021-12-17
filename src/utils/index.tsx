@@ -1,3 +1,5 @@
+// TODO: 2차 스프린트 후 소문자로 리팩토링한다.
+
 export default {
   ERROR_MSG: {
     default: '',
@@ -13,5 +15,6 @@ export default {
     eventExpiredAtFormat: '마감일자는 금일이후만 가능합니다.',
     eventMaxParticipantsInput: '최대 참여 명수를 입력해주세요.',
     eventMaxParticipantsFormat: '100명 이내로 입력해주세요.',
+    wrongRequest: '현재 잘못된 요청 형태입니다.',
   },
 };
