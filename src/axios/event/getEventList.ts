@@ -1,7 +1,6 @@
 import request from '@axios/index';
 import { ResType } from '@axios/types';
-import { EventListType } from '@contexts/event/types';
-import { EventListParam } from './types';
+import { EventListParam, EventListType } from '@contexts/event/types';
 
 const getEventList = async (queryParams: EventListParam) => {
   let queries = '';

@@ -9,6 +9,7 @@ import {
   CREATE_REVIEW,
   CHANGE_REVIEW_CONTENT,
   UPDATE_REVIEW,
+  GetReviewListParam,
 } from '@contexts/review/types';
 import { Dispatch, useCallback } from 'react';
 
@@ -18,14 +19,17 @@ const useReviewProvider = (dispatch: Dispatch<any>) => {
     [dispatch]
   );
 
-  const dispatchGetReviewList = useCallback(async () => {
-    dispatchLoading();
-    const res = await getReviewList();
-    dispatch({
-      type: GET_REVIEW_LIST,
-      payload: { reviewList: res.data, reviewError: res.error },
-    });
-  }, [dispatch, dispatchLoading]);
+  const dispatchGetReviewList = useCallback(
+    async ({ eventId, sort, page, size }: GetReviewListParam) => {
+      dispatchLoading();
+      const res = await getReviewList({ eventId, sort, page, size });
+      dispatch({
+        type: GET_REVIEW_LIST,
+        payload: { reviewList: res.data, reviewError: res.error },
+      });
+    },
+    [dispatch, dispatchLoading]
+  );
 
   const dispatchGetReview = useCallback(
     async (reviewId: string) => {

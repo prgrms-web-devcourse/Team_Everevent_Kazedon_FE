@@ -39,6 +39,13 @@ export interface ContextType extends InitialStateType {
   [dispatchEvent: string]: any;
 }
 
+export interface EventListParam {
+  location: string;
+  sort: string;
+  page: number;
+  size: number;
+}
+
 export const EVENT_LOADING = 'EVENT/LOADING' as const;
 export const GET_EVENTLIST = 'EVENTLIST/GET' as const;
 export const INITIALIZE_EVENTLIST = 'EVENTLIST/INITIALIZE' as const;
