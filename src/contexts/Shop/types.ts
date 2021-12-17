@@ -13,3 +13,16 @@ export interface ShopEvent {
   favoriteCount: number | null;
   reviewCount: number | null;
 }
+
+interface PicturesType {
+  url: string;
+}
+
+export interface ShopEventInfo {
+  marketId: number | null;
+  name: string | null;
+  description: string | null;
+  expiredAt: string | Date;
+  maxParticipants: number | null;
+  pictures: PicturesType[] | [];
+}
