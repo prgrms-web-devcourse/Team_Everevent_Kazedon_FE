@@ -10,7 +10,7 @@ import styles from '@styles/index';
 import type { NextPage } from 'next';
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Modal } from '@components/atoms';
+import { Input, Modal } from '@components/atoms';
 
 const AddressButtonCSS = css`
   margin-top: 60px;
@@ -20,7 +20,8 @@ const AddressButtonCSS = css`
 const MainPage: NextPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
   /* eslint-disable-next-line */
-  const [userAddress, setUserAddress] = useState(null);
+  const [userAddress, setUserAddress] = useState<string | null>(null);
+  const [addressValue, setAddressValue] = useState<string>('');
   const { eventList, dispatchEventList, initializeEventList } = useEvent();
   const router = useRouter();
 
@@ -31,11 +32,28 @@ const MainPage: NextPage = () => {
     [router]
   );
 
+  const handleChangeAddressInput = useCallback((e) => {
+    setAddressValue(() => e.target.value);
+  }, []);
+
+  const handleSubmitAddress = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setUserAddress(() => addressValue);
+  };
+
   const closeModal = () => {
     setModalVisible(() => false);
   };
   useEffect(() => {
-    if (!window) return;
+    const storageValue = localStorage.getItem('USER_ADDRESS');
+    if (storageValue) setUserAddress(() => storageValue);
+  }, []);
+
+  useEffect(() => {
+    if (userAddress) localStorage.setItem('USER_ADDRESS', userAddress);
+  }, [userAddress]);
+
+  useEffect(() => {
     if (!userAddress) {
       setModalVisible(() => true);
       return;
@@ -89,7 +107,15 @@ const MainPage: NextPage = () => {
         visible={modalVisible}
         onClose={closeModal}
         clickAway={false}
-      />
+      >
+        <Input
+          sizeType="small"
+          placeholder="OO시 OO구 OO동"
+          error={false}
+          onChange={handleChangeAddressInput}
+        />
+        <Button onClick={handleSubmitAddress}>주소 등록하기</Button>
+      </Modal>
     </MainContainer>
   );
 };
