@@ -5,7 +5,7 @@ import TabButton from '@components/atoms/TabButton';
 import Common from '../../styles';
 
 export interface TabProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   width?: string | number;
   height?: string | number;
   margin?: string | number;
@@ -21,7 +21,7 @@ export interface TabProps {
   isLeftFocused?: boolean;
   borderRadius?: string | number;
   size?: string | number;
-  color: string;
+  color?: string;
 }
 
 const TabContainer: React.FC<Partial<TabProps>> = styled.div`
