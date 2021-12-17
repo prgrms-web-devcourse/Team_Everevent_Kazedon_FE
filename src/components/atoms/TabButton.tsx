@@ -16,7 +16,6 @@ export interface TabButtonProps {
   padding?: string | number;
   color?: string;
   fontColor?: string;
-  borderColor?: string;
   block?: boolean;
   isLeft?: boolean;
   isLeftFocused?: boolean;
@@ -31,7 +30,6 @@ const StyledTab = styled.div`
     padding,
     isLeft,
     isLeftFocused,
-    borderColor,
   }: Partial<TabButtonProps>) => css`
     display: flex;
     align-items: center;
@@ -62,7 +60,6 @@ const TabButton: React.FC<TabButtonProps> = ({
   isLeftFocused = true,
   color,
   backgroundColor,
-  borderColor,
   ...props
 }) => {
   return (
@@ -75,7 +72,6 @@ const TabButton: React.FC<TabButtonProps> = ({
       isLeft={isLeft}
       isLeftFocused={isLeftFocused}
       backgroundColor={backgroundColor}
-      borderColor={borderColor}
     >
       <Text>{children}</Text>
     </StyledTab>
