@@ -5,17 +5,17 @@ import { ResType } from '@axios/types';
 /* eslint-disable prefer-destructuring */
 
 const API_END_POINT = process.env.NEXT_PUBLIC_API_END_POINT;
-const USER_AUTH_TOKEN_NAME = 'X-AUTH-TOKEN';
-
+const USER_AUTH_TOKEN_STORAGE_NAME = 'token';
+const USER_AUTH_TOKEN_HEADER_NAME = 'X-AUTH-TOKEN';
 const requestConfigCallback = (
   authConfig: any
 ): AxiosRequestConfig | Promise<AxiosRequestConfig<any>> => {
   const X_USER_TOKEN = window
-    ? ''
-    : JSON.parse(localStorage.getItem(USER_AUTH_TOKEN_NAME) || '');
-
+    ? localStorage.getItem(USER_AUTH_TOKEN_STORAGE_NAME)
+    : '';
   if (X_USER_TOKEN) {
-    authConfig.headers[USER_AUTH_TOKEN_NAME] = `${X_USER_TOKEN}`;
+    authConfig.headers[USER_AUTH_TOKEN_HEADER_NAME] =
+      USER_AUTH_TOKEN_HEADER_NAME;
   }
 
   return authConfig;

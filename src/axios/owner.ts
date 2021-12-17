@@ -6,5 +6,6 @@ export const postOwnerInfo = async (ownerInfo: ChangeOwnerInfo) => {
   const res: ResType<any> = await request.post('/markets', {
     data: { ...ownerInfo },
   });
+  console.log(res);
   return res;
 };
