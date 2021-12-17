@@ -1,4 +1,4 @@
-import Tab, { TabProps } from '@components/domain/Tab';
+import Tab, { TabProps } from '@components/domains/Tab';
 
 export default {
   title: 'Component/domains/Tab',
@@ -25,10 +25,5 @@ export const Default = (args: TabProps) => {
 };
 
 export const Values = (args: TabProps) => {
-  return (
-    <>
-      <Tab {...args} />
-      <Tab {...args} isLeftFocused={false} />
-    </>
-  );
+  return <Tab {...args} isLeftFocused={false} />;
 };
