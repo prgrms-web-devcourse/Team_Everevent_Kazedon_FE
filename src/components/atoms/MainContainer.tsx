@@ -6,6 +6,7 @@ import React, { ReactNode } from 'react';
 interface StyledMainContainerProps {
   paddingWidth?: number | string;
   paddingHeight?: number | string;
+  as?: React.ElementType;
 }
 export interface MainContainerProps extends StyledMainContainerProps {
   id?: string;
@@ -33,13 +34,17 @@ const StyledMainContainer = styled.main<StyledMainContainerProps>`
 `;
 
 const MainContainer = ({
+  as,
   children,
   paddingWidth = 24,
   paddingHeight = 0,
+  ...props
 }: MainContainerProps) => {
   return (
     <StyledMainContainer
-      id="main-container"
+      {...props}
+      as={as}
+      className="main-container"
       paddingWidth={paddingWidth}
       paddingHeight={paddingHeight}
     >
