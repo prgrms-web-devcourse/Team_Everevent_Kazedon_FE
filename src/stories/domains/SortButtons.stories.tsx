@@ -20,27 +20,21 @@ const Template = (args: SortButtonsProps) => {
   /* eslint-disable no-console */
   const buttonArr = [
     [
-      '추천순',
+      '좋아요 순',
       () => {
         console.log('추천순');
       },
     ],
     [
-      '등록순',
+      '종료일 순',
       () => {
         console.log('등록순');
       },
     ],
     [
-      '마감순',
+      '최신 순',
       () => {
         console.log('마감순');
-      },
-    ],
-    [
-      '좋아요순',
-      () => {
-        console.log('좋아요순');
       },
     ],
   ] as buttonArrType[];
