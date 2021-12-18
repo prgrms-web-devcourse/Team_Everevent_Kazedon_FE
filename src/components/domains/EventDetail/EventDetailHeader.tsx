@@ -52,7 +52,7 @@ const EventDetailHeader = ({
     isLoading,
     dispatchEvent,
     dispatchEventLike,
-    dispatchEventFavorite,
+    dispatchShopFavorite,
     dispatchParticipateEvent,
     dispatchCompleteParticipateEvent,
   } = useEvent();
@@ -69,12 +69,12 @@ const EventDetailHeader = ({
   const handleFavoriteButtonClick = useCallback(async () => {
     if (isLoading) return;
     const { eventId } = router.query;
-    const resStatus = await dispatchEventFavorite(eventId, isFavorite);
+    const resStatus = await dispatchShopFavorite(eventId, isFavorite);
     if (resStatus === 500) {
       /* eslint-disable-next-line */
       alert('로그인 후에 가능해요! 로그인을 하러 갈까요? 😏');
     }
-  }, [isLoading, dispatchEventFavorite, router.query, isFavorite]);
+  }, [isLoading, dispatchShopFavorite, router.query, isFavorite]);
 
   const onParticipateButtonClick = useCallback(async () => {
     if (isLoading) return;
