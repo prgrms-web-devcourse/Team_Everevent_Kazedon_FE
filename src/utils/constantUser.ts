@@ -12,6 +12,7 @@ export const text = {
   overlap: {
     email: '이메일이 중복됩니다.',
     nickname: '닉네임이 중복됩니다.',
+    check: '중복확인을 해주세요.',
   },
   password: 'password',
   passwordCheck: 'passwordCheck',

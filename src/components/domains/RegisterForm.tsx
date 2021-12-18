@@ -48,11 +48,19 @@ const RegisterForm = () => {
         nickname: '',
       },
       onSubmit: async (formData: RegisterUserFormData) => {
+        if (!successEmailMessage || !successNicknameMessage) {
+          const newErrors: ErrorUserForm = {};
+          newErrors.password = text.overlap.check;
+          setErrors(newErrors);
+          return;
+        }
+
         const registerUserInfo = {
           email: formData.email,
           password: formData.password,
           nickname: formData.nickname,
         };
+
         const res = await onRegister(registerUserInfo);
 
         if (!res.error.code) {
@@ -76,7 +84,9 @@ const RegisterForm = () => {
   const onOverlapCheck = async (e: React.MouseEvent) => {
     const { name } = e.target as HTMLButtonElement;
     const key = name as OverlapParams;
-    const newErrors: ErrorUserForm = {};
+    const newErrors: ErrorUserForm = JSON.parse(JSON.stringify(errors));
+
+    delete newErrors[key];
 
     if (!values[key] || validateErrors[key]) {
       newErrors[key] = text[`${key}Input`];
