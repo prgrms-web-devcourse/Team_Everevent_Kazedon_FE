@@ -58,13 +58,23 @@ const EventDetailHeader = ({
   } = useEvent();
   const handleLikeButtonClick = useCallback(async () => {
     if (isLoading) return;
-    await dispatchEventLike();
-  }, [isLoading, dispatchEventLike]);
+    const { eventId } = router.query;
+    const resStatus = await dispatchEventLike(eventId, isLike);
+    if (resStatus === 500) {
+      /* eslint-disable-next-line */
+      alert('로그인 후에 가능해요! 로그인을 하러 갈까요? 😏');
+    }
+  }, [isLoading, dispatchEventLike, router.query, isLike]);
 
   const handleFavoriteButtonClick = useCallback(async () => {
     if (isLoading) return;
-    await dispatchEventFavorite();
-  }, [isLoading, dispatchEventFavorite]);
+    const { eventId } = router.query;
+    const resStatus = await dispatchEventFavorite(eventId, isFavorite);
+    if (resStatus === 500) {
+      /* eslint-disable-next-line */
+      alert('로그인 후에 가능해요! 로그인을 하러 갈까요? 😏');
+    }
+  }, [isLoading, dispatchEventFavorite, router.query, isFavorite]);
 
   const onParticipateButtonClick = useCallback(async () => {
     if (isLoading) return;

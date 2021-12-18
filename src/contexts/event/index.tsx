@@ -52,7 +52,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     dispatchEvent,
     initializeEvent,
     dispatchEventLike,
-    dispatchEventFavorite,
+    dispatchShopFavorite,
     dispatchParticipateEvent,
     dispatchCompleteParticipateEvent,
   } = useEventProvider(dispatch);
@@ -69,7 +69,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       initializeEvent,
       initializeEventList,
       dispatchEventLike,
-      dispatchEventFavorite,
+      dispatchShopFavorite,
       dispatchParticipateEvent,
       dispatchCompleteParticipateEvent,
     }),
@@ -84,7 +84,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       initializeEvent,
       initializeEventList,
       dispatchEventLike,
-      dispatchEventFavorite,
+      dispatchShopFavorite,
       dispatchParticipateEvent,
       dispatchCompleteParticipateEvent,
     ]

@@ -87,8 +87,11 @@ export type Action =
       payload: { event: EventDetail; eventError: ErrorType };
     }
   | { type: 'EVENT/INITIALIZE' }
-  | { type: 'EVENT/LIKE' }
-  | { type: 'EVENT/FAVORITE' }
+  | { type: 'EVENT/LIKE'; payload: { like: boolean; eventError: ErrorType } }
+  | {
+      type: 'EVENT/FAVORITE';
+      payload: { favorite: boolean; eventError: ErrorType };
+    }
   | {
       type: 'EVENT/PARTICIPATE';
       payload: { participated: boolean; eventError: ErrorType };

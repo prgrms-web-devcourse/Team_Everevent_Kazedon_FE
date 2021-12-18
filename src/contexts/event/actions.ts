@@ -1,7 +1,11 @@
 import completeParticipateEvent from '@axios/event/completeParticipateEvent';
 import getEvent from '@axios/event/getEvent';
 import getEventList from '@axios/event/getEventList';
+import likeEvent from '@axios/event/likeEvent';
 import participateEvent from '@axios/event/participateEvent';
+import unlikeEvent from '@axios/event/unlikeEvent';
+import favoriteShop from '@axios/shop/favoriteShop';
+import unfavoriteShop from '@axios/shop/unfavoriteShop';
 import {
   COMPLETE_PARTICIPATE_EVENT,
   EventListParam,
@@ -60,25 +64,42 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     [dispatch, dispatchLoading]
   );
 
-  const dispatchEventLike = useCallback(async () => {
-    dispatchLoading();
-    /* eslint-disable no-console */
-    await setTimeout(() => {
+  const dispatchEventLike = useCallback(
+    async (eventId, isLike) => {
+      if (!eventId) return;
+      dispatchLoading();
+      const res = !isLike
+        ? await likeEvent(eventId)
+        : await unlikeEvent(eventId);
       dispatch({
         type: LIKE_EVENT,
+        payload: {
+          like: res?.data.like,
+          eventError: res.error,
+        },
       });
-    }, 250);
-  }, [dispatch, dispatchLoading]);
+    },
+    [dispatch, dispatchLoading]
+  );
 
-  const dispatchEventFavorite = useCallback(async () => {
-    dispatchLoading();
-    /* eslint-disable no-console */
-    await setTimeout(() => {
+  // TODO: 추후 Shop Contexts가 완성되면 Shop으로 옮기도록 한다.
+  const dispatchShopFavorite = useCallback(
+    async (eventId, isFavorite) => {
+      if (!eventId) return;
+      dispatchLoading();
+      const res = !isFavorite
+        ? await favoriteShop(eventId)
+        : await unfavoriteShop(eventId);
       dispatch({
         type: FAVORITE_EVENT,
+        payload: {
+          favorite: res?.data.favorite,
+          eventError: res.error,
+        },
       });
-    }, 250);
-  }, [dispatch, dispatchLoading]);
+    },
+    [dispatch, dispatchLoading]
+  );
 
   const dispatchParticipateEvent = useCallback(
     async ({ eventId }) => {
@@ -102,7 +123,6 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
       if (!eventId) return;
       dispatchLoading();
       const res = await completeParticipateEvent({ eventId });
-      console.log('res: ', res);
       dispatch({
         type: COMPLETE_PARTICIPATE_EVENT,
         payload: {
@@ -126,7 +146,7 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     dispatchEvent,
     initializeEvent,
     dispatchEventLike,
-    dispatchEventFavorite,
+    dispatchShopFavorite,
     dispatchParticipateEvent,
     dispatchCompleteParticipateEvent,
   };

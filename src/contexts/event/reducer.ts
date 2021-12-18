@@ -51,23 +51,27 @@ const eventReducer = (state: InitialStateType, action: Action) => {
       };
     }
     case LIKE_EVENT: {
+      const { like, eventError } = action.payload;
       return {
         ...state,
         isLoading: false,
         event: {
           ...state.event,
-          like: !state.event.like,
+          like,
         },
+        eventError,
       };
     }
     case FAVORITE_EVENT: {
+      const { favorite, eventError } = action.payload;
       return {
         ...state,
         isLoading: false,
         event: {
           ...state.event,
-          favorite: !state.event.favorite,
+          favorite,
         },
+        eventError,
       };
     }
     case PARTICIPATE_EVENT: {
