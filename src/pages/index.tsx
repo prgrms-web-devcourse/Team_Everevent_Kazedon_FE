@@ -103,8 +103,8 @@ const MainPage: NextPage = () => {
   ]);
 
   const buttonArr = [
-    ['좋아요 순', () => setSortTypeState(() => 'likeCount')],
     ['최신 순', () => setSortTypeState(() => 'createdAt')],
+    ['좋아요 순', () => setSortTypeState(() => 'likeCount')],
     ['종료일 순', () => setSortTypeState(() => 'expiredAt')],
   ] as ButtonArrType[];
 
