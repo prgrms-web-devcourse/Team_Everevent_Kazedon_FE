@@ -6,9 +6,7 @@ export const ownerContextreducer = (
 ): ChangeOwnerInfo => {
   switch (action.type) {
     case 'CHANGE_OWNER':
-      return {
-        ...state,
-      };
+      return state;
     default:
       return state;
   }

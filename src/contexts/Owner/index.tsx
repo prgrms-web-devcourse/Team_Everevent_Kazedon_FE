@@ -5,8 +5,8 @@ import { ownerContextreducer } from './reducer';
 
 const initialState: ChangeOwnerInfo = {
   name: '',
+  address: '',
   description: '',
-  location: '',
 };
 
 export const OwnerContext = createContext<OwnerContextType>(initialState);

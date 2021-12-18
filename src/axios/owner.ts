@@ -3,9 +3,6 @@ import { ResType } from '@axios/types';
 import { ChangeOwnerInfo } from '@contexts/Owner/types';
 
 export const postOwnerInfo = async (ownerInfo: ChangeOwnerInfo) => {
-  const res: ResType<any> = await request.post('/markets', {
-    data: { ...ownerInfo },
-  });
-  console.log(res);
+  const res: ResType<any> = await request.post('/markets', ownerInfo);
   return res;
 };

@@ -33,10 +33,10 @@ const ButtonWrapper = styled.div`
   margin-top: 38px;
 `;
 
-type Data = {
+type ErrorData = {
   name?: string;
+  address?: string;
   description?: string;
-  location?: string;
 };
 
 const UserChangeForm = () => {
@@ -47,20 +47,19 @@ const UserChangeForm = () => {
   >({
     initialValues: {
       name: '',
+      address: '',
       description: '',
-      location: '',
     },
-    // TODO: onSubmit에서 values 받아서 처리할 예정
     onSubmit: async (formData) => {
       const ownerInfo = {
         name: formData.name,
+        address: formData.address,
         description: formData.description,
-        location: formData.location,
       };
       await handleChangeOwner(ownerInfo);
     },
-    validate: ({ name, description, location }) => {
-      const newErrors: Data = {};
+    validate: ({ name, description, address }) => {
+      const newErrors: ErrorData = {};
 
       if (!name) {
         newErrors.name = Constants.ERROR_MSG.marketNameInput;
@@ -73,8 +72,8 @@ const UserChangeForm = () => {
         newErrors.description = Constants.ERROR_MSG.marketDescriptionInput;
       }
 
-      if (!location) {
-        newErrors.location = Constants.ERROR_MSG.marketAddressInput;
+      if (!address) {
+        newErrors.address = Constants.ERROR_MSG.marketAddressInput;
       }
       return newErrors;
     },
@@ -137,18 +136,18 @@ const UserChangeForm = () => {
         <Input
           sizeType="small"
           placeholder="서울시 광진구 OOO동"
-          name="location"
+          name="address"
           onChange={handleChange}
-          error={!!errors.location?.length}
+          error={!!errors.address?.length}
         />
-        {errors.location && (
+        {errors.address && (
           <Text
             size="micro"
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.warning}
           >
-            {errors.location}
+            {errors.address}
           </Text>
         )}
       </UserChangeFormItem>
