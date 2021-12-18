@@ -10,6 +10,7 @@ import {
   INITIALIZE_EVENTLIST,
   InitialStateType,
   LIKE_EVENT,
+  PARTICIPATE_EVENT,
 } from './types';
 
 const eventReducer = (state: InitialStateType, action: Action) => {
@@ -66,6 +67,18 @@ const eventReducer = (state: InitialStateType, action: Action) => {
           ...state.event,
           favorite: !state.event.favorite,
         },
+      };
+    }
+    case PARTICIPATE_EVENT: {
+      const { participated, eventError } = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        event: {
+          ...state.event,
+          participated,
+        },
+        eventError,
       };
     }
     default: {

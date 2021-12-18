@@ -1,5 +1,6 @@
 import getEvent from '@axios/event/getEvent';
 import getEventList from '@axios/event/getEventList';
+import participateEvent from '@axios/event/participateEvent';
 import {
   EventListParam,
   EVENT_LOADING,
@@ -9,6 +10,7 @@ import {
   INITIALIZE_EVENT,
   INITIALIZE_EVENTLIST,
   LIKE_EVENT,
+  PARTICIPATE_EVENT,
 } from '@contexts/event/types';
 import { Dispatch, useCallback } from 'react';
 
@@ -76,6 +78,19 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     }, 250);
   }, [dispatch, dispatchLoading]);
 
+  const dispatchParticipateEvent = useCallback(
+    async ({ eventId }) => {
+      if (!eventId) return;
+      dispatchLoading();
+      const res = await participateEvent({ eventId });
+      dispatch({
+        type: PARTICIPATE_EVENT,
+        payload: { data: res?.data, eventError: res?.error },
+      });
+    },
+    [dispatch, dispatchLoading]
+  );
+
   const initializeEvent = useCallback(async () => {
     dispatch({ type: INITIALIZE_EVENT });
   }, [dispatch]);
@@ -88,6 +103,7 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     initializeEvent,
     dispatchEventLike,
     dispatchEventFavorite,
+    dispatchParticipateEvent,
   };
 };
 

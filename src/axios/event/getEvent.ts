@@ -5,7 +5,7 @@ import constants from '@utils/index';
 import { GetEventParamTypes } from './types';
 
 const getEvent = async ({ eventId }: GetEventParamTypes) => {
-  if (!eventId) return;
+  // if (!eventId) return;
   /* eslint-disable no-console */
   if (typeof eventId === 'object') {
     console.warn('nowParam is array: ', eventId);

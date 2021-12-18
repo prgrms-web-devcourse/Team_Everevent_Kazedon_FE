@@ -14,13 +14,13 @@ const CategoryListCSS = css`
 
 const ReviewDetailPage = () => {
   const {
-    expiredAt,
+    expriedAt,
     marketName,
-    name,
-    isLike,
-    isFavorite,
-    isParticipated,
-  }: EventDetail = event;
+    eventName,
+    like,
+    favorite,
+    participated,
+  }: Partial<EventDetail> = event;
 
   const lastId = useRef<number>(0);
   const [nowReviews, setNowReviews] = useState<any[]>(reviews);
@@ -62,12 +62,12 @@ const ReviewDetailPage = () => {
     <MainContainer paddingWidth={24}>
       <Header />
       <EventDetailHeader
-        expiredAt={expiredAt}
+        expiredAt={expriedAt as string}
         marketName={marketName}
-        name={name}
-        isLike={isLike}
-        isFavorite={isFavorite}
-        isParticipated={isParticipated}
+        name={eventName}
+        isLike={like}
+        isFavorite={favorite}
+        isParticipated={participated}
       />
       <CategoryList
         headerLevel={2}

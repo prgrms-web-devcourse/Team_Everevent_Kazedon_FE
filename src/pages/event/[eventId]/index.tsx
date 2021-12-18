@@ -21,7 +21,6 @@ const EventDetailPage = () => {
     return () => initializeEvent();
   }, [dispatchEvent, initializeEvent, eventId]);
 
-  if (!event) return null;
   return (
     <MainContainer paddingWidth={24}>
       <Header />
