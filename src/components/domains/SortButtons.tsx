@@ -8,7 +8,10 @@ import { MdNorth, MdSouth } from 'react-icons/md';
 
 export type widthType = string | number;
 export type callbackType = () => void;
-export type buttonArrType = [string, callbackType];
+export type buttonArrType = [
+  '좋아요 순' | '종료일 순' | '최신 순',
+  callbackType
+];
 export type buttonMarginType = string | number;
 
 interface StyledSortButtonsProps {
@@ -18,6 +21,7 @@ interface StyledSortButtonsProps {
 export interface SortButtonsProps extends StyledSortButtonsProps {
   buttonArr: buttonArrType[];
   sortState: 'asc' | 'desc';
+  sortTypeState: 'likeCount' | 'expiredAt' | 'createdAt';
   onSortAscend: () => void;
   onSortDescend: () => void;
   [prop: string]: any;
@@ -26,6 +30,17 @@ export interface SortButtonsProps extends StyledSortButtonsProps {
 const buttonColorCSS = css`
   height: auto;
   color: ${styles.colors.primary};
+`;
+const SortButtonCSS = (
+  sortTypeState: 'likeCount' | 'expiredAt' | 'createdAt',
+  name: '좋아요 순' | '종료일 순' | '최신 순'
+) => css`
+  ${buttonColorCSS}
+  color: ${(sortTypeState === 'likeCount' && name === '좋아요 순') ||
+  (sortTypeState === 'createdAt' && name === '최신 순') ||
+  (sortTypeState === 'expiredAt' && name === '종료일 순')
+    ? styles.colors.point
+    : styles.colors.secondary};
 `;
 
 const StyledSortButtons: React.FC<StyledSortButtonsProps> = styled.section`
@@ -52,6 +67,7 @@ const SortButtons = ({
   width,
   buttonArr,
   buttonMargin,
+  sortTypeState,
   sortState,
   onSortAscend,
   onSortDescend,
@@ -69,7 +85,7 @@ const SortButtons = ({
             onClick={cb}
             reversal
             padding={0}
-            css={buttonColorCSS}
+            css={SortButtonCSS(sortTypeState, name)}
           >
             {name}
           </Button>

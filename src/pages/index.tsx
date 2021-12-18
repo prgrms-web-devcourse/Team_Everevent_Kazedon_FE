@@ -48,6 +48,9 @@ const MainPage: NextPage = () => {
   const [addressValue, setAddressValue] = useState<string>('');
   const { eventList, dispatchEventList, initializeEventList } = useEvent();
   const [sortState, setSortState] = useState<'asc' | 'desc'>('desc');
+  const [sortTypeState, setSortTypeState] = useState<
+    'expiredAt' | 'createdAt' | 'likeCount'
+  >('createdAt');
   const router = useRouter();
 
   const handleCardClick = (eventId: string) => {
@@ -84,19 +87,24 @@ const MainPage: NextPage = () => {
 
     dispatchEventList({
       location: userAddress,
-      sort: `expiredAt,${sortState}`,
+      sort: `${sortTypeState},${sortState}`,
       page: 0,
       size: 10,
     });
     return () => initializeEventList();
-  }, [userAddress, dispatchEventList, initializeEventList, sortState]);
+  }, [
+    userAddress,
+    dispatchEventList,
+    initializeEventList,
+    sortState,
+    sortTypeState,
+  ]);
 
   /* eslint-disable no-console */
   const buttonArr = [
-    ['추천순', () => console.log('추천순')],
-    ['등록순', () => console.log('등록순')],
-    ['마감순', () => console.log('마감순')],
-    ['좋아요순', () => console.log('좋아요순')],
+    ['좋아요 순', () => setSortTypeState(() => 'likeCount')],
+    ['최신 순', () => setSortTypeState(() => 'createdAt')],
+    ['종료일 순', () => setSortTypeState(() => 'expiredAt')],
   ] as buttonArrType[];
 
   const handleSortAscend = useCallback(() => {
@@ -124,6 +132,7 @@ const MainPage: NextPage = () => {
           width="100%"
           buttonArr={buttonArr}
           buttonMargin={16}
+          sortTypeState={sortTypeState}
           sortState={sortState}
           onSortAscend={handleSortAscend}
           onSortDescend={handleSortDescend}
