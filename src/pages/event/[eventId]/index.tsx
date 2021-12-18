@@ -13,8 +13,8 @@ const EventDetailPage = () => {
   const { event, dispatchEvent, initializeEvent } = useEvent();
 
   const handleHeaderOptionClick = useCallback(async () => {
-    router.push(`${router.asPath}/reviews`);
-  }, [router]);
+    router.push(`event/${eventId}/reviews`);
+  }, [router, eventId]);
 
   useEffect(() => {
     dispatchEvent({ eventId });
@@ -30,7 +30,8 @@ const EventDetailPage = () => {
         name={event.eventName}
         isLike={event.like as boolean}
         isFavorite={event.favorite}
-        isParticipated={event.participated}
+        isParticipated
+        isCompleted={event.completed}
       />
       <MarketDescriptions
         marketDescription={event.marketDescription}

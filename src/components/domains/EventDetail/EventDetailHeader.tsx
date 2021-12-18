@@ -45,6 +45,7 @@ const EventDetailHeader = ({
   isLike,
   isFavorite,
   isParticipated,
+  isCompleted,
 }: EventDetailHeaderProps) => {
   const router = useRouter();
   const {
@@ -132,7 +133,11 @@ const EventDetailHeader = ({
         fontSize={16}
         onClick={onParticipateButtonClick}
       >
-        {isParticipated ? '리뷰 작성하기' : '참여하기'}
+        {isParticipated
+          ? isCompleted
+            ? '리뷰 작성하기'
+            : '참여 완료하기'
+          : '참여하기'}
       </Button>
     </StyledEventDetailHeader>
   );

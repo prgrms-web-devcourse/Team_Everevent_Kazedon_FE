@@ -14,6 +14,7 @@ export interface EventDetail {
   favorite: boolean | null;
   pictures: PicturesType[] | [];
   participated: boolean | null;
+  completed: boolean | null;
 }
 export interface Event {
   eventId: string;
@@ -70,6 +71,7 @@ export const INITIALIZE_EVENT = 'EVENT/INITIALIZE' as const;
 export const LIKE_EVENT = 'EVENT/LIKE' as const;
 export const FAVORITE_EVENT = 'EVENT/FAVORITE' as const;
 export const PARTICIPATE_EVENT = 'EVENT/PARTICIPATE' as const;
+export const COMPLETE_PARTICIPATE_EVENT = 'EVENT/COMPLETE_PARTICIPATE' as const;
 
 export type Action =
   | {
@@ -90,4 +92,8 @@ export type Action =
   | {
       type: 'EVENT/PARTICIPATE';
       payload: { participated: boolean; eventError: ErrorType };
+    }
+  | {
+      type: 'EVENT/COMPLETE_PARTICIPATE';
+      payload: { completed: boolean; eventError: ErrorType };
     };

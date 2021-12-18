@@ -24,6 +24,7 @@ export const initialState: InitialStateType = {
     favorite: null,
     pictures: [],
     participated: null,
+    completed: null,
   },
   eventListOptions: {
     totalPages: 0,
@@ -53,6 +54,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     dispatchEventLike,
     dispatchEventFavorite,
     dispatchParticipateEvent,
+    dispatchCompleteParticipateEvent,
   } = useEventProvider(dispatch);
 
   const contextValue = useMemo(
@@ -69,6 +71,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       dispatchEventLike,
       dispatchEventFavorite,
       dispatchParticipateEvent,
+      dispatchCompleteParticipateEvent,
     }),
     [
       isLoading,
@@ -83,6 +86,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       dispatchEventLike,
       dispatchEventFavorite,
       dispatchParticipateEvent,
+      dispatchCompleteParticipateEvent,
     ]
   );
 

@@ -1,7 +1,9 @@
+import completeParticipateEvent from '@axios/event/completeParticipateEvent';
 import getEvent from '@axios/event/getEvent';
 import getEventList from '@axios/event/getEventList';
 import participateEvent from '@axios/event/participateEvent';
 import {
+  COMPLETE_PARTICIPATE_EVENT,
   EventListParam,
   EVENT_LOADING,
   FAVORITE_EVENT,
@@ -94,6 +96,22 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     [dispatch, dispatchLoading]
   );
 
+  const dispatchCompleteParticipateEvent = useCallback(
+    async ({ eventId }) => {
+      if (!eventId) return;
+      dispatchLoading();
+      const res = await completeParticipateEvent({ eventId });
+      dispatch({
+        type: COMPLETE_PARTICIPATE_EVENT,
+        payload: {
+          completed: res?.data.completed,
+          eventError: res?.error,
+        },
+      });
+    },
+    [dispatch, dispatchLoading]
+  );
+
   const initializeEvent = useCallback(async () => {
     dispatch({ type: INITIALIZE_EVENT });
   }, [dispatch]);
@@ -107,6 +125,7 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     dispatchEventLike,
     dispatchEventFavorite,
     dispatchParticipateEvent,
+    dispatchCompleteParticipateEvent,
   };
 };
 
