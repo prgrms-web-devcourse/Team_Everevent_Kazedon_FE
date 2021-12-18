@@ -1,10 +1,11 @@
 import request from '@axios/index';
 import { ResType } from '@axios/types';
-import { Event } from '@contexts/event/types';
+import { EventDetail } from '@contexts/event/types';
 import constants from '@utils/index';
 import { GetEventParamTypes } from './types';
 
 const getEvent = async ({ eventId }: GetEventParamTypes) => {
+  if (!eventId) return;
   /* eslint-disable no-console */
   if (typeof eventId === 'object') {
     console.warn('nowParam is array: ', eventId);
@@ -18,7 +19,9 @@ const getEvent = async ({ eventId }: GetEventParamTypes) => {
     };
   }
 
-  const res: ResType<Event> = await request.get(`/${eventId as string}`);
+  const res: ResType<EventDetail> = await request.get(
+    `/events/${eventId as string}`
+  );
 
   return res;
 };

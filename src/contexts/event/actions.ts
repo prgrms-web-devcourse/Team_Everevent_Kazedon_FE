@@ -45,11 +45,12 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
 
   const dispatchEvent = useCallback(
     async ({ eventId }) => {
+      if (!eventId) return;
       dispatchLoading();
       const res = await getEvent({ eventId });
       dispatch({
         type: GET_EVENT,
-        payload: { event: res.data, eventError: res.error },
+        payload: { event: res?.data, eventError: res?.error },
       });
     },
     [dispatch, dispatchLoading]

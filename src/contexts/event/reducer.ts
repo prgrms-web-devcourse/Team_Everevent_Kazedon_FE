@@ -54,7 +54,7 @@ const eventReducer = (state: InitialStateType, action: Action) => {
         isLoading: false,
         event: {
           ...state.event,
-          isLike: !state.event.isLike,
+          like: !state.event.like,
         },
       };
     }
@@ -64,7 +64,7 @@ const eventReducer = (state: InitialStateType, action: Action) => {
         isLoading: false,
         event: {
           ...state.event,
-          isFavorite: !state.event.isFavorite,
+          favorite: !state.event.favorite,
         },
       };
     }

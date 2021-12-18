@@ -5,15 +5,15 @@ interface PicturesType {
 }
 export interface EventDetail {
   eventId: string;
-  name: string;
-  expiredAt: string | Date;
+  eventName: string;
+  expriedAt: string | Date;
   marketName: string;
   marketDescription: string;
   eventDescription: string;
-  isLike: boolean | null;
-  isFavorite: boolean | null;
+  like: boolean | null;
+  favorite: boolean | null;
   pictures: PicturesType[] | [];
-  isParticipated: boolean | null;
+  participated: boolean | null;
 }
 export interface Event {
   eventId: string;
