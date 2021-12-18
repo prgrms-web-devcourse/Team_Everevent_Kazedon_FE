@@ -1,8 +1,8 @@
 import React, { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import { Button, HeaderText, Input, Text } from '@components/atoms';
-import Tab from '@components/domain/Tab';
 import { css } from '@emotion/react';
+import Tab from './Tab';
 
 interface Props {
   children?: ReactNode;
@@ -54,7 +54,12 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
           비밀번호 확인
         </Button>
       </CheckWrapper>
-      <Tab width={279} css={marginBottom(16)} />
+      <Tab
+        width={279}
+        leftText="닉네임 변경"
+        rightText="비밀번호 변경"
+        css={marginBottom(16)}
+      />
       <HeaderText level={2} marginBottom={16}>
         닉네임 변경
       </HeaderText>

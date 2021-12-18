@@ -1,4 +1,4 @@
-import Tab, { TabProps } from '@components/domain/Tab';
+import Tab, { TabProps } from '@components/domains/Tab';
 
 export default {
   title: 'Component/domains/Tab',
@@ -21,14 +21,16 @@ export default {
 };
 
 export const Default = (args: TabProps) => {
-  return <Tab {...args} />;
+  return <Tab {...args} leftText="참여한 이벤트" rightText="내가 쓴 리뷰" />;
 };
 
 export const Values = (args: TabProps) => {
   return (
-    <>
-      <Tab {...args} />
-      <Tab {...args} isLeftFocused={false} />
-    </>
+    <Tab
+      {...args}
+      leftText="참여한 이벤트"
+      rightText="내가 쓴 리뷰"
+      isLeftFocused={false}
+    />
   );
 };
