@@ -10,7 +10,13 @@ import styles from '@styles/index';
 import type { NextPage } from 'next';
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
-import { CardContainer, Input, Modal, Text } from '@components/atoms';
+import {
+  CardContainer,
+  HeaderText,
+  Input,
+  Modal,
+  Text,
+} from '@components/atoms';
 import { setStorage } from '@utils/storage';
 import { USER_ADDRESS_KEY } from '@utils/constantUser';
 
@@ -18,6 +24,11 @@ const AddressButtonCSS = css`
   margin-top: 60px;
   margin-bottom: 20px;
   color: ${styles.colors.primary};
+`;
+
+const AddressSubmitButtonCSS = css`
+  position: absolute;
+  bottom: 24px;
 `;
 
 const NoEventListCardCSS = css`
@@ -97,6 +108,7 @@ const MainPage: NextPage = () => {
           width="auto"
           padding={0}
           css={AddressButtonCSS}
+          onClick={() => setModalVisible(() => true)}
         >
           <div>{userAddress || ''}</div>
         </Button>
@@ -130,13 +142,21 @@ const MainPage: NextPage = () => {
         onClose={closeModal}
         clickAway={false}
       >
+        <HeaderText level={1} marginBottom={20}>
+          주소 등록
+        </HeaderText>
+        <HeaderText level={2} marginBottom={16}>
+          어떤 곳의 이벤트를 찾고 싶나요 ?
+        </HeaderText>
         <Input
           sizeType="small"
           placeholder="OO시 OO구 OO동"
           error={false}
           onChange={handleChangeAddressInput}
         />
-        <Button onClick={handleSubmitAddress}>주소 등록하기</Button>
+        <Button onClick={handleSubmitAddress} css={AddressSubmitButtonCSS}>
+          주소 등록하기
+        </Button>
       </Modal>
     </>
   );
