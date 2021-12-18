@@ -85,7 +85,10 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
       const res = await participateEvent({ eventId });
       dispatch({
         type: PARTICIPATE_EVENT,
-        payload: { data: res?.data, eventError: res?.error },
+        payload: {
+          participated: res?.data.participated,
+          eventError: res?.error,
+        },
       });
     },
     [dispatch, dispatchLoading]

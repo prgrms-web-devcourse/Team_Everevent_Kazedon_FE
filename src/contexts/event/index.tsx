@@ -14,7 +14,7 @@ export const initialState: InitialStateType = {
   isLoading: false,
   eventList: [],
   event: {
-    eventId: '',
+    eventId: 0,
     eventName: '',
     expriedAt: '',
     marketName: '',

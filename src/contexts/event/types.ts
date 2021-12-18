@@ -4,7 +4,7 @@ interface PicturesType {
   url: string;
 }
 export interface EventDetail {
-  eventId: string;
+  eventId: number;
   eventName: string;
   expriedAt: string | Date;
   marketName: string;

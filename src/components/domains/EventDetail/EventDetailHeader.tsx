@@ -3,7 +3,7 @@ import { useEvent } from '@contexts/event';
 import { Event } from '@contexts/event/types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import React, { useCallback } from 'react';
 
 const StyledEventDetailHeader = styled.header`
@@ -46,7 +46,15 @@ const EventDetailHeader = ({
   isFavorite,
   isParticipated,
 }: EventDetailHeaderProps) => {
-  const { isLoading, dispatchEventLike, dispatchEventFavorite } = useEvent();
+  const router = useRouter();
+  const {
+    isLoading,
+    dispatchEvent,
+    dispatchEventLike,
+    dispatchEventFavorite,
+    dispatchParticipateEvent,
+    eventError,
+  } = useEvent();
   const handleLikeButtonClick = useCallback(async () => {
     if (isLoading) return;
     await dispatchEventLike();
@@ -59,11 +67,24 @@ const EventDetailHeader = ({
 
   const onParticipateButtonClick = useCallback(async () => {
     if (isLoading) return;
+    const { eventId } = router.query;
+    if (!isParticipated) {
+      await dispatchParticipateEvent({ eventId });
+      /* eslint-disable-next-line */
+      alert(eventError.code ? 'ㅈㅅ!' : '이벤트 참여에 완료되셨어요!');
+      await dispatchEvent({ eventId });
+    }
     if (isParticipated) {
-      const { eventId } = router.query;
       router.push(`/event/${eventId}/create`);
     }
-  }, [isLoading, isParticipated]);
+  }, [
+    isLoading,
+    isParticipated,
+    router,
+    dispatchParticipateEvent,
+    dispatchEvent,
+    eventError.code,
+  ]);
 
   return (
     <StyledEventDetailHeader>
