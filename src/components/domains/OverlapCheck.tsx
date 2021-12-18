@@ -5,9 +5,12 @@ import { Button, Input } from '@components/atoms';
 
 interface Props {
   children?: ReactNode;
-  placeholder?: string;
-  onChange?: () => void;
-  onClick?: () => void;
+  placeholder: string;
+  name: string;
+  error: boolean;
+  buttonText: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onClick: (e: React.MouseEvent) => void;
 }
 
 const Container = styled.div`
@@ -25,16 +28,20 @@ const marginBottom = css`
 
 const OverlapCheck: React.FC<Props> = ({
   children,
+  name,
+  error,
+  buttonText,
   onChange,
   onClick,
-  placeholder,
+  placeholder = '이메일',
   ...props
 }) => {
   return (
     <Container {...props}>
       <Input
         sizeType="small"
-        error={false}
+        name={name}
+        error={error}
         onChange={onChange}
         placeholder={placeholder}
         css={marginBottom}
@@ -42,6 +49,7 @@ const OverlapCheck: React.FC<Props> = ({
       {children}
       <Button
         css={marginLeft}
+        name={name}
         bold={false}
         reversal
         border
@@ -49,7 +57,7 @@ const OverlapCheck: React.FC<Props> = ({
         width={144}
         onClick={onClick}
       >
-        이메일 중복 체크
+        {buttonText}
       </Button>
     </Container>
   );
