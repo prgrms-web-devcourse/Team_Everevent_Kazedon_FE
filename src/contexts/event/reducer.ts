@@ -2,6 +2,7 @@
 import { initialState } from '.';
 import {
   Action,
+  COMPLETE_PARTICIPATE_EVENT,
   EVENT_LOADING,
   FAVORITE_EVENT,
   GET_EVENT,
@@ -77,6 +78,18 @@ const eventReducer = (state: InitialStateType, action: Action) => {
         event: {
           ...state.event,
           participated,
+        },
+        eventError,
+      };
+    }
+    case COMPLETE_PARTICIPATE_EVENT: {
+      const { completed, eventError } = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        event: {
+          ...state.event,
+          completed,
         },
         eventError,
       };

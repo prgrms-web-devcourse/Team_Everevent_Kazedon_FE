@@ -101,13 +101,15 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
       if (!eventId) return;
       dispatchLoading();
       const res = await completeParticipateEvent({ eventId });
+      console.log('res: ', res);
       dispatch({
         type: COMPLETE_PARTICIPATE_EVENT,
         payload: {
-          completed: res?.data.completed,
+          completed: res?.data.completed || res?.error.code === 409,
           eventError: res?.error,
         },
       });
+      return res?.error.code;
     },
     [dispatch, dispatchLoading]
   );
