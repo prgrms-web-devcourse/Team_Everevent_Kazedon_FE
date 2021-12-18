@@ -1,6 +1,6 @@
 import React from 'react';
 import SortButtons, {
-  buttonArrType,
+  ButtonArrType,
   SortButtonsProps,
 } from '@components/domains/SortButtons';
 
@@ -22,22 +22,22 @@ const Template = (args: SortButtonsProps) => {
     [
       '좋아요 순',
       () => {
-        console.log('추천순');
+        console.log('좋아요 순');
       },
     ],
     [
       '종료일 순',
       () => {
-        console.log('등록순');
+        console.log('종료일 순');
       },
     ],
     [
       '최신 순',
       () => {
-        console.log('마감순');
+        console.log('최신 순');
       },
     ],
-  ] as buttonArrType[];
+  ] as ButtonArrType[];
   return <SortButtons {...args} buttonArr={buttonArr} />;
 };
 

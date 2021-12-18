@@ -3,7 +3,11 @@ import CardList from '@components/atoms/CardList';
 import MainContainer from '@components/atoms/MainContainer';
 import EventCard from '@components/domains/EventCard';
 import Header from '@components/domains/Header';
-import SortButtons, { buttonArrType } from '@components/domains/SortButtons';
+import SortButtons, {
+  ButtonArrType,
+  SortOrder,
+  SortType,
+} from '@components/domains/SortButtons';
 import { useEvent } from '@contexts/event';
 import { css } from '@emotion/react';
 import styles from '@styles/index';
@@ -47,10 +51,8 @@ const MainPage: NextPage = () => {
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [addressValue, setAddressValue] = useState<string>('');
   const { eventList, dispatchEventList, initializeEventList } = useEvent();
-  const [sortState, setSortState] = useState<'asc' | 'desc'>('desc');
-  const [sortTypeState, setSortTypeState] = useState<
-    'expiredAt' | 'createdAt' | 'likeCount'
-  >('createdAt');
+  const [sortState, setSortState] = useState<SortOrder>('desc');
+  const [sortTypeState, setSortTypeState] = useState<SortType>('createdAt');
   const router = useRouter();
 
   const handleCardClick = (eventId: string) => {
@@ -100,12 +102,11 @@ const MainPage: NextPage = () => {
     sortTypeState,
   ]);
 
-  /* eslint-disable no-console */
   const buttonArr = [
     ['좋아요 순', () => setSortTypeState(() => 'likeCount')],
     ['최신 순', () => setSortTypeState(() => 'createdAt')],
     ['종료일 순', () => setSortTypeState(() => 'expiredAt')],
-  ] as buttonArrType[];
+  ] as ButtonArrType[];
 
   const handleSortAscend = useCallback(() => {
     setSortState(() => 'asc');
