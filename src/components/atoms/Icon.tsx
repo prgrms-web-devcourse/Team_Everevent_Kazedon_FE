@@ -43,7 +43,7 @@ const Icon: React.FC<IconProps> = ({
       position={position}
     >
       <IconContext.Provider value={{ color: `${color}`, size: `${size}` }}>
-        <div>{children}</div>
+        {children}
       </IconContext.Provider>
     </StyledIcon>
   );

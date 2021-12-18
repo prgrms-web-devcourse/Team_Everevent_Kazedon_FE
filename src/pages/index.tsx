@@ -47,6 +47,7 @@ const MainPage: NextPage = () => {
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [addressValue, setAddressValue] = useState<string>('');
   const { eventList, dispatchEventList, initializeEventList } = useEvent();
+  const [sortState, setSortState] = useState<'asc' | 'desc'>('desc');
   const router = useRouter();
 
   const handleCardClick = (eventId: string) => {
@@ -83,12 +84,12 @@ const MainPage: NextPage = () => {
 
     dispatchEventList({
       location: userAddress,
-      sort: 'expiredAt,desc',
+      sort: `expiredAt,${sortState}`,
       page: 0,
       size: 10,
     });
     return () => initializeEventList();
-  }, [userAddress, dispatchEventList, initializeEventList]);
+  }, [userAddress, dispatchEventList, initializeEventList, sortState]);
 
   /* eslint-disable no-console */
   const buttonArr = [
@@ -97,6 +98,13 @@ const MainPage: NextPage = () => {
     ['마감순', () => console.log('마감순')],
     ['좋아요순', () => console.log('좋아요순')],
   ] as buttonArrType[];
+
+  const handleSortAscend = useCallback(() => {
+    setSortState(() => 'asc');
+  }, []);
+  const handleSortDescend = useCallback(() => {
+    setSortState(() => 'desc');
+  }, []);
 
   return (
     <>
@@ -112,7 +120,14 @@ const MainPage: NextPage = () => {
         >
           <div>{userAddress || ''}</div>
         </Button>
-        <SortButtons width={230} buttonArr={buttonArr} buttonMargin={16} />
+        <SortButtons
+          width="100%"
+          buttonArr={buttonArr}
+          buttonMargin={16}
+          sortState={sortState}
+          onSortAscend={handleSortAscend}
+          onSortDescend={handleSortDescend}
+        />
         <CardList flexType="column" padding={0} margin="10px 0 0 0">
           {eventList.length ? (
             eventList.map((data, idx) => (

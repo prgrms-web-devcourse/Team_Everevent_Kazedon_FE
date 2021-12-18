@@ -1,8 +1,10 @@
+import { Icon } from '@components/atoms';
 import Button from '@components/atoms/Button';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import styles from '@styles/index';
 import React from 'react';
+import { MdNorth, MdSouth } from 'react-icons/md';
 
 export type widthType = string | number;
 export type callbackType = () => void;
@@ -15,6 +17,9 @@ interface StyledSortButtonsProps {
 }
 export interface SortButtonsProps extends StyledSortButtonsProps {
   buttonArr: buttonArrType[];
+  sortState: 'asc' | 'desc';
+  onSortAscend: () => void;
+  onSortDescend: () => void;
   [prop: string]: any;
 }
 
@@ -22,8 +27,10 @@ const buttonColorCSS = css`
   height: auto;
   color: ${styles.colors.primary};
 `;
+
 const StyledSortButtons: React.FC<StyledSortButtonsProps> = styled.section`
   display: flex;
+  justify-content: center;
   width: ${({ width }: { width: widthType }) =>
     typeof width === 'string' ? width : `${width}px`};
   ${({ buttonMargin }: Partial<StyledSortButtonsProps>) =>
@@ -41,24 +48,81 @@ const StyledSortButtons: React.FC<StyledSortButtonsProps> = styled.section`
     `}
 `;
 
-const SortButtons = ({ width, buttonArr, buttonMargin }: SortButtonsProps) => {
+const SortButtons = ({
+  width,
+  buttonArr,
+  buttonMargin,
+  sortState,
+  onSortAscend,
+  onSortDescend,
+}: SortButtonsProps) => {
   if (!buttonArr.length) return null;
   return (
     <StyledSortButtons width={width} buttonMargin={buttonMargin}>
-      {buttonArr.map(([name, cb]: buttonArrType) => (
+      <div css={{ marginRight: 'auto' }}>
+        {buttonArr.map(([name, cb]: buttonArrType) => (
+          <Button
+            key={name}
+            buttonType="primary"
+            width="auto"
+            fontSize={14}
+            onClick={cb}
+            reversal
+            padding={0}
+            css={buttonColorCSS}
+          >
+            {name}
+          </Button>
+        ))}
+      </div>
+      <div
+        css={{
+          width: '40px',
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
         <Button
-          key={name}
           buttonType="primary"
           width="auto"
           fontSize={14}
-          onClick={cb}
+          onClick={onSortAscend}
           reversal
           padding={0}
           css={buttonColorCSS}
         >
-          {name}
+          <Icon
+            size={14}
+            color={
+              sortState === 'asc'
+                ? styles.colors.point
+                : styles.colors.secondary
+            }
+          >
+            <MdNorth />
+          </Icon>
         </Button>
-      ))}
+        <Button
+          buttonType="primary"
+          width="auto"
+          fontSize={14}
+          onClick={onSortDescend}
+          reversal
+          padding={0}
+          css={buttonColorCSS}
+        >
+          <Icon
+            size={14}
+            color={
+              sortState === 'desc'
+                ? styles.colors.point
+                : styles.colors.secondary
+            }
+          >
+            <MdSouth />
+          </Icon>
+        </Button>
+      </div>
     </StyledSortButtons>
   );
 };
