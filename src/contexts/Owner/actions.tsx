@@ -8,7 +8,7 @@ const useOwnerProvider = (dispatch: Dispatch<any>) => {
       const res = await postOwnerInfo(ownerInfo);
 
       if (res.error.code) {
-        throw new Error(`${res.error.code}`);
+        throw new Error(`사업자전환 실패: ${res.error.code}`);
       }
 
       dispatch({
