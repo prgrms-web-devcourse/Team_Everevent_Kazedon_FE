@@ -1,12 +1,12 @@
 import React from 'react';
 import { CategoryList, ReviewCard } from '@components/domains';
-import reviews from '@fixtures/reviews';
+import { Review } from '@contexts/review/types';
 
 interface EventReviewProps {
+  reviewData: Review;
   onHeaderOptionClick?: () => void;
 }
-const EventReview = ({ onHeaderOptionClick }: EventReviewProps) => {
-  const review = reviews[0];
+const EventReview = ({ reviewData, onHeaderOptionClick }: EventReviewProps) => {
   return (
     <CategoryList
       flexType="column"
@@ -23,7 +23,7 @@ const EventReview = ({ onHeaderOptionClick }: EventReviewProps) => {
         bgColorName="default"
         padding={10}
         margin="10px 0"
-        reviewData={review}
+        reviewData={reviewData}
       />
     </CategoryList>
   );

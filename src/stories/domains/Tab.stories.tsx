@@ -1,7 +1,7 @@
 import Tab, { TabProps } from '@components/domain/Tab';
 
 export default {
-  title: 'Component/domain/Tab',
+  title: 'Component/domains/Tab',
   component: 'Tab',
   argTypes: {
     size: {

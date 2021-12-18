@@ -5,7 +5,12 @@ const unfavoriteShop = async (eventId: string) => {
   const res: ResType<any> = await request.delete(
     `/favorites/markets/${eventId}`
   );
-  return res;
+  return {
+    ...res,
+    data: {
+      favorite: !!res.error.code,
+    },
+  };
 };
 
 export default unfavoriteShop;

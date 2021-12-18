@@ -28,11 +28,13 @@ export default {
 
 export const Default: ComponentStory<typeof ReviewCard> = (args) => {
   const data = {
+    reviewId: 1,
     description:
       '회덮밥이 너무나 맛있었어요~ 너무나 맛난 저녁에다 맥주 공짜로 먹어서 좋았어요!',
-    marketName: '티모네 횟집',
-    author: '젱영',
-    pictureUrl: 'https://picsum.photos/200',
+    memberNickname: 'JengYoungTest2',
+    memberId: 0,
+    pictureUrls: ['https://picsum.photos/200'],
+    createdAt: new Date(),
   };
   return (
     <CardList box flexType="default" width={320} padding={0} margin={0}>

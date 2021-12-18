@@ -4,16 +4,17 @@ interface PicturesType {
   url: string;
 }
 export interface EventDetail {
-  eventId: string;
-  name: string;
-  expiredAt: string | Date;
+  eventId: number;
+  eventName: string;
+  expriedAt: string | Date;
   marketName: string;
   marketDescription: string;
   eventDescription: string;
-  isLike: boolean | null;
-  isFavorite: boolean | null;
+  like: boolean | null;
+  favorite: boolean | null;
   pictures: PicturesType[] | [];
-  isParticipated: boolean | null;
+  participated: boolean | null;
+  completed: boolean | null;
 }
 export interface Event {
   eventId: string;
@@ -69,6 +70,8 @@ export const GET_EVENT = 'EVENT/GET' as const;
 export const INITIALIZE_EVENT = 'EVENT/INITIALIZE' as const;
 export const LIKE_EVENT = 'EVENT/LIKE' as const;
 export const FAVORITE_EVENT = 'EVENT/FAVORITE' as const;
+export const PARTICIPATE_EVENT = 'EVENT/PARTICIPATE' as const;
+export const COMPLETE_PARTICIPATE_EVENT = 'EVENT/COMPLETE_PARTICIPATE' as const;
 
 export type Action =
   | {
@@ -84,5 +87,16 @@ export type Action =
       payload: { event: EventDetail; eventError: ErrorType };
     }
   | { type: 'EVENT/INITIALIZE' }
-  | { type: 'EVENT/LIKE' }
-  | { type: 'EVENT/FAVORITE' };
+  | { type: 'EVENT/LIKE'; payload: { like: boolean; eventError: ErrorType } }
+  | {
+      type: 'EVENT/FAVORITE';
+      payload: { favorite: boolean; eventError: ErrorType };
+    }
+  | {
+      type: 'EVENT/PARTICIPATE';
+      payload: { participated: boolean; eventError: ErrorType };
+    }
+  | {
+      type: 'EVENT/COMPLETE_PARTICIPATE';
+      payload: { completed: boolean; eventError: ErrorType };
+    };

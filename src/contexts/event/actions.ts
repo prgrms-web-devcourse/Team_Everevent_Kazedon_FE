@@ -1,6 +1,13 @@
+import completeParticipateEvent from '@axios/event/completeParticipateEvent';
 import getEvent from '@axios/event/getEvent';
 import getEventList from '@axios/event/getEventList';
+import likeEvent from '@axios/event/likeEvent';
+import participateEvent from '@axios/event/participateEvent';
+import unlikeEvent from '@axios/event/unlikeEvent';
+import favoriteShop from '@axios/shop/favoriteShop';
+import unfavoriteShop from '@axios/shop/unfavoriteShop';
 import {
+  COMPLETE_PARTICIPATE_EVENT,
   EventListParam,
   EVENT_LOADING,
   FAVORITE_EVENT,
@@ -9,6 +16,7 @@ import {
   INITIALIZE_EVENT,
   INITIALIZE_EVENTLIST,
   LIKE_EVENT,
+  PARTICIPATE_EVENT,
 } from '@contexts/event/types';
 import { Dispatch, useCallback } from 'react';
 
@@ -45,35 +53,87 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
 
   const dispatchEvent = useCallback(
     async ({ eventId }) => {
+      if (!eventId) return;
       dispatchLoading();
       const res = await getEvent({ eventId });
       dispatch({
         type: GET_EVENT,
-        payload: { event: res.data, eventError: res.error },
+        payload: { event: res?.data, eventError: res?.error },
       });
     },
     [dispatch, dispatchLoading]
   );
 
-  const dispatchEventLike = useCallback(async () => {
-    dispatchLoading();
-    /* eslint-disable no-console */
-    await setTimeout(() => {
+  const dispatchEventLike = useCallback(
+    async (eventId, isLike) => {
+      if (!eventId) return;
+      dispatchLoading();
+      const res = !isLike
+        ? await likeEvent(eventId)
+        : await unlikeEvent(eventId);
       dispatch({
         type: LIKE_EVENT,
+        payload: {
+          like: res?.data.like,
+          eventError: res.error,
+        },
       });
-    }, 250);
-  }, [dispatch, dispatchLoading]);
+    },
+    [dispatch, dispatchLoading]
+  );
 
-  const dispatchEventFavorite = useCallback(async () => {
-    dispatchLoading();
-    /* eslint-disable no-console */
-    await setTimeout(() => {
+  // TODO: 추후 Shop Contexts가 완성되면 Shop으로 옮기도록 한다.
+  const dispatchShopFavorite = useCallback(
+    async (eventId, isFavorite) => {
+      if (!eventId) return;
+      dispatchLoading();
+      const res = !isFavorite
+        ? await favoriteShop(eventId)
+        : await unfavoriteShop(eventId);
       dispatch({
         type: FAVORITE_EVENT,
+        payload: {
+          favorite: res?.data.favorite,
+          eventError: res.error,
+        },
       });
-    }, 250);
-  }, [dispatch, dispatchLoading]);
+    },
+    [dispatch, dispatchLoading]
+  );
+
+  const dispatchParticipateEvent = useCallback(
+    async ({ eventId }) => {
+      if (!eventId) return;
+      dispatchLoading();
+      const res = await participateEvent({ eventId });
+      dispatch({
+        type: PARTICIPATE_EVENT,
+        payload: {
+          participated: res?.data.participated,
+          eventError: res?.error,
+        },
+      });
+      return res?.error.code;
+    },
+    [dispatch, dispatchLoading]
+  );
+
+  const dispatchCompleteParticipateEvent = useCallback(
+    async ({ eventId }) => {
+      if (!eventId) return;
+      dispatchLoading();
+      const res = await completeParticipateEvent({ eventId });
+      dispatch({
+        type: COMPLETE_PARTICIPATE_EVENT,
+        payload: {
+          completed: res?.data.completed || res?.error.code === 409,
+          eventError: res?.error,
+        },
+      });
+      return res?.error.code;
+    },
+    [dispatch, dispatchLoading]
+  );
 
   const initializeEvent = useCallback(async () => {
     dispatch({ type: INITIALIZE_EVENT });
@@ -86,7 +146,9 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     dispatchEvent,
     initializeEvent,
     dispatchEventLike,
-    dispatchEventFavorite,
+    dispatchShopFavorite,
+    dispatchParticipateEvent,
+    dispatchCompleteParticipateEvent,
   };
 };
 

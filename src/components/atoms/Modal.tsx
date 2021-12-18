@@ -64,7 +64,7 @@ const Modal = ({
 
   const [el, setEl] = useState<HTMLDivElement | null>(null);
   useEffect(() => {
-    setEl(() => document.querySelector('#main-container'));
+    setEl(() => document.createElement('div'));
   }, []);
   useEffect(() => {
     if (el) document.body.appendChild(el);
@@ -76,7 +76,7 @@ const Modal = ({
   if (!el) return null;
   return createPortal(
     <BackgroundDim style={{ display: visible ? 'block' : 'none' }}>
-      <MainContainer paddingWidth={24}>
+      <MainContainer as="div" paddingWidth={24}>
         <ModalContainer
           width={width}
           height={height}

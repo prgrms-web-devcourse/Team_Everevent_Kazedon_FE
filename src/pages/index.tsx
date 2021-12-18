@@ -10,7 +10,13 @@ import styles from '@styles/index';
 import type { NextPage } from 'next';
 import React, { useEffect, useCallback, useState } from 'react';
 import { useRouter } from 'next/router';
-import { CardContainer, Input, Modal, Text } from '@components/atoms';
+import {
+  CardContainer,
+  HeaderText,
+  Input,
+  Modal,
+  Text,
+} from '@components/atoms';
 import { setStorage } from '@utils/storage';
 import { USER_ADDRESS_KEY } from '@utils/constantUser';
 
@@ -18,6 +24,11 @@ const AddressButtonCSS = css`
   margin-top: 60px;
   margin-bottom: 20px;
   color: ${styles.colors.primary};
+`;
+
+const AddressSubmitButtonCSS = css`
+  position: absolute;
+  bottom: 24px;
 `;
 
 const NoEventListCardCSS = css`
@@ -38,12 +49,9 @@ const MainPage: NextPage = () => {
   const { eventList, dispatchEventList, initializeEventList } = useEvent();
   const router = useRouter();
 
-  const handleCardClick = useCallback(
-    (eventId: string) => {
-      router.push(`/event/${eventId}`);
-    },
-    [router]
-  );
+  const handleCardClick = (eventId: string) => {
+    router.push(`/event/${eventId}`);
+  };
 
   const handleChangeAddressInput = useCallback((e) => {
     setAddressValue(() => e.target.value);
@@ -91,37 +99,40 @@ const MainPage: NextPage = () => {
   ] as buttonArrType[];
 
   return (
-    <MainContainer paddingWidth={24}>
-      <Header isVisiblePrev={false} />
-      <Button
-        fontSize={styles.fontSize.large}
-        reversal
-        width="auto"
-        padding={0}
-        css={AddressButtonCSS}
-      >
-        <div>{userAddress || ''}</div>
-      </Button>
-      <SortButtons width={230} buttonArr={buttonArr} buttonMargin={16} />
-      <CardList flexType="column" padding={0} margin="10px 0 0 0">
-        {eventList.length ? (
-          eventList.map((data, idx) => (
-            <EventCard
-              onClick={() => handleCardClick(data.eventId)}
-              key={data.eventId}
-              eventData={data}
-              idx={idx}
-              marginHeight={10}
-            />
-          ))
-        ) : (
-          <CardContainer cardType="default" css={NoEventListCardCSS}>
-            <Text size="large" bold color={styles.colors.background}>
-              <strong>앗! 이벤트가 없어요~</strong>😅
-            </Text>
-          </CardContainer>
-        )}
-      </CardList>
+    <>
+      <MainContainer paddingWidth={24}>
+        <Header isVisiblePrev={false} />
+        <Button
+          fontSize={styles.fontSize.large}
+          reversal
+          width="auto"
+          padding={0}
+          css={AddressButtonCSS}
+          onClick={() => setModalVisible(() => true)}
+        >
+          <div>{userAddress || ''}</div>
+        </Button>
+        <SortButtons width={230} buttonArr={buttonArr} buttonMargin={16} />
+        <CardList flexType="column" padding={0} margin="10px 0 0 0">
+          {eventList.length ? (
+            eventList.map((data, idx) => (
+              <EventCard
+                key={data.eventId}
+                eventData={data}
+                idx={idx}
+                marginHeight={10}
+                onClick={() => handleCardClick(data.eventId)}
+              />
+            ))
+          ) : (
+            <CardContainer cardType="default" css={NoEventListCardCSS}>
+              <Text size="large" bold color={styles.colors.background}>
+                <strong>앗! 이벤트가 없어요~</strong>😅
+              </Text>
+            </CardContainer>
+          )}
+        </CardList>
+      </MainContainer>
       <Modal
         width={300}
         height={400}
@@ -131,15 +142,23 @@ const MainPage: NextPage = () => {
         onClose={closeModal}
         clickAway={false}
       >
+        <HeaderText level={1} marginBottom={20}>
+          주소 등록
+        </HeaderText>
+        <HeaderText level={2} marginBottom={16}>
+          어떤 곳의 이벤트를 찾고 싶나요 ?
+        </HeaderText>
         <Input
           sizeType="small"
           placeholder="OO시 OO구 OO동"
           error={false}
           onChange={handleChangeAddressInput}
         />
-        <Button onClick={handleSubmitAddress}>주소 등록하기</Button>
+        <Button onClick={handleSubmitAddress} css={AddressSubmitButtonCSS}>
+          주소 등록하기
+        </Button>
       </Modal>
-    </MainContainer>
+    </>
   );
 };
 

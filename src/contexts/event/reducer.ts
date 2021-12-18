@@ -2,6 +2,7 @@
 import { initialState } from '.';
 import {
   Action,
+  COMPLETE_PARTICIPATE_EVENT,
   EVENT_LOADING,
   FAVORITE_EVENT,
   GET_EVENT,
@@ -10,6 +11,7 @@ import {
   INITIALIZE_EVENTLIST,
   InitialStateType,
   LIKE_EVENT,
+  PARTICIPATE_EVENT,
 } from './types';
 
 const eventReducer = (state: InitialStateType, action: Action) => {
@@ -49,23 +51,51 @@ const eventReducer = (state: InitialStateType, action: Action) => {
       };
     }
     case LIKE_EVENT: {
+      const { like, eventError } = action.payload;
       return {
         ...state,
         isLoading: false,
         event: {
           ...state.event,
-          isLike: !state.event.isLike,
+          like,
         },
+        eventError,
       };
     }
     case FAVORITE_EVENT: {
+      const { favorite, eventError } = action.payload;
       return {
         ...state,
         isLoading: false,
         event: {
           ...state.event,
-          isFavorite: !state.event.isFavorite,
+          favorite,
         },
+        eventError,
+      };
+    }
+    case PARTICIPATE_EVENT: {
+      const { participated, eventError } = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        event: {
+          ...state.event,
+          participated,
+        },
+        eventError,
+      };
+    }
+    case COMPLETE_PARTICIPATE_EVENT: {
+      const { completed, eventError } = action.payload;
+      return {
+        ...state,
+        isLoading: false,
+        event: {
+          ...state.event,
+          completed,
+        },
+        eventError,
       };
     }
     default: {

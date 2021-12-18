@@ -14,16 +14,17 @@ export const initialState: InitialStateType = {
   isLoading: false,
   eventList: [],
   event: {
-    eventId: '',
-    name: '',
-    expiredAt: '',
+    eventId: 0,
+    eventName: '',
+    expriedAt: '',
     marketName: '',
-    isLike: null,
+    like: null,
     marketDescription: '',
     eventDescription: '',
-    isFavorite: null,
+    favorite: null,
     pictures: [],
-    isParticipated: null,
+    participated: null,
+    completed: null,
   },
   eventListOptions: {
     totalPages: 0,
@@ -51,7 +52,9 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     dispatchEvent,
     initializeEvent,
     dispatchEventLike,
-    dispatchEventFavorite,
+    dispatchShopFavorite,
+    dispatchParticipateEvent,
+    dispatchCompleteParticipateEvent,
   } = useEventProvider(dispatch);
 
   const contextValue = useMemo(
@@ -66,7 +69,9 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       initializeEvent,
       initializeEventList,
       dispatchEventLike,
-      dispatchEventFavorite,
+      dispatchShopFavorite,
+      dispatchParticipateEvent,
+      dispatchCompleteParticipateEvent,
     }),
     [
       isLoading,
@@ -79,7 +84,9 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       initializeEvent,
       initializeEventList,
       dispatchEventLike,
-      dispatchEventFavorite,
+      dispatchShopFavorite,
+      dispatchParticipateEvent,
+      dispatchCompleteParticipateEvent,
     ]
   );
 

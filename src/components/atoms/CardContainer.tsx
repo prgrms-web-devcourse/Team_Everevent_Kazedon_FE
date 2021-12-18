@@ -89,6 +89,7 @@ const CardContainer = ({
   marginWidth = 0,
   marginHeight = 0,
   bgColorName = 'orange',
+  onClick,
   ...props
 }: CardContainerProps) => {
   return cardType === 'box' ? (
@@ -97,6 +98,7 @@ const CardContainer = ({
       marginHeight={marginHeight}
       padding={padding}
       width={width}
+      onClick={onClick}
       {...props}
     >
       {children}
@@ -108,6 +110,7 @@ const CardContainer = ({
       padding={padding}
       width={width}
       bgColorName={bgColorName}
+      onClick={onClick}
       {...props}
     >
       {children}

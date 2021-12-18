@@ -1,10 +1,11 @@
 import CardContainer from '@components/atoms/CardContainer';
 import Text from '@components/atoms/Text';
 import { css } from '@emotion/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from '@styles/index';
 import styled from '@emotion/styled';
 import ImageContainer from '@components/atoms/ImageContainer';
+import { Review } from '@contexts/review/types';
 
 const DescriptionMarginBottomCSS = css`
   margin-bottom: 12px;
@@ -38,6 +39,7 @@ const StyledDescriptionBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
 `;
 
 export interface reviewDataTypes {
@@ -46,17 +48,9 @@ export interface reviewDataTypes {
   description: string;
   [prop: string]: any;
 }
-interface EventReviewPageDataTypes {
-  pictureUrl: string | undefined;
-  description: string;
-  author: string;
-  createAt: string;
-  [prop: string]: any;
-}
-
 interface ReviewCardProps {
   cardType: 'default' | 'box';
-  reviewData: reviewDataTypes | EventReviewPageDataTypes;
+  reviewData: Review;
   marginWidth?: string | number;
   marginHeight?: string | number;
   [prop: string]: any;
@@ -70,6 +64,7 @@ const ReviewCard = ({
   marginWidth,
   marginHeight,
 }: ReviewCardProps) => {
+  useEffect(() => {}, [reviewData]);
   return (
     <CardContainer
       cardType={cardType}
@@ -84,19 +79,20 @@ const ReviewCard = ({
             {reviewData.description}
           </Text>
           <Text block size="micro">
-            2021.12.09
+            {reviewData.createdAt}
           </Text>
           <Text block size="micro" css={TextMarginBottomCSS}>
-            {`by ${reviewData.author}`}
-          </Text>
-          <Text block size="micro">
-            {reviewData.marketName || ''}
+            {`by ${reviewData.memberNickname}`}
           </Text>
         </>
       ) : (
         <DefaultTypeReviewInner>
           <ImageContainer
-            src={reviewData.pictureUrl as string}
+            src={
+              reviewData?.pictureUrls?.length
+                ? (reviewData.pictureUrls[0] as string)
+                : 'https://picsum.photos/200'
+            }
             alt="리뷰 사진"
             width={80}
             height={80}
@@ -111,7 +107,7 @@ const ReviewCard = ({
                 2021.12.09
               </Text>
               <Text block size="micro">
-                {`by ${reviewData.author}`}
+                {`by ${reviewData.memberNickname}`}
               </Text>
             </CardFooterBox>
           </StyledDescriptionBox>
