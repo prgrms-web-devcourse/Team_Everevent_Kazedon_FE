@@ -133,7 +133,7 @@ const MainPage: NextPage = () => {
       >
         <Input
           sizeType="small"
-          placeholder="OO시 OO구 OO동"
+          placeholder="OO시 OO구 OO동으로 입력해주세요!"
           error={false}
           onChange={handleChangeAddressInput}
         />

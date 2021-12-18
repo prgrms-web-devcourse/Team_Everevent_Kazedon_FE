@@ -10,11 +10,13 @@ const USER_AUTH_TOKEN_HEADER_NAME = 'X-AUTH-TOKEN';
 const requestConfigCallback = (
   authConfig: any
 ): AxiosRequestConfig | Promise<AxiosRequestConfig<any>> => {
-  const X_USER_TOKEN = window
-    ? JSON.parse(localStorage.getItem(USER_AUTH_TOKEN_STORAGE_NAME) || '')
-    : '';
-  if (X_USER_TOKEN) {
-    authConfig.headers[USER_AUTH_TOKEN_HEADER_NAME] = X_USER_TOKEN;
+  if (window) {
+    const X_USER_TOKEN =
+      localStorage.getItem(USER_AUTH_TOKEN_STORAGE_NAME) || '';
+    if (X_USER_TOKEN) {
+      authConfig.headers[USER_AUTH_TOKEN_HEADER_NAME] =
+        JSON.parse(X_USER_TOKEN);
+    }
   }
 
   return authConfig;

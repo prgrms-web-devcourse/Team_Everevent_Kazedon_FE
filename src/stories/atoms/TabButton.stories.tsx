@@ -1,5 +1,4 @@
 import TabButton, { TabButtonProps } from '@components/atoms/TabButton';
-import Common from '../styles';
 
 export default {
   title: 'Component/atoms/TabButton',
