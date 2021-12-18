@@ -4,6 +4,7 @@ import EventDescriptions from '@components/domains/EventDetail/EventDescriptions
 import EventDetailHeader from '@components/domains/EventDetail/EventDetailHeader';
 import MarketDescriptions from '@components/domains/EventDetail/MarketDescriptions';
 import { useEvent } from '@contexts/event';
+import { useReview } from '@contexts/review';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect } from 'react';
 
@@ -11,6 +12,7 @@ const EventDetailPage = () => {
   const router = useRouter();
   const { eventId } = router.query;
   const { event, dispatchEvent, initializeEvent } = useEvent();
+  const { reviewList, dispatchGetReviewList } = useReview();
 
   const handleHeaderOptionClick = useCallback(async () => {
     router.push(`event/${eventId}/reviews`);
@@ -18,8 +20,14 @@ const EventDetailPage = () => {
 
   useEffect(() => {
     dispatchEvent({ eventId });
+    dispatchGetReviewList({
+      eventId,
+      sort: 'createdAt,desc',
+      page: 0,
+      size: 1,
+    });
     return () => initializeEvent();
-  }, [dispatchEvent, initializeEvent, eventId]);
+  }, [dispatchEvent, initializeEvent, eventId, dispatchGetReviewList]);
 
   return (
     <MainContainer paddingWidth={24}>
@@ -38,7 +46,10 @@ const EventDetailPage = () => {
         pictures={event.pictures}
       />
       <EventDescriptions eventDescription={event.eventDescription} />
-      <EventReview onHeaderOptionClick={handleHeaderOptionClick} />
+      <EventReview
+        reviewData={reviewList[0] ?? []}
+        onHeaderOptionClick={handleHeaderOptionClick}
+      />
     </MainContainer>
   );
 };

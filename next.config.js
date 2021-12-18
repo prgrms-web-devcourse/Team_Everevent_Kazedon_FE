@@ -4,7 +4,10 @@ module.exports = {
   images: {
     loader: 'imgix',
     path: '',
-    domains: ['picsum.photos'],
+    domains: [
+      'picsum.photos',
+      'team6-everevent-bucket.s3.ap-northeast-2.amazonaws.com',
+    ],
   },
   reactStrictMode: true,
   // exportPathMap: () => ({

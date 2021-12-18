@@ -1,16 +1,25 @@
 import { ErrorType } from '@axios/types';
 
 export type ReviewList = Review[] | [];
+export interface ReviewListOptions {
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+}
 
 export interface Review {
-  reviewId: string;
-  description: string;
-  picture: File | null;
+  reviewId: number;
+  description: string | null;
+  pictureUrls: string[];
+  memberId: number;
+  memberNickname: string | null;
+  createdAt: Date | string | null;
 }
 
 export interface InitialStateType {
   isLoading: boolean;
   reviewList: ReviewList;
+  reviewListOptions: ReviewListOptions;
   review: Review;
   reviewError: ErrorType;
 }
@@ -23,7 +32,11 @@ export type Action =
   | { type: 'REVIEW/LOADING' }
   | {
       type: 'REVIEW/GET_REVIEW_LIST';
-      payload: { reviewList: ReviewList; reviewError: ErrorType };
+      payload: {
+        reviewList: ReviewList;
+        reviewOptions: ReviewListOptions;
+        reviewError: ErrorType;
+      };
     }
   | {
       type: 'REVIEW/GET_REVIEW';

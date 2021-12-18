@@ -13,10 +13,18 @@ import reviewReducer from '@contexts/review/reducer';
 export const initialState: InitialStateType = {
   isLoading: false,
   reviewList: [],
+  reviewListOptions: {
+    last: true,
+    totalPages: 0,
+    totalElements: 0,
+  },
   review: {
-    reviewId: '',
-    description: '',
-    picture: null,
+    reviewId: 0,
+    description: null,
+    pictureUrls: [],
+    memberId: 0,
+    memberNickname: null,
+    createdAt: null,
   },
   reviewError: {
     code: null,

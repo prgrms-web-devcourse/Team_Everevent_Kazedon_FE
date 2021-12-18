@@ -21,11 +21,21 @@ const useReviewProvider = (dispatch: Dispatch<any>) => {
 
   const dispatchGetReviewList = useCallback(
     async ({ eventId, sort, page, size }: GetReviewListParam) => {
+      if (!eventId) return;
       dispatchLoading();
       const res = await getReviewList({ eventId, sort, page, size });
+      const simpleReviews = res.data?.simpleReviews ?? null;
       dispatch({
         type: GET_REVIEW_LIST,
-        payload: { reviewList: res.data, reviewError: res.error },
+        payload: {
+          reviewList: simpleReviews?.content ?? [],
+          reviewOptions: {
+            last: simpleReviews?.last ?? false,
+            totalPages: simpleReviews?.totalPages ?? 0,
+            totalElements: simpleReviews?.totalElements ?? 0,
+          },
+          reviewError: res.error,
+        },
       });
     },
     [dispatch, dispatchLoading]
