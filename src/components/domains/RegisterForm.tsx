@@ -29,6 +29,10 @@ const PasswordWrapper = styled.div`
 
 type OverlapParams = 'email' | 'nickname';
 
+const marginBottom = (size: string | number) => css`
+  margin-bottom: ${typeof size === 'string' ? size : `${size}px`};
+`;
+
 const RegisterForm = () => {
   const router = useRouter();
   const [validateErrors, dispatch] = useReducer(registerReducer, {
@@ -142,6 +146,7 @@ const RegisterForm = () => {
         onChange={onValidate}
         onClick={onOverlapCheck}
         placeholder="이메일"
+        css={marginBottom(19)}
       >
         {errors.email && (
           <Text
@@ -177,6 +182,7 @@ const RegisterForm = () => {
         onChange={onValidate}
         onClick={onOverlapCheck}
         placeholder="닉네임"
+        css={marginBottom(19)}
       >
         {errors.nickname && (
           <Text
