@@ -1,12 +1,29 @@
-import { MainContainer } from '@components/atoms';
+import { CardContainer, MainContainer, Text } from '@components/atoms';
 import { EventReview, Header } from '@components/domains';
 import EventDescriptions from '@components/domains/EventDetail/EventDescriptions';
 import EventDetailHeader from '@components/domains/EventDetail/EventDetailHeader';
 import MarketDescriptions from '@components/domains/EventDetail/MarketDescriptions';
 import { useEvent } from '@contexts/event';
 import { useReview } from '@contexts/review';
+import { css } from '@emotion/react';
+import styles from '@styles/index';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect } from 'react';
+
+const NoReviewCardCSS = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: ${styles.colors.background};
+
+  strong {
+    font-weight: 700;
+  }
+`;
+
+const marginBottomCSS = css`
+  margin-bottom: 8px;
+`;
 
 const EventDetailPage = () => {
   const router = useRouter();
@@ -15,7 +32,7 @@ const EventDetailPage = () => {
   const { reviewList, dispatchGetReviewList } = useReview();
 
   const handleHeaderOptionClick = useCallback(async () => {
-    router.push(`event/${eventId}/reviews`);
+    router.push(`/event/${eventId}/reviews`);
   }, [router, eventId]);
 
   useEffect(() => {
@@ -46,10 +63,31 @@ const EventDetailPage = () => {
         pictures={event.pictures}
       />
       <EventDescriptions eventDescription={event.eventDescription} />
-      <EventReview
-        reviewData={reviewList[0] ?? []}
-        onHeaderOptionClick={handleHeaderOptionClick}
-      />
+      {reviewList.length ? (
+        <EventReview
+          reviewData={reviewList[0] ?? []}
+          onHeaderOptionClick={handleHeaderOptionClick}
+        />
+      ) : (
+        <CardContainer cardType="default" padding={24} css={NoReviewCardCSS}>
+          <div>
+            <Text paragraph size="medium" css={marginBottomCSS}>
+              <strong>앗! 리뷰가 없어요</strong> 😅
+            </Text>
+            <Text paragraph size="small">
+              리뷰를 통해 가게 사장님께
+            </Text>
+            <Text paragraph size="small">
+              <Text>
+                <Text underline>
+                  <strong>응원의 한 마디</strong>
+                </Text>
+              </Text>{' '}
+              건네보는 건 어떨까요~? 🎉
+            </Text>
+          </div>
+        </CardContainer>
+      )}
     </MainContainer>
   );
 };
