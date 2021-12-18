@@ -92,6 +92,7 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
           eventError: res?.error,
         },
       });
+      return res?.error.code;
     },
     [dispatch, dispatchLoading]
   );

@@ -1,6 +1,6 @@
 // TODO: 이벤트 상세 정보를 조회할 수 있다.
 const event = {
-  eventId: 'D4J398QF759HF394',
+  eventId: 1,
   name: '오후 6시 이전 생맥주 400ml 1잔 무료',
   expiredAt: '20211208',
   marketName: '오비맥주 광진점',

@@ -30,7 +30,7 @@ const EventDetailPage = () => {
         name={event.eventName}
         isLike={event.like as boolean}
         isFavorite={event.favorite}
-        isParticipated
+        isParticipated={event.participated}
         isCompleted={event.completed}
       />
       <MarketDescriptions

@@ -55,7 +55,6 @@ const EventDetailHeader = ({
     dispatchEventFavorite,
     dispatchParticipateEvent,
     dispatchCompleteParticipateEvent,
-    eventError,
   } = useEvent();
   const handleLikeButtonClick = useCallback(async () => {
     if (isLoading) return;
@@ -71,9 +70,15 @@ const EventDetailHeader = ({
     if (isLoading) return;
     const { eventId } = router.query;
     if (!isParticipated) {
-      await dispatchParticipateEvent({ eventId });
+      const resStatus = await dispatchParticipateEvent({ eventId });
       /* eslint-disable-next-line */
-      alert(eventError.code ? 'ㅈㅅ!' : '이제 이벤트에 참여할 수 있어요!');
+      alert(
+        resStatus === null
+          ? '이벤트를 이제 참여할 수 있어요 ~ 🎉'
+          : resStatus === 409
+          ? '앗! 이미 참여를 하신 것 같은데요?! 한 번 확인해주세요!'
+          : '앗! 요청에 문제가 있는 것 같아요. 다시 시도해주시겠어요? 😂'
+      );
       await dispatchEvent({ eventId });
     }
     if (isParticipated && !isCompleted) {
@@ -99,7 +104,6 @@ const EventDetailHeader = ({
     router,
     dispatchParticipateEvent,
     dispatchEvent,
-    eventError.code,
     isCompleted,
     dispatchCompleteParticipateEvent,
   ]);
