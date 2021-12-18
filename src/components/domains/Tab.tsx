@@ -21,7 +21,6 @@ export interface TabProps {
   isLeftFocused?: boolean;
   borderRadius?: string | number;
   size?: string | number;
-  color: string;
   leftText: string;
   rightText: string;
 }
