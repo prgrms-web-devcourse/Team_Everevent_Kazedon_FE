@@ -34,3 +34,11 @@ export const onRegisterCheck = async (check: OverlapCheckInfo) => {
 
   return res;
 };
+
+export const onConfirmPassword = async (password: 'passwordConfirm') => {
+  const res: ResType<any> = await request.post('/members/check/password', {
+    password,
+  });
+
+  return res;
+};
