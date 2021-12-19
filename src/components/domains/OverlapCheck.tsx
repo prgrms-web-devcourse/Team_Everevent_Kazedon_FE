@@ -9,6 +9,7 @@ interface Props {
   name: string;
   error: boolean;
   buttonText: string;
+  inputType?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onClick: (e: React.MouseEvent) => void;
 }
@@ -31,6 +32,7 @@ const OverlapCheck: React.FC<Props> = ({
   name,
   error,
   buttonText,
+  inputType = 'text',
   onChange,
   onClick,
   placeholder = '이메일',
@@ -40,6 +42,7 @@ const OverlapCheck: React.FC<Props> = ({
     <Container {...props}>
       <Input
         sizeType="small"
+        type={inputType}
         name={name}
         error={error}
         onChange={onChange}
