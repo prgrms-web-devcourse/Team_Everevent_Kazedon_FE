@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, Input, HeaderText, Text } from '@components/atoms';
 import useForm from '@hooks/useForm';
@@ -12,6 +12,7 @@ import {
 import { registerReducer } from '@contexts/UserContext/reducer';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
+import OverlapCheck from './OverlapCheck';
 
 const RegisterFormContainer = styled.div`
   display: flex;
@@ -21,18 +22,16 @@ const RegisterFormContainer = styled.div`
   width: 100%;
 `;
 
-const OverlapCheck = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 19px;
-`;
-
 const PasswordWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
 type OverlapParams = 'email' | 'nickname';
+
+const marginBottom = (size: string | number) => css`
+  margin-bottom: ${typeof size === 'string' ? size : `${size}px`};
+`;
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -42,6 +41,8 @@ const RegisterForm = () => {
     passwordCheck: false,
     nickname: false,
   });
+  const [successEmailMessage, setSuccessEmailMessage] = useState(false);
+  const [successNicknameMessage, setSuccessNicknameMessage] = useState(false);
   const { values, errors, setErrors, handleChange, handleSubmit } =
     useForm<RegisterUserFormData>({
       initialValues: {
@@ -51,11 +52,19 @@ const RegisterForm = () => {
         nickname: '',
       },
       onSubmit: async (formData: RegisterUserFormData) => {
+        if (!successEmailMessage || !successNicknameMessage) {
+          const newErrors: ErrorUserForm = {};
+          newErrors.password = text.overlap.check;
+          setErrors(newErrors);
+          return;
+        }
+
         const registerUserInfo = {
           email: formData.email,
           password: formData.password,
           nickname: formData.nickname,
         };
+
         const res = await onRegister(registerUserInfo);
 
         if (!res.error.code) {
@@ -79,22 +88,37 @@ const RegisterForm = () => {
   const onOverlapCheck = async (e: React.MouseEvent) => {
     const { name } = e.target as HTMLButtonElement;
     const key = name as OverlapParams;
+    const newErrors: ErrorUserForm = JSON.parse(JSON.stringify(errors));
 
-    if (validateErrors[key]) return;
+    delete newErrors[key];
+
+    if (!values[key] || validateErrors[key]) {
+      newErrors[key] = text[`${key}Input`];
+      setErrors(newErrors);
+      return;
+    }
 
     const checkInfo = {
       type: key,
       value: values[key],
     };
     const res = await onRegisterCheck(checkInfo);
-    const newErrors: ErrorUserForm = {};
-
     if (res.error.code) {
-      // 409
+      if (key === text.email) {
+        setSuccessEmailMessage(false);
+      } else {
+        setSuccessNicknameMessage(false);
+      }
       newErrors[key] = text.overlap[key];
       setErrors(newErrors);
     } else {
       setErrors(newErrors);
+
+      if (key === text.email) {
+        setSuccessEmailMessage(true);
+      } else {
+        setSuccessNicknameMessage(true);
+      }
     }
   };
 
@@ -102,6 +126,7 @@ const RegisterForm = () => {
     const { name, value } = e.target;
 
     handleChange(e);
+
     if (name === text.passwordCheck) {
       dispatch({ name, value, password: values.password });
     } else {
@@ -114,17 +139,15 @@ const RegisterForm = () => {
       <HeaderText level={1} marginBottom={25}>
         에브리벤트 가입하기
       </HeaderText>
-      <OverlapCheck>
-        <Input
-          sizeType="small"
-          placeholder="이메일"
-          name="email"
-          onChange={onValidate}
-          error={validateErrors.email}
-          css={css`
-            margin-bottom: 8px;
-          `}
-        />
+      <OverlapCheck
+        name="email"
+        buttonText="이메일 중복 확인"
+        error={validateErrors.email}
+        onChange={onValidate}
+        onClick={onOverlapCheck}
+        placeholder="이메일"
+        css={marginBottom(19)}
+      >
         {errors.email && (
           <Text
             size="micro"
@@ -138,33 +161,29 @@ const RegisterForm = () => {
             {errors.email}
           </Text>
         )}
-        <Button
-          width={144}
-          height={40}
-          borderRadius="20px"
-          reversal
-          border
-          onClick={onOverlapCheck}
-          bold={false}
-          css={css`
-            margin-left: auto;
-          `}
-          name={text.email}
-        >
-          이메일 중복 체크
-        </Button>
+        {successEmailMessage && (
+          <Text
+            size="micro"
+            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            block
+            color={Common.colors.point}
+            css={css`
+              margin-bottom: 8px;
+            `}
+          >
+            확인 완료됐습니다.
+          </Text>
+        )}
       </OverlapCheck>
-      <OverlapCheck>
-        <Input
-          sizeType="small"
-          placeholder="닉네임"
-          name="nickname"
-          onChange={onValidate}
-          error={validateErrors.nickname}
-          css={css`
-            margin-bottom: 8px;
-          `}
-        />
+      <OverlapCheck
+        name="nickname"
+        buttonText="닉네임 중복 확인"
+        error={validateErrors.nickname}
+        onChange={onValidate}
+        onClick={onOverlapCheck}
+        placeholder="닉네임"
+        css={marginBottom(19)}
+      >
         {errors.nickname && (
           <Text
             size="micro"
@@ -178,21 +197,19 @@ const RegisterForm = () => {
             {errors.nickname}
           </Text>
         )}
-        <Button
-          width={144}
-          height={40}
-          borderRadius="20px"
-          reversal
-          border
-          onClick={onOverlapCheck}
-          bold={false}
-          css={css`
-            margin-left: auto;
-          `}
-          name={text.nickname}
-        >
-          닉네임 중복 체크
-        </Button>
+        {successNicknameMessage && (
+          <Text
+            size="micro"
+            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            block
+            color={Common.colors.point}
+            css={css`
+              margin-bottom: 8px;
+            `}
+          >
+            확인 완료됐습니다.
+          </Text>
+        )}
       </OverlapCheck>
       <PasswordWrapper>
         <Input

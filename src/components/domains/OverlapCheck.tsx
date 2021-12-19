@@ -1,18 +1,19 @@
 import React, { ReactNode } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { Input, Button } from '@components/atoms';
+import { Button, Input } from '@components/atoms';
 
 interface Props {
-  children: ReactNode;
+  children?: ReactNode;
+  placeholder: string;
   name: string;
-  placeholder?: string;
   error: boolean;
+  buttonText: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClick: (e: React.MouseEvent) => void;
 }
 
-const OverlapConfirmContainer = styled.div`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -20,45 +21,46 @@ const OverlapConfirmContainer = styled.div`
 const marginLeft = css`
   margin-left: auto;
 `;
+
 const marginBottom = css`
   margin-bottom: 8px;
 `;
 
-const OverlapConfirm: React.FC<Props> = ({
+const OverlapCheck: React.FC<Props> = ({
   children,
   name,
-  placeholder,
   error,
+  buttonText,
   onChange,
   onClick,
+  placeholder = '이메일',
   ...props
 }) => {
   return (
-    <OverlapConfirmContainer {...props}>
+    <Container {...props}>
       <Input
         sizeType="small"
-        placeholder={placeholder}
         name={name}
-        onChange={onChange}
         error={error}
+        onChange={onChange}
+        placeholder={placeholder}
         css={marginBottom}
       />
       {children}
       <Button
-        width={144}
-        height={40}
-        borderRadius={20}
+        css={marginLeft}
+        name={name}
+        bold={false}
         reversal
         border
+        borderRadius={20}
+        width={144}
         onClick={onClick}
-        bold={false}
-        name={name}
-        css={marginLeft}
       >
-        이메일 중복 체크
+        {buttonText}
       </Button>
-    </OverlapConfirmContainer>
+    </Container>
   );
 };
 
-export default OverlapConfirm;
+export default OverlapCheck;
