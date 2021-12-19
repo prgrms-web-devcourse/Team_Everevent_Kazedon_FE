@@ -1,8 +1,5 @@
 import { ErrorType } from '@axios/types';
 
-interface PicturesType {
-  url: string;
-}
 export interface EventDetail {
   eventId: number;
   eventName: string;
@@ -12,7 +9,7 @@ export interface EventDetail {
   eventDescription: string;
   like: boolean | null;
   favorite: boolean | null;
-  pictures: PicturesType[] | [];
+  pictures: string[] | [];
   participated: boolean | null;
   completed: boolean | null;
 }

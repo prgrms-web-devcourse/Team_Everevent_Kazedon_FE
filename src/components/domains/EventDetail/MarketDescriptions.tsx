@@ -28,13 +28,11 @@ const MarketImageBox = styled.section`
   }
 `;
 
-interface PictureType {
-  url: string;
-}
+type PictureType = string[];
 
 interface MarketDescriptionsProps extends Partial<Event> {
   marketDescription: string | undefined;
-  pictures: Array<PictureType> | [];
+  pictures: PictureType;
   [prop: string]: any;
 }
 
@@ -51,7 +49,7 @@ const MarketDescriptions = ({
         {marketDescription || '등록된 가게 소개가 없어요!'}
       </Text>
       <MarketImageBox>
-        {pictures.map(({ url }, idx) => (
+        {pictures.map((url, idx) => (
           <ImageContainer
             key={`${url + idx}`}
             src={url}
