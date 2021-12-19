@@ -102,10 +102,15 @@ const MainPage: NextPage = () => {
     sortTypeState,
   ]);
 
+  const buttonNames = {
+    createdAt: '최신 순',
+    likeCount: '좋아요 순',
+    expiredAt: '종료일 순',
+  } as const;
   const buttonArr = [
-    ['최신 순', () => setSortTypeState(() => 'createdAt')],
-    ['좋아요 순', () => setSortTypeState(() => 'likeCount')],
-    ['종료일 순', () => setSortTypeState(() => 'expiredAt')],
+    [buttonNames.createdAt, () => setSortTypeState(() => 'createdAt')],
+    [buttonNames.likeCount, () => setSortTypeState(() => 'likeCount')],
+    [buttonNames.expiredAt, () => setSortTypeState(() => 'expiredAt')],
   ] as ButtonArrType[];
 
   const handleSortAscend = useCallback(() => {
