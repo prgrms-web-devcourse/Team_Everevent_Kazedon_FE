@@ -1,7 +1,14 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, HeaderText, Input, Text } from '@components/atoms';
 import { css } from '@emotion/react';
+import UserContext from '@contexts/UserContext';
+import useForm from '@hooks/useForm';
+import Common from '@styles/index';
+import { ErrorProfile, ProfileUserInfo } from '@contexts/UserContext/types';
+import { text } from '@utils/constantUser';
+import { onConfirmPassword, onRegisterCheck } from '@axios/user';
+import { useRouter } from 'next/router';
 import OverlapCheck from './OverlapCheck';
 import Tab from './Tab';
 
@@ -26,9 +33,93 @@ const marginBottom = (size: number) => css`
 `;
 
 const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
+  const { state } = useContext(UserContext);
+  const router = useRouter();
   const [buttonFocus, setButtonFocus] = useState(true);
+  const [passwordConfirm, setPasswordConfirm] = useState(false);
+  const [successNicknameMessage, setSuccessNicknameMessage] = useState(false);
+  const { values, errors, setErrors, handleChange, handleSubmit } =
+    useForm<ProfileUserInfo>({
+      initialValues: {
+        passwordConfirm: '',
+        nickname: '',
+        password: '',
+        passwordCheck: '',
+      },
+      onSubmit: (values) => {
+        if (!passwordConfirm) return;
+        if (values.nickname && !successNicknameMessage) return;
 
-  const handlerChangeTab = (e: React.MouseEvent) => {
+        const profileEditUserInfo = {
+          nickname: values.nickname === '' ? undefined : values.nickname,
+          password: values.password === '' ? undefined : values.password,
+        };
+
+        // API 전송
+        console.log(profileEditUserInfo);
+      },
+      validate: ({ password }) => {
+        const newErrors: ErrorProfile = {};
+        if (!password) return newErrors;
+
+        if (
+          !text.passwordReg.test(password) ||
+          values.password !== values.passwordCheck
+        )
+          newErrors.password = text.passwordFail;
+
+        return newErrors;
+      },
+    });
+
+  const handleConfirm = async (e: React.MouseEvent) => {
+    const { name } = e.target as HTMLButtonElement;
+    const key = name as 'passwordConfirm' | 'nickname';
+    const newErrors: ErrorProfile = JSON.parse(JSON.stringify(errors));
+
+    delete newErrors[key];
+
+    if (!values[key]) {
+      newErrors[key] =
+        key === 'passwordConfirm'
+          ? text.passwordConfirm
+          : text.overlap.nickname;
+      setErrors(newErrors);
+      return;
+    }
+
+    let res;
+    if (key === 'passwordConfirm') {
+      res = await onConfirmPassword(values[key] as 'passwordConfirm');
+
+      if (res.error.code) {
+        setPasswordConfirm(false);
+        newErrors[key] = text.passwordConfirm;
+        setErrors(newErrors);
+      } else {
+        setErrors(newErrors);
+        setPasswordConfirm(true);
+      }
+    } else {
+      const checkInfo = {
+        type: key,
+        value: values[key],
+      };
+
+      res = await onRegisterCheck(checkInfo);
+
+      if (res.error.code) {
+        setSuccessNicknameMessage(false);
+        newErrors[key] = text.overlap.nickname;
+        setErrors(newErrors);
+      } else {
+        setErrors(newErrors);
+        setSuccessNicknameMessage(true);
+      }
+    }
+  };
+
+  const handleChangeTab = (e: React.MouseEvent) => {
     const { id } = e.currentTarget as HTMLElement;
 
     if (id === 'left') setButtonFocus(true);
@@ -44,28 +135,55 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
         Email
       </HeaderText>
       <Text block size="medium" css={marginBottom(16)}>
-        {email}
+        {state.id}
       </Text>
-      <ModifyWrapper css={marginBottom(16)}>
-        <HeaderText level={2} marginBottom={16}>
-          비밀번호
-        </HeaderText>
-        <OverlapCheck
-          placeholder="비밀번호 입력"
-          name="password"
-          error={false}
-          buttonText="비밀번호 확인"
-          onChange={(e) => {}}
-          onClick={(e) => {}}
-        />
-      </ModifyWrapper>
+      <HeaderText level={2} marginBottom={16}>
+        비밀번호
+      </HeaderText>
+      <OverlapCheck
+        inputType="password"
+        placeholder="비밀번호 입력"
+        name="passwordConfirm"
+        error={false}
+        buttonText="비밀번호 확인"
+        onChange={handleChange}
+        onClick={handleConfirm}
+        css={marginBottom(16)}
+      >
+        {errors.passwordConfirm && (
+          <Text
+            size="micro"
+            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            block
+            color={Common.colors.warning}
+            css={css`
+              margin-bottom: 8px;
+            `}
+          >
+            {errors.passwordConfirm}
+          </Text>
+        )}
+        {passwordConfirm && (
+          <Text
+            size="micro"
+            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            block
+            color={Common.colors.point}
+            css={css`
+              margin-bottom: 8px;
+            `}
+          >
+            확인 완료됐습니다.
+          </Text>
+        )}
+      </OverlapCheck>
       <Tab
         width={279}
         isLeft
         isLeftFocused={buttonFocus}
         leftText="닉네임 변경"
         rightText="비밀번호 변경"
-        onClick={handlerChangeTab}
+        onClick={handleChangeTab}
         css={marginBottom(16)}
       />
 
@@ -79,9 +197,36 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
             name="nickname"
             error={false}
             buttonText="닉네임 중복 확인"
-            onChange={(e) => {}}
-            onClick={(e) => {}}
-          />
+            onChange={handleChange}
+            onClick={handleConfirm}
+          >
+            {errors.nickname && (
+              <Text
+                size="micro"
+                fontStyle={{ display: 'flex', justifyContent: 'center' }}
+                block
+                color={Common.colors.warning}
+                css={css`
+                  margin-bottom: 8px;
+                `}
+              >
+                {errors.nickname}
+              </Text>
+            )}
+            {successNicknameMessage && (
+              <Text
+                size="micro"
+                fontStyle={{ display: 'flex', justifyContent: 'center' }}
+                block
+                color={Common.colors.point}
+                css={css`
+                  margin-bottom: 8px;
+                `}
+              >
+                확인 완료됐습니다.
+              </Text>
+            )}
+          </OverlapCheck>
         </ModifyWrapper>
       ) : (
         <ModifyWrapper>
@@ -93,20 +238,34 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
             placeholder="비밀번호"
             type="password"
             name="password"
-            css={marginBottom(8)}
+            onChange={handleChange}
             error={false}
+            css={marginBottom(8)}
           />
           <Input
             sizeType="small"
             placeholder="비밀번호 확인"
             type="password"
             name="passwordCheck"
-            css={marginBottom(8)}
+            onChange={handleChange}
             error={false}
+            css={marginBottom(8)}
           />
+          <Text
+            size="micro"
+            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            block
+            color={
+              errors.password
+                ? Common.colors.warning
+                : Common.colors.placeholder
+            }
+          >
+            {errors.password ? errors.password : text.default}
+          </Text>
         </ModifyWrapper>
       )}
-      <Button>확인</Button>
+      <Button onClick={handleSubmit}>확인</Button>
     </ProfileEditContainer>
   );
 };
