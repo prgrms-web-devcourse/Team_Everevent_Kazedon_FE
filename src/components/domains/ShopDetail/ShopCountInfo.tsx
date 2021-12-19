@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from '@components/atoms';
-import { Shop } from '@contexts/Shop/types';
+import { ShopInfo } from '@contexts/Shop/types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import Common from '@styles/index';
@@ -17,7 +17,7 @@ const CountCSS = css`
   font-weight: bold;
 `;
 
-interface ShopCountInfoProps extends Partial<Shop> {
+interface ShopCountInfoProps extends Partial<ShopInfo> {
   [index: string]: any;
 }
 
