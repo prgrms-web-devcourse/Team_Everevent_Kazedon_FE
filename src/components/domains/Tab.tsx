@@ -23,6 +23,7 @@ export interface TabProps {
   size?: string | number;
   leftText: string;
   rightText: string;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const TabContainer: React.FC<Partial<TabProps>> = styled.div`
@@ -46,6 +47,7 @@ const Tab: React.FC<TabProps> = ({
   isLeftFocused = true,
   leftText,
   rightText,
+  onClick,
   ...props
 }) => {
   return (
@@ -56,10 +58,20 @@ const Tab: React.FC<TabProps> = ({
       margin={margin}
       padding={padding}
     >
-      <TabButton isLeft={isLeft} isLeftFocused={isLeftFocused}>
+      <TabButton
+        onClick={onClick}
+        isLeft={isLeft}
+        isLeftFocused={isLeftFocused}
+        id="left"
+      >
         {leftText}
       </TabButton>
-      <TabButton isLeft={!isLeft} isLeftFocused={!isLeftFocused}>
+      <TabButton
+        onClick={onClick}
+        isLeft={!isLeft}
+        isLeftFocused={!isLeftFocused}
+        id="right"
+      >
         {rightText}
       </TabButton>
     </TabContainer>

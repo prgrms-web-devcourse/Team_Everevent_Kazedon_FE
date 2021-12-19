@@ -1,7 +1,8 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, HeaderText, Input, Text } from '@components/atoms';
 import { css } from '@emotion/react';
+import OverlapCheck from './OverlapCheck';
 import Tab from './Tab';
 
 interface Props {
@@ -10,16 +11,14 @@ interface Props {
 }
 
 const ProfileEditContainer = styled.div`
+  width: 280px;
   margin-top: 60px;
 `;
 
-const CheckWrapper = styled.div`
+const ModifyWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const ButtonRight = css`
-  margin-left: auto;
+  margin-bottom: 32px;
 `;
 
 const marginBottom = (size: number) => css`
@@ -27,6 +26,15 @@ const marginBottom = (size: number) => css`
 `;
 
 const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
+  const [buttonFocus, setButtonFocus] = useState(true);
+
+  const handlerChangeTab = (e: React.MouseEvent) => {
+    const { id } = e.currentTarget as HTMLElement;
+
+    if (id === 'left') setButtonFocus(true);
+    else if (id === 'right') setButtonFocus(false);
+  };
+
   return (
     <ProfileEditContainer {...props}>
       <HeaderText level={1} marginBottom={43}>
@@ -38,65 +46,66 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
       <Text block size="medium" css={marginBottom(16)}>
         {email}
       </Text>
-      <HeaderText level={2} marginBottom={16}>
-        비밀번호
-      </HeaderText>
-      <CheckWrapper css={marginBottom(16)}>
-        <Input
-          type="password"
-          sizeType="small"
+      <ModifyWrapper css={marginBottom(16)}>
+        <HeaderText level={2} marginBottom={16}>
+          비밀번호
+        </HeaderText>
+        <OverlapCheck
+          placeholder="비밀번호 입력"
           name="password"
           error={false}
-          placeholder="비밀번호입력"
-          css={marginBottom(16)}
+          buttonText="비밀번호 확인"
+          onChange={(e) => {}}
+          onClick={(e) => {}}
         />
-        <Button reversal border width={95} css={ButtonRight}>
-          비밀번호 확인
-        </Button>
-      </CheckWrapper>
+      </ModifyWrapper>
       <Tab
         width={279}
+        isLeft
+        isLeftFocused={buttonFocus}
         leftText="닉네임 변경"
         rightText="비밀번호 변경"
+        onClick={handlerChangeTab}
         css={marginBottom(16)}
       />
-      <HeaderText level={2} marginBottom={16}>
-        닉네임 변경
-      </HeaderText>
-      <CheckWrapper css={marginBottom(32)}>
-        <Input
-          type="password"
-          sizeType="small"
-          name="password"
-          error={false}
-          placeholder="닉네임"
-          css={marginBottom(16)}
-        />
-        <Button reversal border width={95} css={ButtonRight}>
-          중복 확인
-        </Button>
-      </CheckWrapper>
-      <CheckWrapper css={marginBottom(32)}>
-        <HeaderText level={2} marginBottom={16}>
-          비밀번호 변경
-        </HeaderText>
-        <Input
-          sizeType="small"
-          placeholder="비밀번호"
-          type="password"
-          name="password"
-          css={marginBottom(8)}
-          error={false}
-        />
-        <Input
-          sizeType="small"
-          placeholder="비밀번호 확인"
-          type="password"
-          name="passwordCheck"
-          css={marginBottom(8)}
-          error={false}
-        />
-      </CheckWrapper>
+
+      {buttonFocus ? (
+        <ModifyWrapper>
+          <HeaderText level={2} marginBottom={16}>
+            닉네임 변경
+          </HeaderText>
+          <OverlapCheck
+            placeholder="닉네임"
+            name="nickname"
+            error={false}
+            buttonText="닉네임 중복 확인"
+            onChange={(e) => {}}
+            onClick={(e) => {}}
+          />
+        </ModifyWrapper>
+      ) : (
+        <ModifyWrapper>
+          <HeaderText level={2} marginBottom={16}>
+            비밀번호 변경
+          </HeaderText>
+          <Input
+            sizeType="small"
+            placeholder="비밀번호"
+            type="password"
+            name="password"
+            css={marginBottom(8)}
+            error={false}
+          />
+          <Input
+            sizeType="small"
+            placeholder="비밀번호 확인"
+            type="password"
+            name="passwordCheck"
+            css={marginBottom(8)}
+            error={false}
+          />
+        </ModifyWrapper>
+      )}
       <Button>확인</Button>
     </ProfileEditContainer>
   );
