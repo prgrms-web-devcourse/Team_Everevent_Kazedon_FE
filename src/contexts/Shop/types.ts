@@ -1,15 +1,8 @@
-export interface Shop {
-  marketName: string | null;
+export interface ShopInfo {
+  marketId: string | null;
+  name: string | null;
   description: string | null;
   eventCount: number | null;
-  favoriteCount: number | null;
-  reviewCount: number | null;
-}
-
-export interface ShopEvent {
-  name: string | null;
-  expiredAt: string | null;
-  marketName: string | null;
   favoriteCount: number | null;
   reviewCount: number | null;
 }
@@ -28,5 +21,15 @@ export interface ShopEventInfo {
   pictures: PicturesType[] | [];
 }
 
-// export type EventCreateFormData = Partial<Omit<ShopEventInfo, 'pictures'>>;
+export interface ShopContextType {
+  [dispatchEvent: string]: any;
+}
+
 export type EventCreateFormData = Partial<ShopEventInfo>;
+
+// TODO: API에 name이 추가된 후 리팩토링할 예정
+export type ShopInfoData = Partial<Omit<ShopInfo, 'name'>>;
+
+export type Action = { type: 'GET_SHOP_INFO' };
+
+export const GET_SHOP_INFO = 'GET_SHOP_INFO';

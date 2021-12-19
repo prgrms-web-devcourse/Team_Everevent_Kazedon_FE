@@ -2,14 +2,17 @@ import React from 'react';
 import EventListProvider from '@contexts/event';
 import ReviewProvider from '@contexts/review';
 import { UserProvider } from '@contexts/UserContext';
-import { OwnerProvider } from './Owner';
+import { OwnerProvider } from '@contexts/Owner';
+import { ShopProvider } from '@contexts/Shop';
 
 const ContextProvider: React.FC<React.ReactNode> = ({ children }) => {
   return (
     <UserProvider>
       <EventListProvider>
         <ReviewProvider>
-          <OwnerProvider>{children}</OwnerProvider>
+          <OwnerProvider>
+            <ShopProvider>{children}</ShopProvider>
+          </OwnerProvider>
         </ReviewProvider>
       </EventListProvider>
     </UserProvider>

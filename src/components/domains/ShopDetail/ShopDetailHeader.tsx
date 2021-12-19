@@ -40,12 +40,10 @@ const ShopDetailHeader = ({
   description,
 }: ShopDetailHeaderProps) => {
   const [visible, setVisible] = useState(false);
-  const [shopDescription, setShopDescription] = useState(description);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
   const handleEdit = () => {
-    if (visible) setShopDescription(descriptionRef.current?.value);
-    // TODO: 추후 리팩토링할 예정입니다.
+    // TODO: 추후 리팩토링할 예정입니다. 수정 API연동예정
     // eslint-disable-next-line no-unused-expressions
     visible ? setVisible(false) : setVisible(true);
   };
@@ -59,11 +57,11 @@ const ShopDetailHeader = ({
         {visible ? (
           <DescriptionTextarea
             ref={descriptionRef}
-            defaultValue={shopDescription || ''}
+            defaultValue={description || ''}
           />
         ) : (
           <Text size="small" block fontStyle={{ overflow: 'hidden' }}>
-            {shopDescription || '가게소개가 없어요!'}
+            {description || '가게소개가 없어요!'}
           </Text>
         )}
         <EditButton onClick={handleEdit}>✏️</EditButton>
