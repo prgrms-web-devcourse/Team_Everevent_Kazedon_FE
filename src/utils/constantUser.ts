@@ -16,6 +16,7 @@ export const text = {
   },
   password: 'password',
   passwordCheck: 'passwordCheck',
+  passwordConfirm: '비밀번호가 틀립니다.',
   passwordInput: '비밀번호 형식을 확인해주세요.',
   passwordFail: '비밀번호를 확인해주세요.',
   passwordReg: /^[A-Za-z0-9]{6,12}$/,
