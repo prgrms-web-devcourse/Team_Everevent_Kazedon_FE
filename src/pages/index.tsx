@@ -3,7 +3,11 @@ import CardList from '@components/atoms/CardList';
 import MainContainer from '@components/atoms/MainContainer';
 import EventCard from '@components/domains/EventCard';
 import Header from '@components/domains/Header';
-import SortButtons, { buttonArrType } from '@components/domains/SortButtons';
+import SortButtons, {
+  ButtonArrType,
+  SortOrder,
+  SortType,
+} from '@components/domains/SortButtons';
 import { useEvent } from '@contexts/event';
 import { css } from '@emotion/react';
 import styles from '@styles/index';
@@ -47,6 +51,8 @@ const MainPage: NextPage = () => {
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [addressValue, setAddressValue] = useState<string>('');
   const { eventList, dispatchEventList, initializeEventList } = useEvent();
+  const [sortState, setSortState] = useState<SortOrder>('desc');
+  const [sortTypeState, setSortTypeState] = useState<SortType>('createdAt');
   const router = useRouter();
 
   const handleCardClick = (eventId: string) => {
@@ -83,20 +89,36 @@ const MainPage: NextPage = () => {
 
     dispatchEventList({
       location: userAddress,
-      sort: 'expiredAt,desc',
+      sort: `${sortTypeState},${sortState}`,
       page: 0,
       size: 10,
     });
     return () => initializeEventList();
-  }, [userAddress, dispatchEventList, initializeEventList]);
+  }, [
+    userAddress,
+    dispatchEventList,
+    initializeEventList,
+    sortState,
+    sortTypeState,
+  ]);
 
-  /* eslint-disable no-console */
+  const buttonNames = {
+    createdAt: '최신 순',
+    likeCount: '좋아요 순',
+    expiredAt: '종료일 순',
+  } as const;
   const buttonArr = [
-    ['추천순', () => console.log('추천순')],
-    ['등록순', () => console.log('등록순')],
-    ['마감순', () => console.log('마감순')],
-    ['좋아요순', () => console.log('좋아요순')],
-  ] as buttonArrType[];
+    [buttonNames.createdAt, () => setSortTypeState(() => 'createdAt')],
+    [buttonNames.likeCount, () => setSortTypeState(() => 'likeCount')],
+    [buttonNames.expiredAt, () => setSortTypeState(() => 'expiredAt')],
+  ] as ButtonArrType[];
+
+  const handleSortAscend = useCallback(() => {
+    setSortState(() => 'asc');
+  }, []);
+  const handleSortDescend = useCallback(() => {
+    setSortState(() => 'desc');
+  }, []);
 
   return (
     <>
@@ -112,7 +134,15 @@ const MainPage: NextPage = () => {
         >
           <div>{userAddress || ''}</div>
         </Button>
-        <SortButtons width={230} buttonArr={buttonArr} buttonMargin={16} />
+        <SortButtons
+          width="100%"
+          buttonArr={buttonArr}
+          buttonMargin={16}
+          sortTypeState={sortTypeState}
+          sortState={sortState}
+          onSortAscend={handleSortAscend}
+          onSortDescend={handleSortDescend}
+        />
         <CardList flexType="column" padding={0} margin="10px 0 0 0">
           {eventList.length ? (
             eventList.map((data, idx) => (
