@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { HeaderText, Text } from '@components/atoms';
-import { Shop } from '@contexts/Shop/types';
+import { ShopInfo } from '@contexts/Shop/types';
 import styled from '@emotion/styled';
 import Common from '@styles/index';
 
@@ -31,7 +31,7 @@ const EditButton = styled.button`
   margin-left: auto;
 `;
 
-interface ShopDetailHeaderProps extends Partial<Shop> {
+interface ShopDetailHeaderProps extends Partial<ShopInfo> {
   [index: string]: any;
 }
 

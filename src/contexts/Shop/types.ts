@@ -12,6 +12,7 @@ interface PicturesType {
 }
 
 // TODO: 일단 marketId, expiredAt, maxParticipants은 string으로 하고 추후 수정
+// TODO: 네이밍 수정 예정
 export interface ShopEventInfo {
   name: string | null;
   marketId: string | null;
@@ -19,6 +20,14 @@ export interface ShopEventInfo {
   expiredAt: string | null;
   maxParticipants: string | null;
   pictures: PicturesType[] | [];
+}
+
+export interface ShopEvent {
+  name: string | null;
+  expiredAt: string | null;
+  marketName: string | null;
+  favoriteCount: number | null;
+  reviewCount: number | null;
 }
 
 export interface ShopContextType {
