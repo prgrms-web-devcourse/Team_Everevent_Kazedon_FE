@@ -8,7 +8,7 @@ import Common from '@styles/index';
 import { ErrorProfile, ProfileUserInfo } from '@contexts/UserContext/types';
 import { text } from '@utils/constantUser';
 import { onConfirmPassword, onRegisterCheck } from '@axios/user';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import OverlapCheck from './OverlapCheck';
 import Tab from './Tab';
 
@@ -34,7 +34,7 @@ const marginBottom = (size: number) => css`
 
 const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
   const { state } = useContext(UserContext);
-  const router = useRouter();
+  // const router = useRouter();
   const [buttonFocus, setButtonFocus] = useState(true);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
   const [successNicknameMessage, setSuccessNicknameMessage] = useState(false);
@@ -46,17 +46,15 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
         password: '',
         passwordCheck: '',
       },
-      onSubmit: (values) => {
+      onSubmit: (formData) => {
         if (!passwordConfirm) return;
-        if (values.nickname && !successNicknameMessage) return;
-
+        if (formData.nickname && !successNicknameMessage) return;
+        // eslint-disable-next-line
         const profileEditUserInfo = {
-          nickname: values.nickname === '' ? undefined : values.nickname,
-          password: values.password === '' ? undefined : values.password,
+          nickname: formData.nickname === '' ? undefined : formData.nickname,
+          password: formData.password === '' ? undefined : formData.password,
         };
-
         // API 전송
-        console.log(profileEditUserInfo);
       },
       validate: ({ password }) => {
         const newErrors: ErrorProfile = {};
