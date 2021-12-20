@@ -50,7 +50,7 @@ const EventDetailPage = () => {
     <MainContainer paddingWidth={24}>
       <Header />
       <EventDetailHeader
-        expiredAt={event.expriedAt as string}
+        expiredAt={event.expiredAt as string}
         marketName={event.marketName}
         name={event.eventName}
         isLike={event.like as boolean}
