@@ -1,7 +1,8 @@
-import React, { ReactNode, useEffect, useMemo } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { createPortal } from 'react-dom';
 import useClickAway from '@hooks/useClickAway';
+import { MainContainer } from '@components/atoms';
 
 interface ModalProps {
   visible: boolean;
@@ -21,7 +22,7 @@ const BackgroundDim = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  position: fixed;
+  position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
@@ -51,20 +52,27 @@ const Modal: React.FC<ModalProps> = ({
     }
   });
 
-  const el = useMemo(() => document.createElement('div'), []);
+  const [el, setEl] = useState<HTMLDivElement | null>(null);
+  useEffect(() => {
+    setEl(() => document.createElement('div'));
+  }, []);
 
   useEffect(() => {
+    if (!el) return;
     document.body.appendChild(el);
     return () => {
       document.body.removeChild(el);
     };
   }, [el]);
 
+  if (!el) return null;
   return createPortal(
     <BackgroundDim visible={visible}>
-      <ModalContainer ref={ref} {...props}>
-        {children}
-      </ModalContainer>
+      <MainContainer as="div" paddingWidth={24}>
+        <ModalContainer ref={ref} {...props}>
+          {children}
+        </ModalContainer>
+      </MainContainer>
     </BackgroundDim>,
     el
   );

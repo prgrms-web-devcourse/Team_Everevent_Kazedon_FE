@@ -66,6 +66,7 @@ const Modal = ({
   useEffect(() => {
     setEl(() => document.createElement('div'));
   }, []);
+
   useEffect(() => {
     if (el) document.body.appendChild(el);
     return () => {
