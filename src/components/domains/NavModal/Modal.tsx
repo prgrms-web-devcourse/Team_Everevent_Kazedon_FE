@@ -24,7 +24,7 @@ const BackgroundDim = styled.div`
 const ModalContainer = styled.div`
   position: absolute;
   right: 0;
-  bottom: -400px;
+  bottom: 0;
   left: 0;
   box-sizing: border-box;
   display: flex;
@@ -39,9 +39,10 @@ const ModalContainer = styled.div`
   border-top-right-radius: 20px;
   box-shadow: 0 3px 6px rgb(0 0 0 / 20%);
   transition: all 0.3s;
+  transform: translateY(400px);
 
   &.visible {
-    bottom: 0;
+    transform: translateY(0);
   }
 `;
 
