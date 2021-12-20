@@ -24,7 +24,7 @@ const BackgroundDim = styled.div`
 const ModalContainer = styled.div`
   position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: -400px;
   left: 0;
   box-sizing: border-box;
   display: flex;
@@ -38,6 +38,11 @@ const ModalContainer = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 3px 6px rgb(0 0 0 / 20%);
+  transition: all 0.3s;
+
+  &.visible {
+    bottom: 0;
+  }
 `;
 
 const Modal: React.FC<ModalProps> = ({
@@ -64,6 +69,11 @@ const Modal: React.FC<ModalProps> = ({
       document.body.removeChild(el);
     };
   }, [el]);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    ref.current.classList.toggle('visible', visible);
+  }, [ref, visible]);
 
   if (!el) return null;
   return createPortal(
