@@ -19,6 +19,8 @@ export interface TabButtonProps {
   block?: boolean;
   isLeft?: boolean;
   isLeftFocused?: boolean;
+  id?: string;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   display?: 'none' | 'flex';
 }
 
@@ -59,12 +61,12 @@ const TabButton: React.FC<TabButtonProps> = ({
   isLeft = true,
   isLeftFocused = true,
   color,
+  onClick,
   backgroundColor,
   ...props
 }) => {
   return (
     <StyledTab
-      {...props}
       width={width}
       height={height}
       margin={margin}
@@ -72,6 +74,8 @@ const TabButton: React.FC<TabButtonProps> = ({
       isLeft={isLeft}
       isLeftFocused={isLeftFocused}
       backgroundColor={backgroundColor}
+      onClick={onClick}
+      {...props}
     >
       <Text>{children}</Text>
     </StyledTab>

@@ -10,4 +10,5 @@ export { default as UserChangeForm } from './UserChangeForm';
 export { default as Success } from './Success';
 export { default as OverlapCheck } from './OverlapCheck';
 export { default as ProfileEdit } from './ProfileEdit';
+export { default as PasswordForm } from './PasswordForm';
 export * from './EventDetail/index';
