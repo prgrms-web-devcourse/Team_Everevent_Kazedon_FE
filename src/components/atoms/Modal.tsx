@@ -64,11 +64,22 @@ const Modal = ({
 
   const [el, setEl] = useState<HTMLDivElement | null>(null);
   useEffect(() => {
-    setEl(() => document.createElement('div'));
-  }, []);
-  useEffect(() => {
-    if (el) document.body.appendChild(el);
+    let mounted = true;
+    if (mounted) setEl(() => document.createElement('div'));
+
     return () => {
+      mounted = false;
+      setEl(() => null);
+    };
+  }, []);
+
+  useEffect(() => {
+    let mounted = true;
+    if (mounted) {
+      if (el) document.body.appendChild(el);
+    }
+    return () => {
+      mounted = false;
       if (el) document.body.removeChild(el);
     };
   }, [el]);

@@ -1,9 +1,10 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Text, Icon } from '@components/atoms';
 import { css } from '@emotion/react';
 import { MdOutlineMenu, MdOutlineArrowBackIosNew } from 'react-icons/md';
 import logo from '../../../public/logo.svg';
+import { NavModal, NavModalInner } from './NavModal';
 
 export interface HeaderProps {
   children?: ReactNode;
@@ -16,6 +17,7 @@ export interface HeaderProps {
   isVisiblePrev?: boolean;
   src?: string;
   justifyContent?: 'none' | 'space-between';
+  onMenuClick?: () => void;
 }
 
 const HeaderContainer = styled.div`
@@ -49,6 +51,17 @@ const Header: React.FC<HeaderProps> = ({
   isVisibleMenu = true,
   ...props
 }) => {
+  const [navModalVisible, setNavModalVisible] = useState<boolean>(false);
+  useEffect(() => {
+    return () => setNavModalVisible(() => false);
+  }, []);
+  const handleMenuClick = () => {
+    setNavModalVisible(() => true);
+  };
+
+  const handleNavModalClose = () => {
+    setNavModalVisible(() => false);
+  };
   return (
     <HeaderContainer {...props}>
       <HeaderSection
@@ -59,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({
         <Image src={logo.src} width={logo.width} height={logo.height} />
         {isVisibleMenu && (
           <Icon size={size}>
-            <MdOutlineMenu />
+            <MdOutlineMenu onClick={handleMenuClick} />
           </Icon>
         )}
       </HeaderSection>
@@ -75,6 +88,9 @@ const Header: React.FC<HeaderProps> = ({
           <Text size="small">뒤로</Text>
         </HeaderSection>
       )}
+      <NavModal visible={navModalVisible} onClose={handleNavModalClose}>
+        <NavModalInner userType="owner" />
+      </NavModal>
     </HeaderContainer>
   );
 };

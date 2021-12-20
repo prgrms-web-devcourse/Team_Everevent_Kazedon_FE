@@ -11,8 +11,8 @@ const useClickAway = (handler: Function) => {
   }, [handler]);
 
   useEffect(() => {
+    if (!ref.current) return;
     const element = ref.current;
-    if (!element) return;
 
     const handleEvent = (e: any) => {
       if (!element.contains(e.target)) {
@@ -21,15 +21,16 @@ const useClickAway = (handler: Function) => {
     };
 
     for (const eventName of events) {
-      document.addEventListener(eventName, handleEvent);
+      document.body.addEventListener(eventName, handleEvent);
     }
 
     return () => {
       for (const eventName of events) {
-        document.removeEventListener(eventName, handleEvent);
+        document.body.addEventListener(eventName, handleEvent);
       }
     };
-  }, [ref]);
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [ref.current]);
 
   return ref;
 };

@@ -1,7 +1,8 @@
-import React, { ReactNode, useEffect, useMemo } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { createPortal } from 'react-dom';
 import useClickAway from '@hooks/useClickAway';
+import { MainContainer } from '@components/atoms';
 
 interface ModalProps {
   visible: boolean;
@@ -21,7 +22,7 @@ const BackgroundDim = styled.div`
 `;
 
 const ModalContainer = styled.div`
-  position: fixed;
+  position: absolute;
   right: 0;
   bottom: 0;
   left: 0;
@@ -37,6 +38,12 @@ const ModalContainer = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 3px 6px rgb(0 0 0 / 20%);
+  transform: translateY(400px);
+
+  &.visible {
+    transition: all 0.3s;
+    transform: translateY(0);
+  }
 `;
 
 const Modal: React.FC<ModalProps> = ({
@@ -51,20 +58,45 @@ const Modal: React.FC<ModalProps> = ({
     }
   });
 
-  const el = useMemo(() => document.createElement('div'), []);
+  const [el, setEl] = useState<HTMLDivElement | null>(null);
+  useEffect(() => {
+    setEl(() => document.createElement('div'));
+    return () => {
+      setEl(() => null);
+    };
+  }, []);
 
   useEffect(() => {
-    document.body.appendChild(el);
+    if (!el) return;
+    let mounted = true;
+    if (mounted) {
+      document.body.appendChild(el);
+    }
     return () => {
+      mounted = false;
       document.body.removeChild(el);
     };
   }, [el]);
 
+  useEffect(() => {
+    let mounted = true;
+    if (!ref.current) return;
+    if (mounted) {
+      ref.current.classList.toggle('visible', visible);
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [ref, visible]);
+
+  if (!el) return null;
   return createPortal(
     <BackgroundDim visible={visible}>
-      <ModalContainer ref={ref} {...props}>
-        {children}
-      </ModalContainer>
+      <MainContainer as="div" paddingWidth={24}>
+        <ModalContainer ref={ref} {...props}>
+          {children}
+        </ModalContainer>
+      </MainContainer>
     </BackgroundDim>,
     el
   );
