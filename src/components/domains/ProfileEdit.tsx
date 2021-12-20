@@ -1,6 +1,6 @@
 import React, { ReactNode, useContext, useState } from 'react';
 import styled from '@emotion/styled';
-import { Button, HeaderText, Input, Text } from '@components/atoms';
+import { Button, HeaderText, Text } from '@components/atoms';
 import { css } from '@emotion/react';
 import UserContext from '@contexts/UserContext';
 import useForm from '@hooks/useForm';
@@ -11,6 +11,7 @@ import { onConfirmPassword, onRegisterCheck } from '@axios/user';
 // import { useRouter } from 'next/router';
 import OverlapCheck from './OverlapCheck';
 import Tab from './Tab';
+import PasswordForm from './PasswordForm';
 
 interface Props {
   children?: ReactNode;
@@ -231,24 +232,7 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
           <HeaderText level={2} marginBottom={16}>
             비밀번호 변경
           </HeaderText>
-          <Input
-            sizeType="small"
-            placeholder="비밀번호"
-            type="password"
-            name="password"
-            onChange={handleChange}
-            error={false}
-            css={marginBottom(8)}
-          />
-          <Input
-            sizeType="small"
-            placeholder="비밀번호 확인"
-            type="password"
-            name="passwordCheck"
-            onChange={handleChange}
-            error={false}
-            css={marginBottom(8)}
-          />
+          <PasswordForm onChange={handleChange} error={false} />
           <Text
             size="micro"
             fontStyle={{ display: 'flex', justifyContent: 'center' }}

@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from 'react';
 import styled from '@emotion/styled';
-import { Button, Input, HeaderText, Text } from '@components/atoms';
+import { Button, HeaderText, Text } from '@components/atoms';
 import useForm from '@hooks/useForm';
 import Common from '@styles/index';
 import { onRegister, onRegisterCheck } from '@axios/user';
@@ -11,8 +11,9 @@ import {
 } from '@contexts/UserContext/types';
 import { registerReducer } from '@contexts/UserContext/reducer';
 import { useRouter } from 'next/router';
-import { css } from '@emotion/react';
+import { marginBottom } from '@utils/computed';
 import OverlapCheck from './OverlapCheck';
+import PasswordForm from './PasswordForm';
 
 const RegisterFormContainer = styled.div`
   display: flex;
@@ -28,10 +29,6 @@ const PasswordWrapper = styled.div`
 `;
 
 type OverlapParams = 'email' | 'nickname';
-
-const marginBottom = (size: string | number) => css`
-  margin-bottom: ${typeof size === 'string' ? size : `${size}px`};
-`;
 
 const RegisterForm = () => {
   const router = useRouter();
@@ -154,9 +151,7 @@ const RegisterForm = () => {
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.warning}
-            css={css`
-              margin-bottom: 8px;
-            `}
+            css={marginBottom(8)}
           >
             {errors.email}
           </Text>
@@ -167,9 +162,7 @@ const RegisterForm = () => {
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.point}
-            css={css`
-              margin-bottom: 8px;
-            `}
+            css={marginBottom(8)}
           >
             확인 완료됐습니다.
           </Text>
@@ -190,9 +183,7 @@ const RegisterForm = () => {
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.warning}
-            css={css`
-              margin-bottom: 8px;
-            `}
+            css={marginBottom(8)}
           >
             {errors.nickname}
           </Text>
@@ -203,41 +194,19 @@ const RegisterForm = () => {
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.point}
-            css={css`
-              margin-bottom: 8px;
-            `}
+            css={marginBottom(8)}
           >
             확인 완료됐습니다.
           </Text>
         )}
       </OverlapCheck>
       <PasswordWrapper>
-        <Input
-          sizeType="small"
-          placeholder="비밀번호"
-          type="password"
-          name="password"
-          css={css`
-            margin-bottom: 8px;
-          `}
-          onChange={onValidate}
-          error={validateErrors.password}
-        />
-        <Input
-          sizeType="small"
-          placeholder="비밀번호 확인"
-          type="password"
-          name="passwordCheck"
-          css={css`
-            margin-bottom: 8px;
-          `}
-          onChange={onValidate}
-          error={validateErrors.passwordCheck}
-        />
+        <PasswordForm onChange={onValidate} error={validateErrors} />
         <Text
           size="micro"
           fontStyle={{ display: 'flex', justifyContent: 'center' }}
           block
+          css={marginBottom(8)}
           color={
             errors.password ? Common.colors.warning : Common.colors.placeholder
           }
@@ -251,9 +220,6 @@ const RegisterForm = () => {
         height={48}
         borderRadius="15px"
         onClick={handleSubmit}
-        css={css`
-          margin-top: 8px;
-        `}
         bold
       >
         회원가입
