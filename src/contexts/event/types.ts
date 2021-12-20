@@ -1,18 +1,15 @@
 import { ErrorType } from '@axios/types';
 
-interface PicturesType {
-  url: string;
-}
 export interface EventDetail {
   eventId: number;
   eventName: string;
-  expriedAt: string | Date;
+  expiredAt: string | Date;
   marketName: string;
   marketDescription: string;
   eventDescription: string;
   like: boolean | null;
   favorite: boolean | null;
-  pictures: PicturesType[] | [];
+  pictures: string[] | [];
   participated: boolean | null;
   completed: boolean | null;
 }
