@@ -25,7 +25,7 @@ const marginLeftCSS = (width = '4') => css`
 `;
 
 export interface EventCardProps {
-  eventData: Event;
+  eventData?: Event;
   idx: number;
   width?: number | string;
   marginWidth?: number | string;
