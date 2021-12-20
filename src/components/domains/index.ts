@@ -11,4 +11,5 @@ export { default as Success } from './Success';
 export { default as OverlapCheck } from './OverlapCheck';
 export { default as ProfileEdit } from './ProfileEdit';
 export { default as PasswordForm } from './PasswordForm';
+export { default as Tab } from './Tab';
 export * from './EventDetail/index';
