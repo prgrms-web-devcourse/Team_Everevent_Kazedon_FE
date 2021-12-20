@@ -13,6 +13,9 @@ import useForm from '@hooks/useForm';
 import Common from '@styles/index';
 import Constants from '@utils/index';
 import { EventCreateFormData } from '@contexts/Shop/types';
+import { ShopContext } from '@contexts/Shop/index';
+import { useCallback, useContext, useState } from 'react';
+import { useRouter } from 'next/router';
 
 const FormWrapper = styled.div`
   display: flex;
@@ -41,19 +44,50 @@ const ButtonCSS = css`
 `;
 
 const CreateEventForm = () => {
-  const { errors, handleChange, handleSubmit } = useForm<EventCreateFormData>({
+  // createShopEvent
+  const { createShopEvent } = useContext(ShopContext);
+  const router = useRouter();
+  const { shopId } = router.query;
+  const newErrors: EventCreateFormData = {};
+  const [files, setFiles] = useState<File[] | []>([]);
+
+  const handleUpload = useCallback(({ value }) => {
+    setFiles(() => value);
+  }, []);
+
+  const { errors, handleChange, handleSubmit } = useForm<
+    Partial<EventCreateFormData>
+  >({
     initialValues: {
       name: '',
       marketId: '',
       description: '',
       expiredAt: '',
       maxParticipants: '',
-      pictures: [],
     },
-    // TODO: onSubmit에서 values 받아서 처리할 예정
-    onSubmit: async () => {},
+    onSubmit: async (eventData) => {
+      errors.maxParticipants = '';
+
+      const eventInfo = {
+        name: eventData.name,
+        marketId: Number(shopId),
+        description: eventData.description,
+        expiredAt: eventData.expiredAt,
+        maxParticipants: Number(eventData.maxParticipants),
+      };
+
+      // eslint-disable-next-line no-console
+      /* console.log('formData: ', {
+        files,
+        request: eventInfo,
+      }); */
+
+      await createShopEvent({
+        files,
+        request: eventInfo,
+      });
+    },
     validate: ({ name, description, expiredAt, maxParticipants }) => {
-      const newErrors: EventCreateFormData = {};
       const today = new Date();
 
       // TODO: marketId
@@ -83,8 +117,6 @@ const CreateEventForm = () => {
       } else if (Number(maxParticipants) > 99) {
         newErrors.maxParticipants =
           Constants.ERROR_MSG.eventMaxParticipantsFormat;
-      } else {
-        newErrors.maxParticipants = Constants.ERROR_MSG.default;
       }
 
       return newErrors;
@@ -186,7 +218,7 @@ const CreateEventForm = () => {
       <HeaderText level={2} marginBottom={16}>
         사진
       </HeaderText>
-      <Upload uploadType="multiple" />
+      <Upload uploadType="multiple" dispatchEvent={handleUpload} />
       <Text size="micro" block>
         5mb 이하의 용량으로 올려주세요.
       </Text>

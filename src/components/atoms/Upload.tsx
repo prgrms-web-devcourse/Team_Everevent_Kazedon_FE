@@ -68,9 +68,10 @@ const Upload = ({
 
   useEffect(() => {
     if (dispatchEvent) {
-      const payload = UPLOAD_TYPE_SINGLE
-        ? { name: 'picture', value: file.files[0] }
-        : { name: 'pictures', value: file.files };
+      const payload =
+        UPLOAD_TYPE_SINGLE === uploadType
+          ? { name: 'picture', value: file.files[0] }
+          : { name: 'pictures', value: file.files };
       dispatchEvent(payload);
     }
   }, [file, dispatchEvent]);

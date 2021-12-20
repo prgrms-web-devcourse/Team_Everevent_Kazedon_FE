@@ -39,6 +39,14 @@ export type EventCreateFormData = Partial<ShopEventInfo>;
 // TODO: API에 name이 추가된 후 리팩토링할 예정
 export type ShopInfoData = Partial<Omit<ShopInfo, 'name'>>;
 
-export type Action = { type: 'GET_SHOP_INFO' };
+export type Action =
+  | { type: 'GET_SHOP_INFO' }
+  | { type: 'POST_EVENT_INFO' }
+  | {
+      type: 'EVENT/CHANGE_CONTENT';
+      payload: { name: string; value: File | string };
+    };
 
 export const GET_SHOP_INFO = 'GET_SHOP_INFO';
+export const POST_EVENT_INFO = 'POST_EVENT_INFO';
+export const CHANGE_EVENT_CONTENT = 'EVENT/CHANGE_CONTENT';
