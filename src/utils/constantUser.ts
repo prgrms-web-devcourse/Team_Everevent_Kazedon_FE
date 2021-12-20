@@ -1,6 +1,7 @@
 export const LOGIN = 'LOG_IN';
 export const LOGOUT = 'LOG_OUT';
 export const REGISTER = 'REGISTER';
+export const USERCHECK = 'USER_CHECK';
 export const TOKEN = 'token';
 export const text = {
   default: '6자 이상 영어 대소문자, 숫자를 입력해주세요.',
