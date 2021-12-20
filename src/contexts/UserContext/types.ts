@@ -13,7 +13,7 @@ export type RegisterUserFormData = Required<
   Omit<Info, 'passwordConfirm' | 'userId'>
 >;
 export type RegisterUserInfo = Required<
-  Omit<Info, 'passwordCheck' | 'passwordConfirm'>
+  Omit<Info, 'passwordCheck' | 'passwordConfirm' | 'userId'>
 >;
 export type ErrorUserForm = Partial<Omit<Info, 'passwordConfirm' | 'userId'>>;
 export type ProfileUserInfo = Partial<Omit<Info, 'email' | 'userId'>>;
