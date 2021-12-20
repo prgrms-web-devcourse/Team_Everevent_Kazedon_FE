@@ -9,14 +9,15 @@ const createReview = async ({
   picture,
 }: CreateReviewParams) => {
   const formData = new FormData();
-  formData.append('picture', picture);
+  formData.append('file', picture);
+  formData.append(
+    'request',
+    new Blob([JSON.stringify({ description })], { type: 'application/json' })
+  );
   const res: ResType<Review> = await request.post(
     `/events/${eventId}/reviews`,
+    formData,
     {
-      data: {
-        description,
-        picture: formData,
-      },
       headers: {
         'Content-Type': 'multipart/form-data',
       },
