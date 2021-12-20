@@ -19,7 +19,7 @@ const fontStyle = {
 };
 
 const dynamicUrl = {
-  user: '/owner',
+  user: '/owner/change',
   owner: '/shop',
 };
 
@@ -34,30 +34,41 @@ const Navigator: React.FC<NavigatorProps> = ({ userType, ...props }) => {
       <Text block size="large" style={fontStyle}>
         설정
       </Text>
-      <Link href="/likes" passHref>
-        <Text block size="medium" style={fontStyle}>
-          즐겨찾기 / 좋아요
-        </Text>
+      {/* eslint-disable @next/next/no-html-link-for-pages */}
+      <Link href="/likes/event">
+        <a href="/likes/event">
+          <Text block size="medium" style={fontStyle}>
+            즐겨찾기 / 좋아요
+          </Text>
+        </a>
       </Link>
-      <Link href="/history" passHref>
-        <Text block size="medium" style={fontStyle}>
-          활동내역
-        </Text>
+      <Link href="/history/events" passHref>
+        <a href="/history/events">
+          <Text block size="medium" style={fontStyle}>
+            활동내역
+          </Text>
+        </a>
       </Link>
-      <Link href="/profile" passHref>
-        <Text block size="medium" style={fontStyle}>
-          프로필 수정
-        </Text>
+      <Link href="/profile/edit" passHref>
+        <a href={dynamicUrl[userType]}>
+          <Text block size="medium" style={fontStyle}>
+            프로필 수정
+          </Text>
+        </a>
       </Link>
       <Link href={dynamicUrl[userType]} passHref>
-        <Text block size="medium" style={fontStyle}>
-          {dynamicTitle[userType]}
-        </Text>
+        <a href={dynamicUrl[userType]}>
+          <Text block size="medium" style={fontStyle}>
+            {dynamicTitle[userType]}
+          </Text>
+        </a>
       </Link>
       <Link href="/" passHref>
-        <Text block size="medium" style={fontStyle}>
-          로그아웃
-        </Text>
+        <a href="/">
+          <Text block size="medium" style={fontStyle}>
+            로그아웃
+          </Text>
+        </a>
       </Link>
     </NavigatorContainer>
   );

@@ -1,10 +1,10 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Text, Icon } from '@components/atoms';
 import { css } from '@emotion/react';
 import { MdOutlineMenu, MdOutlineArrowBackIosNew } from 'react-icons/md';
 import logo from '../../../public/logo.svg';
-import { NavModal } from './NavModal';
+import { NavModal, NavModalInner } from './NavModal';
 
 export interface HeaderProps {
   children?: ReactNode;
@@ -52,6 +52,9 @@ const Header: React.FC<HeaderProps> = ({
   ...props
 }) => {
   const [navModalVisible, setNavModalVisible] = useState<boolean>(false);
+  useEffect(() => {
+    return () => setNavModalVisible(() => false);
+  }, []);
   const handleMenuClick = () => {
     setNavModalVisible(() => true);
   };
@@ -85,7 +88,9 @@ const Header: React.FC<HeaderProps> = ({
           <Text size="small">뒤로</Text>
         </HeaderSection>
       )}
-      <NavModal visible={navModalVisible} onClose={handleNavModalClose} />
+      <NavModal visible={navModalVisible} onClose={handleNavModalClose}>
+        <NavModalInner userType="owner" />
+      </NavModal>
     </HeaderContainer>
   );
 };

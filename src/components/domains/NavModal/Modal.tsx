@@ -38,10 +38,10 @@ const ModalContainer = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 3px 6px rgb(0 0 0 / 20%);
-  transition: all 0.3s;
   transform: translateY(400px);
 
   &.visible {
+    transition: all 0.3s;
     transform: translateY(0);
   }
 `;
@@ -61,19 +61,32 @@ const Modal: React.FC<ModalProps> = ({
   const [el, setEl] = useState<HTMLDivElement | null>(null);
   useEffect(() => {
     setEl(() => document.createElement('div'));
+    return () => {
+      setEl(() => null);
+    };
   }, []);
 
   useEffect(() => {
     if (!el) return;
-    document.body.appendChild(el);
+    let mounted = true;
+    if (mounted) {
+      document.body.appendChild(el);
+    }
     return () => {
+      mounted = false;
       document.body.removeChild(el);
     };
   }, [el]);
 
   useEffect(() => {
+    let mounted = true;
     if (!ref.current) return;
-    ref.current.classList.toggle('visible', visible);
+    if (mounted) {
+      ref.current.classList.toggle('visible', visible);
+    }
+    return () => {
+      mounted = false;
+    };
   }, [ref, visible]);
 
   if (!el) return null;
