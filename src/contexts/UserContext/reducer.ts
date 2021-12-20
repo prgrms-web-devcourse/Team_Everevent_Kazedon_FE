@@ -7,19 +7,24 @@ export const userContextreducer = (state: User, action: Action): User => {
       return {
         ...state,
         email: action.user.email,
-        userId: action.user.userId,
         nickname: action.user.nickname,
+        userType: action.user.userType,
       };
     case REGISTER:
       return { ...state };
     case LOGOUT:
-      return { ...state, email: '', nickname: '', userId: '' };
+      return {
+        ...state,
+        email: '',
+        nickname: '',
+        userType: { type: '', id: '' },
+      };
     case USERCHECK:
       return {
         ...state,
         email: action.user.email,
-        userId: action.user.userId,
         nickname: action.user.nickname,
+        userType: action.user.userType,
       };
 
     default:

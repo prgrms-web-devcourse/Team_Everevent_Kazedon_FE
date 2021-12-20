@@ -48,7 +48,13 @@ export const onCheckToken = async () => {
 };
 
 export const onCheckUser = async () => {
-  const res: ResType<any> = await request.get('members');
+  const res: ResType<User> = await request.get('members');
+
+  return res;
+};
+
+export const onGetUserType = async () => {
+  const res: ResType<any> = await request.get('markets');
 
   return res;
 };

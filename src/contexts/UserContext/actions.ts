@@ -8,8 +8,14 @@ import {
 } from '@utils/constantUser';
 import { removeStorage, setStorage } from '@utils/storage';
 import { Dispatch, useCallback } from 'react';
-import { onLogIn, onRegister, onLogOut, onCheckUser } from '@axios/user';
-import { LoginUserInfo, RegisterUserInfo } from './types';
+import {
+  onLogIn,
+  onRegister,
+  onLogOut,
+  onCheckUser,
+  onGetUserType,
+} from '@axios/user';
+import { LoginUserInfo, RegisterUserInfo, User } from './types';
 
 const useUserProvider = (dispatch: Dispatch<any>) => {
   const handleLogIn = useCallback(
@@ -23,8 +29,27 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
       const header = await res.headers;
       const user = await res.data;
 
-      dispatch({ type: LOGIN, user });
       setStorage(TOKEN, header[HEADERTOKEN]);
+
+      const userTypeRes = await onGetUserType();
+      const resUser: User = {
+        email: user.email,
+        nickname: user.nickname,
+      };
+
+      if (userTypeRes.error.code) {
+        resUser.userType = {
+          type: 'user',
+          id: user.userId as string,
+        };
+      } else {
+        resUser.userType = {
+          type: 'owner',
+          id: userTypeRes.data.marketId,
+        };
+      }
+
+      dispatch({ type: LOGIN, user: resUser });
     },
     [dispatch]
   );
@@ -51,9 +76,27 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
   }, [dispatch]);
 
   const handleUserCheck = useCallback(async () => {
-    const user = await onCheckUser();
+    const res = await onCheckUser();
+    const user = await res.data;
+    const userTypeRes = await onGetUserType();
+    const resUser: User = {
+      email: user.email,
+      nickname: user.nickname,
+    };
 
-    dispatch({ type: USERCHECK, user });
+    if (userTypeRes.error.code) {
+      resUser.userType = {
+        type: 'user',
+        id: user.userId as string,
+      };
+    } else {
+      resUser.userType = {
+        type: 'owner',
+        id: userTypeRes.data.marketId,
+      };
+    }
+
+    dispatch({ type: USERCHECK, user: resUser });
   }, [dispatch]);
 
   return {

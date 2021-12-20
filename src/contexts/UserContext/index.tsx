@@ -3,7 +3,11 @@ import useUserProvider from './actions';
 import { User, UserContextType } from './types';
 import { userContextreducer } from './reducer';
 
-const initialState: User = { email: '', userId: '', nickname: '' };
+const initialState: User = {
+  email: '',
+  nickname: '',
+  userType: { type: '', id: '' },
+};
 
 const UserContext = createContext<UserContextType>(initialState);
 
