@@ -4,10 +4,11 @@ import {
   LOGOUT,
   REGISTER,
   TOKEN,
+  USERCHECK,
 } from '@utils/constantUser';
 import { removeStorage, setStorage } from '@utils/storage';
 import { Dispatch, useCallback } from 'react';
-import { onLogIn, onRegister, onLogOut } from '@axios/user';
+import { onLogIn, onRegister, onLogOut, onCheckUser } from '@axios/user';
 import { LoginUserInfo, RegisterUserInfo } from './types';
 
 const useUserProvider = (dispatch: Dispatch<any>) => {
@@ -20,12 +21,9 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
       }
 
       const header = await res.headers;
-      const { email, nickname } = await res.data;
+      const user = await res.data;
 
-      dispatch({
-        type: LOGIN,
-        user: { email, nickname, token: header[HEADERTOKEN] },
-      });
+      dispatch({ type: LOGIN, user });
       setStorage(TOKEN, header[HEADERTOKEN]);
     },
     [dispatch]
@@ -52,10 +50,17 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
     removeStorage(TOKEN);
   }, [dispatch]);
 
+  const handleUserCheck = useCallback(async () => {
+    const user = await onCheckUser();
+
+    dispatch({ type: USERCHECK, user });
+  }, [dispatch]);
+
   return {
     handleLogIn,
     handleRegister,
     handleLogOut,
+    handleUserCheck,
   };
 };
 

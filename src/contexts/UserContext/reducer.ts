@@ -1,19 +1,27 @@
-import { text } from '@utils/constantUser';
+import { LOGIN, LOGOUT, REGISTER, text, USERCHECK } from '@utils/constantUser';
 import { User, Action, ErrorState, RegisterAction } from './types';
 
 export const userContextreducer = (state: User, action: Action): User => {
   switch (action.type) {
-    case 'LOG_IN':
+    case LOGIN:
       return {
         ...state,
         email: action.user.email,
-        token: action.user.token,
+        userId: action.user.userId,
         nickname: action.user.nickname,
       };
-    case 'REGISTER':
+    case REGISTER:
       return { ...state };
-    case 'LOG_OUT':
-      return { ...state, email: '', token: '', nickname: '' };
+    case LOGOUT:
+      return { ...state, email: '', nickname: '', userId: '' };
+    case USERCHECK:
+      return {
+        ...state,
+        email: action.user.email,
+        userId: action.user.userId,
+        nickname: action.user.nickname,
+      };
+
     default:
       return state;
   }
