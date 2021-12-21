@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { Text, Icon } from '@components/atoms';
 import { css } from '@emotion/react';
 import { MdOutlineMenu, MdOutlineArrowBackIosNew } from 'react-icons/md';
+import { useRouter } from 'next/router';
 import UserContext from '@contexts/UserContext';
 import useLoginCheck from '@hooks/useLoginCheck';
 import { UserType } from '@contexts/UserContext/types';
@@ -22,6 +23,7 @@ export interface HeaderProps {
   justifyContent?: 'none' | 'space-between';
   userType?: UserType;
   onMenuClick?: () => void;
+  onClick?: () => void;
 }
 
 const HeaderContainer = styled.div`
@@ -39,9 +41,27 @@ const HeaderSection = styled.div`
   `}
 `;
 
+const PrevButton = styled.button`
+  all: unset;
+  display: flex;
+  align-items: center;
+
+  &:hover,
+  &:focus {
+    opacity: 0.5;
+    transition: 0.2s;
+  }
+`;
+
 const Image: React.FC<HeaderProps> = styled.img`
   ${({ size }: Partial<HeaderProps>) => css`
     height: ${typeof size === 'string' ? size : `${size}px`};
+
+    &:hover,
+    &:focus {
+      opacity: 0.8;
+      transition: 0.2s;
+    }
   `}
 `;
 
@@ -63,6 +83,7 @@ const Header: React.FC<HeaderProps> = ({
   }, [isFirst, handleCheck]);
 
   const [navModalVisible, setNavModalVisible] = useState<boolean>(false);
+  const router = useRouter();
   useEffect(() => {
     return () => setNavModalVisible(() => false);
   }, []);
@@ -80,7 +101,12 @@ const Header: React.FC<HeaderProps> = ({
         height={height}
         justifyContent="space-between"
       >
-        <Image src={logo.src} width={logo.width} height={logo.height} />
+        <Image
+          src={logo.src}
+          width={logo.width}
+          height={logo.height}
+          onClick={() => router.push('/')}
+        />
         {isVisibleMenu && (
           <Icon size={size}>
             <MdOutlineMenu onClick={handleMenuClick} />
@@ -93,10 +119,12 @@ const Header: React.FC<HeaderProps> = ({
           height={height}
           justifyContent={justifyContent}
         >
-          <Icon size={size}>
-            <MdOutlineArrowBackIosNew />
-          </Icon>
-          <Text size="small">뒤로</Text>
+          <PrevButton onClick={() => router.back()}>
+            <Icon size={size}>
+              <MdOutlineArrowBackIosNew />
+            </Icon>
+            <Text size="small">뒤로</Text>
+          </PrevButton>
         </HeaderSection>
       )}
       <NavModal visible={navModalVisible} onClose={handleNavModalClose}>
