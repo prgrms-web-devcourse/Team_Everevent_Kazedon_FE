@@ -16,6 +16,7 @@ import {
   INITIALIZE_EVENT,
   INITIALIZE_EVENTLIST,
   LIKE_EVENT,
+  LIKE_EVENT_LIST,
   PARTICIPATE_EVENT,
 } from '@contexts/event/types';
 import { Dispatch, useCallback } from 'react';
@@ -139,6 +140,33 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     dispatch({ type: INITIALIZE_EVENT });
   }, [dispatch]);
 
+  const dispatchEventListLike = useCallback(
+    async (eventId, isLike) => {
+      if (!eventId) return;
+      dispatchLoading();
+      const res = !isLike
+        ? await likeEvent(eventId)
+        : await unlikeEvent(eventId);
+      dispatch({
+        type: LIKE_EVENT,
+        payload: {
+          like: res?.data.like,
+          eventError: res.error,
+          isLoading: true,
+        },
+      });
+      dispatchLoading();
+      dispatch({
+        type: LIKE_EVENT_LIST,
+        payload: {
+          eventId,
+          isLike,
+        },
+      });
+    },
+    [dispatch, dispatchLoading]
+  );
+
   return {
     dispatchLoading,
     dispatchEventList,
@@ -149,6 +177,7 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
     dispatchShopFavorite,
     dispatchParticipateEvent,
     dispatchCompleteParticipateEvent,
+    dispatchEventListLike,
   };
 };
 

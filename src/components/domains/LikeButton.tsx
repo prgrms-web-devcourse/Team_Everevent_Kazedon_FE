@@ -1,8 +1,8 @@
-import { Text } from '@components/atoms';
-import { css } from '@emotion/react';
+import { Icon, Text } from '@components/atoms';
 import styled from '@emotion/styled';
 import styles from '@styles/index';
 import React, { useCallback } from 'react';
+import { MdOutlineFavorite } from 'react-icons/md';
 
 interface LikeButtonProps {
   isLike: boolean;
@@ -17,10 +17,6 @@ const StyledLikeButton = styled.section`
   text-align: center;
 `;
 
-const marginBottomCSS = (width = '4') => css`
-  margin-bottom: ${width}px;
-`;
-
 const LikeButton = ({ isLike, likeCount, onClick }: LikeButtonProps) => {
   const onLike = useCallback(
     (e) => {
@@ -32,13 +28,10 @@ const LikeButton = ({ isLike, likeCount, onClick }: LikeButtonProps) => {
 
   return (
     <StyledLikeButton>
-      <Text
-        block
-        size="large"
-        css={marginBottomCSS()}
-        onClick={(e: MouseEvent) => onLike(e)}
-      >
-        {isLike ? '💗' : '🖤'}
+      <Text block size="large" onClick={(e: MouseEvent) => onLike(e)}>
+        <Icon size={24} color={isLike ? '#f85b56' : styles.colors.background}>
+          <MdOutlineFavorite />
+        </Icon>
       </Text>
       <Text block size="micro" color={styles.colors.background}>
         {`${likeCount || 0}`}

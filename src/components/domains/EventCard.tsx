@@ -12,6 +12,9 @@ import useControlModal from '@hooks/useControlModal';
 import useLoginCheck from '@hooks/useLoginCheck';
 import UserContext from '@contexts/UserContext/index';
 import getConvertedDate from '@utils/date';
+import { Icon } from '@components/atoms';
+import { MdOutlineChatBubble } from 'react-icons/md';
+import { useEvent } from '@contexts/event';
 import { ControlModal } from '.';
 
 const StyledReviewCount = styled.section`
@@ -21,7 +24,11 @@ const StyledReviewCount = styled.section`
   display: flex;
 `;
 
-const marginBottomCSS = (width = '4') => css`
+const nameCSS = css`
+  margin-bottom: 16px;
+  font-weight: 700;
+`;
+const marginBottomCSS = (width: string | number = '4') => css`
   margin-bottom: ${width}px;
 `;
 
@@ -60,6 +67,7 @@ const EventCard = ({
   const colorLength = cardBgColorKeys.length;
   const { isFirst, handleCheck } = useLoginCheck();
   const { state: userState } = useContext(UserContext);
+  const { dispatchEventListLike } = useEvent();
 
   useEffect(() => {
     if (!isFirst) {
@@ -81,7 +89,7 @@ const EventCard = ({
     e.stopPropagation();
     // TODO: 로딩을 걸어서, 만약 로딩 중에 또 눌렀다면 dispatch가 실행되지 않도록 해야 한다.
     /* eslint-disable no-console */
-    console.log(`좋아요가 등록되었습니다.`);
+    dispatchEventListLike(eventId, like);
     console.log(userState);
     if (!userState?.userType?.type) {
       setRequestType(() => '좋아요');
@@ -105,18 +113,20 @@ const EventCard = ({
       marginHeight={marginHeight}
       onClick={onClick}
     >
-      <Text block size="micro" css={marginBottomCSS()}>{`~ ${nowDate}`}</Text>
-      <Text block bold css={marginBottomCSS('16')}>
+      <Text block size="micro" css={marginBottomCSS(8)}>{`~ ${nowDate}`}</Text>
+      <Text block css={nameCSS}>
         {name}
       </Text>
-      <Text block size="micro">
+      <Text block size="micro" css={marginBottomCSS(4)}>
         {remainingParticipants ? `${remainingParticipants}명 남음` : ``}
       </Text>
       <Text block size="micro">
         {marketName}
       </Text>
       <StyledReviewCount>
-        <div>💬</div>
+        <Icon>
+          <MdOutlineChatBubble color={styles.colors.background} />
+        </Icon>
         <Text
           block
           size="micro"

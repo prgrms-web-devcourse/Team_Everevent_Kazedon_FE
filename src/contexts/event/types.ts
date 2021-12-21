@@ -69,6 +69,7 @@ export const LIKE_EVENT = 'EVENT/LIKE' as const;
 export const FAVORITE_EVENT = 'EVENT/FAVORITE' as const;
 export const PARTICIPATE_EVENT = 'EVENT/PARTICIPATE' as const;
 export const COMPLETE_PARTICIPATE_EVENT = 'EVENT/COMPLETE_PARTICIPATE' as const;
+export const LIKE_EVENT_LIST = 'EVENT/LIKE_LIST' as const;
 
 export type Action =
   | {
@@ -100,4 +101,8 @@ export type Action =
   | {
       type: 'EVENT/COMPLETE_PARTICIPATE';
       payload: { completed: boolean; eventError: ErrorType };
+    }
+  | {
+      type: 'EVENT/LIKE_LIST';
+      payload: { eventId: string; isLike: boolean };
     };

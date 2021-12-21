@@ -54,6 +54,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     dispatchShopFavorite,
     dispatchParticipateEvent,
     dispatchCompleteParticipateEvent,
+    dispatchEventListLike,
   } = useEventProvider(dispatch);
 
   const contextValue = useMemo(
@@ -71,6 +72,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       dispatchShopFavorite,
       dispatchParticipateEvent,
       dispatchCompleteParticipateEvent,
+      dispatchEventListLike,
     }),
     [
       isLoading,
@@ -86,6 +88,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       dispatchShopFavorite,
       dispatchParticipateEvent,
       dispatchCompleteParticipateEvent,
+      dispatchEventListLike,
     ]
   );
 

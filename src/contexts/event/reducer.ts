@@ -11,6 +11,7 @@ import {
   INITIALIZE_EVENTLIST,
   InitialStateType,
   LIKE_EVENT,
+  LIKE_EVENT_LIST,
   PARTICIPATE_EVENT,
 } from './types';
 
@@ -97,6 +98,15 @@ const eventReducer = (state: InitialStateType, action: Action) => {
           completed,
         },
         eventError,
+      };
+    }
+    case LIKE_EVENT_LIST: {
+      const { eventId, isLike } = action.payload;
+      return {
+        ...state,
+        eventList: state.eventList.map((event) =>
+          event.eventId === eventId ? { ...event, isLike: !isLike } : event
+        ),
       };
     }
     default: {
