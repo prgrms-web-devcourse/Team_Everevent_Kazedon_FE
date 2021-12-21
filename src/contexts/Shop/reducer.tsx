@@ -7,6 +7,8 @@ export const shopContextreducer = (
   switch (action.type) {
     case 'GET_SHOP_INFO':
       return state;
+    case 'PUT_SHOP_INFO':
+      return state;
     case 'POST_EVENT_INFO':
       return state;
     case 'EVENT/CHANGE_CONTENT': {
