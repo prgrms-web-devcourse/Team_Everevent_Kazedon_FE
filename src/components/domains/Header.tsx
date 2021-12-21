@@ -1,11 +1,17 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Text, Icon } from '@components/atoms';
 import { css } from '@emotion/react';
 import { MdOutlineMenu, MdOutlineArrowBackIosNew } from 'react-icons/md';
+import UserContext from '@contexts/UserContext';
+import useLoginCheck from '@hooks/useLoginCheck';
 import logo from '../../../public/logo.svg';
 import { NavModal, NavModalInner } from './NavModal';
 
+interface UserType {
+  id: number | null;
+  type: 'owner' | 'user' | null;
+}
 export interface HeaderProps {
   children?: ReactNode;
   size?: string | number;
@@ -17,6 +23,7 @@ export interface HeaderProps {
   isVisiblePrev?: boolean;
   src?: string;
   justifyContent?: 'none' | 'space-between';
+  userType?: UserType;
   onMenuClick?: () => void;
 }
 
@@ -51,6 +58,13 @@ const Header: React.FC<HeaderProps> = ({
   isVisibleMenu = true,
   ...props
 }) => {
+  const { state: userState } = useContext(UserContext);
+  const { isFirst, handleCheck } = useLoginCheck();
+
+  useEffect(() => {
+    if (!isFirst) handleCheck();
+  }, [isFirst, handleCheck]);
+
   const [navModalVisible, setNavModalVisible] = useState<boolean>(false);
   useEffect(() => {
     return () => setNavModalVisible(() => false);
@@ -89,7 +103,7 @@ const Header: React.FC<HeaderProps> = ({
         </HeaderSection>
       )}
       <NavModal visible={navModalVisible} onClose={handleNavModalClose}>
-        <NavModalInner userType="owner" />
+        <NavModalInner userType={userState.userType.type} />
       </NavModal>
     </HeaderContainer>
   );

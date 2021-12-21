@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import Text from '@components/atoms/Text';
 import Link from 'next/link';
@@ -29,6 +29,14 @@ const dynamicTitle = {
 };
 
 const Navigator: React.FC<NavigatorProps> = ({ userType, ...props }) => {
+  const [isInnerLoading, setIsInnerLoading] = useState(true);
+  useEffect(() => {
+    if (userType) {
+      setIsInnerLoading(() => false);
+    }
+  }, [userType]);
+
+  if (isInnerLoading) return null;
   return (
     <NavigatorContainer {...props}>
       <Text block size="large" style={fontStyle}>
