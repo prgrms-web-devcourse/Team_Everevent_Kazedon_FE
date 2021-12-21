@@ -30,11 +30,12 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
       dispatchLoading();
       const res = await getEventList({ location, sort, page, size });
       const events: typeof res.data.events = res.data?.events ?? null;
+
       dispatch({
         type: GET_EVENTLIST,
         payload: {
           eventList: events?.content || [],
-          eventListOption: {
+          eventListOptions: {
             totalPages: events?.totalPages ?? null,
             totalElements: events?.totalElements ?? null,
             last: events?.last ?? null,

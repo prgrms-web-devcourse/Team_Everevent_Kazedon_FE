@@ -23,17 +23,18 @@ const eventReducer = (state: InitialStateType, action: Action) => {
       };
     }
     case GET_EVENTLIST: {
-      const { eventList } = action.payload;
+      const { eventList, eventListOptions } = action.payload;
       return {
         ...state,
         isLoading: false,
-        eventList,
+        eventList: [...state.eventList, ...eventList],
+        eventListOptions,
       };
     }
     case INITIALIZE_EVENTLIST: {
       return {
         ...state,
-        initialState,
+        ...initialState,
       };
     }
     case GET_EVENT: {
