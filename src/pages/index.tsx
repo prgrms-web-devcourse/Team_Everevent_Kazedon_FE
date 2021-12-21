@@ -23,6 +23,9 @@ import {
 } from '@components/atoms';
 import { setStorage } from '@utils/storage';
 import { USER_ADDRESS_KEY } from '@utils/constantUser';
+import { ControlModal } from '@components/domains';
+import useLoginCheck from '@hooks/useLoginCheck';
+import useControlModal from '@hooks/useControlModal';
 
 const AddressButtonCSS = css`
   margin-top: 60px;
@@ -47,6 +50,19 @@ const NoEventListCardCSS = css`
 
 const MainPage: NextPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const { isFirst, handleCheck } = useLoginCheck();
+  const { requestType, controlModalVisible, setControlModalVisible } =
+    useControlModal();
+  const handleControlModalClose = () => {
+    setControlModalVisible(false);
+  };
+  useEffect(() => {
+    if (!isFirst) {
+      handleCheck();
+    }
+  }, [isFirst, handleCheck]);
+
   /* eslint-disable-next-line */
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [addressValue, setAddressValue] = useState<string>('');
@@ -188,6 +204,11 @@ const MainPage: NextPage = () => {
           주소 등록하기
         </Button>
       </Modal>
+      <ControlModal
+        visible={controlModalVisible}
+        onClose={handleControlModalClose}
+        requestType={requestType}
+      />
     </>
   );
 };

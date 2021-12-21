@@ -12,5 +12,8 @@ export { default as OverlapCheck } from './OverlapCheck';
 export { default as ProfileEdit } from './ProfileEdit';
 export { default as PasswordForm } from './PasswordForm';
 export { default as Tab } from './Tab';
-export { default as LoginInformContainer } from './LoginInformContainer';
+export { default as LoginInformContainer } from './ControlModal/LoginInformContainer';
 export * from './EventDetail/index';
+
+/* eslint-disable import/no-cycle */
+export { default as ControlModal } from './ControlModal';
