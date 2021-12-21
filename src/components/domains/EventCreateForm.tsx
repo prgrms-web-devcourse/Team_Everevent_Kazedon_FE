@@ -44,7 +44,6 @@ const ButtonCSS = css`
 `;
 
 const CreateEventForm = () => {
-  // createShopEvent
   const { createShopEvent } = useContext(ShopContext);
   const router = useRouter();
   const { shopId } = router.query;
@@ -55,15 +54,14 @@ const CreateEventForm = () => {
     setFiles(() => value);
   }, []);
 
-  const { errors, handleChange, handleSubmit } = useForm<
-    Partial<EventCreateFormData>
-  >({
+  const { errors, handleChange, handleSubmit } = useForm<EventCreateFormData>({
     initialValues: {
       name: '',
       marketId: '',
       description: '',
       expiredAt: '',
       maxParticipants: '',
+      pictures: [],
     },
     onSubmit: async (eventData) => {
       errors.maxParticipants = '';
@@ -72,15 +70,9 @@ const CreateEventForm = () => {
         name: eventData.name,
         marketId: Number(shopId),
         description: eventData.description,
-        expiredAt: eventData.expiredAt,
+        expiredAt: `${eventData.expiredAt}:00`,
         maxParticipants: Number(eventData.maxParticipants),
       };
-
-      // eslint-disable-next-line no-console
-      /* console.log('formData: ', {
-        files,
-        request: eventInfo,
-      }); */
 
       await createShopEvent({
         files,
@@ -90,7 +82,7 @@ const CreateEventForm = () => {
     validate: ({ name, description, expiredAt, maxParticipants }) => {
       const today = new Date();
 
-      // TODO: marketId
+      // TODO: marketId 처리
       if (!name) {
         newErrors.name = Constants.ERROR_MSG.eventNameInput;
       } else if (name.length > 20) {
@@ -175,7 +167,7 @@ const CreateEventForm = () => {
         sizeType="large"
         placeholder="선택"
         name="expiredAt"
-        type="date"
+        type="datetime-local"
         error={!!errors.expiredAt?.length}
         css={InputCSS}
         onChange={handleChange}
