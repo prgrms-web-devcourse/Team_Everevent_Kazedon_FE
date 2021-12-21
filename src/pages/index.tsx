@@ -114,6 +114,12 @@ const MainPage: NextPage = () => {
     sortState,
     sortTypeState,
   ]);
+  useEffect(() => {
+    return () => {
+      setUserAddress(() => null);
+      setModalVisible(() => false);
+    };
+  }, []);
 
   const buttonNames = {
     createdAt: '최신 순',
