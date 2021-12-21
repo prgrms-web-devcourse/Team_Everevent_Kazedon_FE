@@ -28,6 +28,13 @@ const UserEventHistoryPage: NextPage = () => {
   //   return () => initializeEventList();
   // }, [dispatchEventList, initializeEventList]);
 
+  const handleChangeTab = (e: React.MouseEvent) => {
+    const { id } = e.currentTarget as HTMLElement;
+
+    if (id === 'left') setButtonFocus(true);
+    else if (id === 'right') setButtonFocus(false);
+  };
+
   return (
     <MainContainer paddingWidth={24}>
       <Header isVisiblePrev />
