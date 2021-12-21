@@ -6,7 +6,7 @@ import { Event } from '@contexts/event/types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import styles from '@styles/index';
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useMemo } from 'react';
 import LikeButton from '@components/domains/LikeButton';
 import useControlModal from '@hooks/useControlModal';
 import useLoginCheck from '@hooks/useLoginCheck';
@@ -46,8 +46,9 @@ const EventCard = ({
   onClick,
 }: EventCardProps) => {
   const {
+    eventId,
     expiredAt,
-    eventName,
+    name,
     marketName,
     like,
     likeCount,
@@ -87,24 +88,27 @@ const EventCard = ({
     }
   };
 
+  const nowDate = useMemo(() => {
+    const now = new Date(expiredAt);
+    return `${now.toLocaleDateString()} ${
+      now.getHours() < 10 ? `0${now.getHours()}` : now.getHours()
+    }:${now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes()}`;
+  }, [expiredAt]);
+
   return (
     <CardContainer
       width={width}
       padding={20}
       bgColorName={cardBgColorKeys[idx % colorLength] as CardBgColorTypes}
       cardType="default"
-      key={expiredAt + marketName}
+      key={eventId}
       marginWidth={marginWidth}
       marginHeight={marginHeight}
       onClick={onClick}
     >
-      <Text
-        block
-        size="micro"
-        css={marginBottomCSS()}
-      >{`~(${expiredAt})`}</Text>
+      <Text block size="micro" css={marginBottomCSS()}>{`~ ${nowDate}`}</Text>
       <Text block bold css={marginBottomCSS('16')}>
-        {eventName}
+        {name}
       </Text>
       <Text block size="micro">
         {remainingParticipants ? `${remainingParticipants}명 남음` : ``}

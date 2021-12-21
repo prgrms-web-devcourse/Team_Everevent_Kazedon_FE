@@ -52,7 +52,7 @@ const EventDetailPage = () => {
       <EventDetailHeader
         expiredAt={event.expiredAt as string}
         marketName={event.marketName}
-        name={event.eventName}
+        name={event.name}
         isLike={event.like as boolean}
         isFavorite={event.favorite}
         isParticipated={event.participated}

@@ -15,7 +15,7 @@ export const initialState: InitialStateType = {
   eventList: [],
   event: {
     eventId: 0,
-    eventName: '',
+    name: '',
     expiredAt: '',
     marketName: '',
     like: null,
