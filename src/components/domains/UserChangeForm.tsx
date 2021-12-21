@@ -12,6 +12,7 @@ import Constants from '@utils/index';
 import Common from '@styles/index';
 import { OwnerContext } from '@contexts/Owner';
 import { ChangeOwnerInfo } from '@contexts/Owner/types';
+import { useRouter } from 'next/dist/client/router';
 
 const UserChangeFormContainer = styled.div`
   display: flex;
@@ -44,6 +45,7 @@ const UserChangeForm = () => {
   const [errorName, setErrorName] = useState<string>('');
   const [errorAddress, setErrorAddress] = useState<string>('');
   const [errorDescription, setErrorDescription] = useState<string>('');
+  const router = useRouter();
 
   const newErrors: ErrorData = {};
 
@@ -61,6 +63,7 @@ const UserChangeForm = () => {
       };
 
       await handleChangeOwner(ownerInfo);
+      router.push('/owner/success');
     },
 
     // TODO: 추후 리팩토링 예정입니다.

@@ -53,7 +53,7 @@ const ShopDetailPage = () => {
           likeCount={Number(likeCount)}
           reviewCount={Number(reviewCount)}
         />
-        <ShopAddEvent />
+        <ShopAddEvent marketId={marketId} />
         <ShopEvents marketId={marketId} />
       </EventContentWrapper>
     </MainContainer>

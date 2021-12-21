@@ -3,20 +3,22 @@ import { CardList } from '@components/atoms';
 import { EventCard } from '@components/domains';
 import { ShopEvent } from '@contexts/Shop/types';
 import { ShopContext } from '@contexts/Shop';
+import { useRouter } from 'next/router';
 
 interface ShopEventsProps extends Partial<ShopEvent> {
   [index: string]: any;
 }
 
-// TODO: 각 이벤트 카드에 대한 라우팅 처리할 예정
-// const handleClick = () => {};
-
 const ShopEvents = ({ marketId }: ShopEventsProps) => {
   const { getShopEvents } = useContext(ShopContext);
-
   const [eventInfo, setEventInfo] = useState([]);
 
-  const handleClick = () => {};
+  const router = useRouter();
+
+  const handleClick = (eventId: number) => {
+    router.push(`/event/${eventId}`);
+  };
+
   useEffect(() => {
     if (marketId) {
       getShopEvents(marketId).then((data: any) => {
@@ -33,7 +35,7 @@ const ShopEvents = ({ marketId }: ShopEventsProps) => {
     <CardList flexType="column" padding={0} margin="10px 0 0 0">
       {eventInfo.map((event: any, index: number) => (
         <EventCard
-          onClick={() => handleClick()}
+          onClick={() => handleClick(event.eventId)}
           key={`${`${event}${index}`}`}
           eventData={{ ...defaultData, ...event }}
           idx={index}
