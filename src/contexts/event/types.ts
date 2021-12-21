@@ -2,7 +2,7 @@ import { ErrorType } from '@axios/types';
 
 export interface EventDetail {
   eventId: number;
-  eventName: string;
+  name: string;
   expiredAt: string | Date;
   marketName: string;
   marketDescription: string;
@@ -15,7 +15,7 @@ export interface EventDetail {
 }
 export interface Event {
   eventId: string;
-  eventName: string;
+  name: string;
   expiredAt: string;
   marketName: string;
   pictureUrl: string;

@@ -47,7 +47,7 @@ const EventCard = ({
 }: EventCardProps) => {
   const {
     expiredAt,
-    eventName,
+    name,
     marketName,
     like,
     likeCount,
@@ -104,7 +104,7 @@ const EventCard = ({
         css={marginBottomCSS()}
       >{`~(${expiredAt})`}</Text>
       <Text block bold css={marginBottomCSS('16')}>
-        {eventName}
+        {name}
       </Text>
       <Text block size="micro">
         {remainingParticipants ? `${remainingParticipants}명 남음` : ``}
