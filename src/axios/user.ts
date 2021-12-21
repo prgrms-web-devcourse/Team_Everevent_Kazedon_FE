@@ -28,13 +28,13 @@ export const onLogIn = async (userInfo: LoginUserInfo) => {
 };
 
 export const onRegister = async (registerUserInfo: RegisterUserInfo) => {
-  const res: ResType<any> = await request.post('signup', registerUserInfo);
+  const res: ResType<any> = await request.post('/signup', registerUserInfo);
 
   return res;
 };
 
 export const onConfirmPassword = async (password: 'passwordConfirm') => {
-  const res: ResType<any> = await request.post('members/check/password', {
+  const res: ResType<any> = await request.post('/members/check/password', {
     password,
   });
 
@@ -42,19 +42,25 @@ export const onConfirmPassword = async (password: 'passwordConfirm') => {
 };
 
 export const onCheckToken = async () => {
-  const res: ResType<any> = await request.get('members/check/token');
+  const res: ResType<any> = await request.get('/members/check/token');
 
   return res;
 };
 
 export const onCheckUser = async () => {
-  const res: ResType<User> = await request.get('members');
+  const res: ResType<User> = await request.get('/members');
 
   return res;
 };
 
 export const onGetUserType = async () => {
-  const res: ResType<any> = await request.get('markets');
+  const res: ResType<any> = await request.get('/markets');
+
+  return res;
+};
+
+export const onEditProfile = async (edtionInfo: Partial<RegisterUserInfo>) => {
+  const res: ResType<any> = await request.put('/members', edtionInfo);
 
   return res;
 };

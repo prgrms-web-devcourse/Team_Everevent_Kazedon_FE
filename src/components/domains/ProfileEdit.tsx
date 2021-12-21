@@ -1,14 +1,13 @@
-import React, { ReactNode, useContext, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, HeaderText, Text } from '@components/atoms';
 import { css } from '@emotion/react';
-import UserContext from '@contexts/UserContext';
 import useForm from '@hooks/useForm';
 import Common from '@styles/index';
 import { ErrorProfile, ProfileUserInfo } from '@contexts/UserContext/types';
 import { text } from '@utils/constantUser';
-import { onConfirmPassword, onRegisterCheck } from '@axios/user';
-// import { useRouter } from 'next/router';
+import { onConfirmPassword, onEditProfile, onRegisterCheck } from '@axios/user';
+import { useRouter } from 'next/router';
 import { marginBottom } from '@utils/computed';
 import OverlapCheck from './OverlapCheck';
 import Tab from './Tab';
@@ -33,10 +32,9 @@ const ModifyWrapper = styled.div`
 const styleCenter = { display: 'flex', justifyContent: 'center' };
 
 const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
-  const { state } = useContext(UserContext);
-  // const router = useRouter();
+  const router = useRouter();
   const [buttonFocus, setButtonFocus] = useState(true);
-  const [passwordConfirm, setPasswordConfirm] = useState(true);
+  const [passwordConfirm, setPasswordConfirm] = useState(false);
   const [successNicknameMessage, setSuccessNicknameMessage] = useState(false);
   const { values, errors, setErrors, handleChange, handleSubmit } =
     useForm<ProfileUserInfo>({
@@ -46,20 +44,35 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
         password: '',
         passwordCheck: '',
       },
-      onSubmit: (formData) => {
-        if (!passwordConfirm) return;
-        if (formData.nickname && !successNicknameMessage) {
-          const newErrors: ErrorProfile = {};
-          newErrors.nickname = text.nicknameInput;
+      onSubmit: async (formData) => {
+        const newErrors: ErrorProfile = {};
+        if (!passwordConfirm) {
+          newErrors.nickname = text.passwordFail;
+          newErrors.password = text.passwordFail;
+
           setErrors(newErrors);
           return;
         }
-        // eslint-disable-next-line
+
+        if (formData.nickname && !successNicknameMessage) {
+          newErrors.nickname = text.nicknameInput;
+
+          setErrors(newErrors);
+          return;
+        }
+
         const profileEditUserInfo = {
+          email,
           nickname: formData.nickname === '' ? undefined : formData.nickname,
           password: formData.password === '' ? undefined : formData.password,
         };
-        // API 전송
+        const res = await onEditProfile(profileEditUserInfo);
+
+        if (res.error.code) {
+          router.replace('/profile/edit');
+        } else {
+          router.push('/');
+        }
       },
       validate: ({ password }) => {
         const newErrors: ErrorProfile = {};
@@ -141,7 +154,7 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
         Email
       </HeaderText>
       <Text block size="medium" css={marginBottom(16)}>
-        {state.id}
+        {email}
       </Text>
       <HeaderText level={2} marginBottom={16}>
         비밀번호
