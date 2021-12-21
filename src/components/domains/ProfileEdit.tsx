@@ -69,7 +69,6 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
           setErrors(newErrors);
         } else {
           if (values.nickname) {
-            console.log('ho');
             await handleModifyNickname(values.nickname);
           }
           router.replace('/');

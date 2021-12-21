@@ -56,7 +56,7 @@ const RegisterForm = () => {
       onSubmit: async (values) => {
         const newErrors: Partial<RegisterUserInfo> = {};
         if (!successEmailMessage || !successNicknameMessage) {
-          newErrors.password = text.overlap.check;
+          newErrors.password = failMsg.register;
           setErrors(newErrors);
           return;
         }
