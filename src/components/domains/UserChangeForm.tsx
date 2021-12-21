@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import {
   HeaderText,
@@ -41,10 +41,13 @@ type ErrorData = {
 
 const UserChangeForm = () => {
   const { handleChangeOwner } = useContext(OwnerContext);
+  const [errorName, setErrorName] = useState<string>('');
+  const [errorAddress, setErrorAddress] = useState<string>('');
+  const [errorDescription, setErrorDescription] = useState<string>('');
 
-  const { errors, handleChange, handleSubmit } = useForm<
-    Partial<ChangeOwnerInfo>
-  >({
+  const newErrors: ErrorData = {};
+
+  const { handleChange, handleSubmit } = useForm<Partial<ChangeOwnerInfo>>({
     initialValues: {
       name: '',
       address: '',
@@ -56,24 +59,34 @@ const UserChangeForm = () => {
         address: formData.address,
         description: formData.description,
       };
+
       await handleChangeOwner(ownerInfo);
     },
-    validate: ({ name, description, address }) => {
-      const newErrors: ErrorData = {};
 
+    // TODO: 추후 리팩토링 예정입니다.
+    validate: ({ name, description, address }) => {
       if (!name) {
-        newErrors.name = Constants.ERROR_MSG.marketNameInput;
+        setErrorName(Constants.ERROR_MSG.marketNameInput);
+        newErrors.address = 'Y';
       }
       if (description) {
         if (description.length > 200) {
-          newErrors.description = Constants.ERROR_MSG.marketDescriptionFormat;
+          setErrorDescription(Constants.ERROR_MSG.marketDescriptionFormat);
+          newErrors.description = 'Y';
         }
       } else {
-        newErrors.description = Constants.ERROR_MSG.marketDescriptionInput;
+        setErrorDescription(Constants.ERROR_MSG.marketDescriptionInput);
+        newErrors.description = 'Y';
       }
 
       if (!address) {
-        newErrors.address = Constants.ERROR_MSG.marketAddressInput;
+        setErrorAddress(Constants.ERROR_MSG.marketAddressInput);
+        newErrors.address = 'Y';
+      }
+      if (Object.keys(newErrors).length === 0) {
+        setErrorName('');
+        setErrorDescription('');
+        setErrorAddress('');
       }
       return newErrors;
     },
@@ -93,16 +106,16 @@ const UserChangeForm = () => {
           placeholder="가게 이름"
           name="name"
           onChange={handleChange}
-          error={!!errors.name?.length}
+          error={!!errorName?.length}
         />
-        {errors.name && (
+        {errorName !== '' && (
           <Text
             size="micro"
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.warning}
           >
-            {errors.name}
+            {errorName}
           </Text>
         )}
       </UserChangeFormItem>
@@ -116,16 +129,16 @@ const UserChangeForm = () => {
           width={280}
           height={152}
           placeholder="200자 미만으로 작성해주세요."
-          error={!!errors.description?.length}
+          error={!!errorDescription.length}
         />
-        {errors.description && (
+        {errorDescription !== '' && (
           <Text
             size="micro"
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.warning}
           >
-            {errors.description}
+            {errorDescription}
           </Text>
         )}
       </UserChangeFormItem>
@@ -138,16 +151,16 @@ const UserChangeForm = () => {
           placeholder="서울시 광진구 OOO동"
           name="address"
           onChange={handleChange}
-          error={!!errors.address?.length}
+          error={!!errorAddress?.length}
         />
-        {errors.address && (
+        {errorAddress !== '' && (
           <Text
             size="micro"
             fontStyle={{ display: 'flex', justifyContent: 'center' }}
             block
             color={Common.colors.warning}
           >
-            {errors.address}
+            {errorAddress}
           </Text>
         )}
       </UserChangeFormItem>
