@@ -3,6 +3,17 @@ export const LOGOUT = 'LOG_OUT';
 export const REGISTER = 'REGISTER';
 export const USERCHECK = 'USER_CHECK';
 export const TOKEN = 'token';
+export const validation = {
+  email: /^[A-Za-z0-9_.-]+@[A-Za-z0-9-]+.[A-Za-z0-9-]+/,
+  password: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{6,100}$/,
+};
+export const errorMsg = {
+  email: '이메일 형식을 확인해주세요.',
+  password: '비밀번호 형식을 확인해주세요.',
+};
+export const failMsg = {
+  login: '로그인 실패! 이메일과 비밀번호를 확인해주세요.',
+};
 export const text = {
   default: '6자 이상 영어 대소문자, 숫자를 입력해주세요.',
   fail: '이메일과 비밀번호를 확인해주세요.',

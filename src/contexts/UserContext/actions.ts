@@ -22,12 +22,10 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
     async (userInfo: LoginUserInfo) => {
       const res = await onLogIn(userInfo);
 
-      if (res.error.code) {
-        throw new Error('로그인 실패');
-      }
+      if (res.error.code) return res;
 
-      const header = await res.headers;
-      const user = await res.data;
+      const header = res.headers;
+      const user = res.data;
 
       setStorage(TOKEN, header[HEADERTOKEN]);
 
