@@ -5,13 +5,10 @@ import { css } from '@emotion/react';
 import { MdOutlineMenu, MdOutlineArrowBackIosNew } from 'react-icons/md';
 import UserContext from '@contexts/UserContext';
 import useLoginCheck from '@hooks/useLoginCheck';
+import { UserType } from '@contexts/UserContext/types';
 import logo from '../../../public/logo.svg';
 import { NavModal, NavModalInner } from './NavModal';
 
-interface UserType {
-  id: number | null;
-  type: 'owner' | 'user' | null;
-}
 export interface HeaderProps {
   children?: ReactNode;
   size?: string | number;
