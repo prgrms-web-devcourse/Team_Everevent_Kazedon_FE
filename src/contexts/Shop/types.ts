@@ -3,7 +3,7 @@ export interface ShopInfo {
   name: string | null;
   description: string | null;
   eventCount: number | null;
-  favoriteCount: number | null;
+  likeCount: number | null;
   reviewCount: number | null;
 }
 
@@ -26,7 +26,7 @@ export interface ShopEvent {
   name: string | null;
   expiredAt: string | null;
   marketName: string | null;
-  favoriteCount: number | null;
+  likeCount: number | null;
   reviewCount: number | null;
 }
 
@@ -35,9 +35,7 @@ export interface ShopContextType {
 }
 
 export type EventCreateFormData = Partial<ShopEventInfo>;
-
-// TODO: API에 name이 추가된 후 리팩토링할 예정
-export type ShopInfoData = Partial<Omit<ShopInfo, 'name'>>;
+export type ShopInfoData = Partial<ShopInfo>;
 
 export type Action =
   | { type: 'GET_SHOP_INFO' }

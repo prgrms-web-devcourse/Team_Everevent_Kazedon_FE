@@ -23,7 +23,7 @@ interface ShopCountInfoProps extends Partial<ShopInfo> {
 
 const ShopCountInfo = ({
   eventCount,
-  favoriteCount,
+  likeCount,
   reviewCount,
 }: ShopCountInfoProps) => {
   return (
@@ -32,7 +32,7 @@ const ShopCountInfo = ({
         {(eventCount || 0).toString()}
       </Text>
       <Text color={Common.colors.point} css={CountCSS}>
-        {(favoriteCount || 0).toString()}
+        {(likeCount || 0).toString()}
       </Text>
       <Text color={Common.colors.point} css={CountCSS}>
         {(reviewCount || 0).toString()}

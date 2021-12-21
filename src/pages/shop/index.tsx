@@ -8,7 +8,6 @@ import {
   ShopAddEvent,
   ShopEvents,
 } from '@components/domains/ShopDetail/index';
-import shopData from 'fixtures/shop';
 import shopEventData from 'fixtures/shopEvents';
 import styled from '@emotion/styled';
 import { ShopContext } from '@contexts/Shop';
@@ -23,9 +22,10 @@ const EventContentWrapper = styled.div`
 
 const initialState: ShopInfoData = {
   marketId: '',
+  name: '',
   description: '',
   eventCount: 0,
-  favoriteCount: 0,
+  likeCount: 0,
   reviewCount: 0,
 };
 
@@ -39,16 +39,15 @@ const ShopDetailPage = () => {
     });
   }, [getShopInfo]);
 
-  const { marketName } = shopData;
-  const { description, eventCount, favoriteCount, reviewCount } = shopInfo;
+  const { name, description, eventCount, likeCount, reviewCount } = shopInfo;
   return (
     <MainContainer>
       <Header />
-      <ShopDetailHeader marketName={marketName} description={description} />
+      <ShopDetailHeader marketName={name} description={description} />
       <EventContentWrapper>
         <ShopCountInfo
           eventCount={Number(eventCount)}
-          favoriteCount={Number(favoriteCount)}
+          likeCount={Number(likeCount)}
           reviewCount={Number(reviewCount)}
         />
         <ShopAddEvent />

@@ -11,15 +11,15 @@ import {
 const useShopProvider = (dispatch: Dispatch<any>) => {
   const getShopInfo = useCallback(async () => {
     const res = await showShopInfo();
-    const shopInfo = await res.data.simpleMarkets.content[0];
 
     dispatch({
       type: GET_SHOP_INFO,
     });
 
-    return shopInfo;
+    return res.data;
   }, [dispatch]);
 
+  // TODO: 추후에 삭제될 예정입니다.
   const dispatchChangeEventContent = useCallback(
     async ({ name, value }) => {
       dispatch({
