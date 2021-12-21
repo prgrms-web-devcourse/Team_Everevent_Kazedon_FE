@@ -2,6 +2,8 @@ import React from 'react';
 import { Text } from '@components/atoms';
 import styled from '@emotion/styled';
 import Common from '@styles/index';
+import { ShopEvent } from '@contexts/Shop/types';
+import { useRouter } from 'next/dist/client/router';
 
 const ShopAddEventWrapper = styled.button`
   all: unset;
@@ -21,9 +23,16 @@ const ShopAddEventWrapper = styled.button`
   }
 `;
 
-const ShopAddEvent = () => {
-  // TODO: 이벤트 생성 페이지로 라우팅 처리할 예정
-  const handleClick = () => {};
+interface ShopEventsProps extends Partial<ShopEvent> {
+  [index: string]: any;
+}
+
+const ShopAddEvent = ({ marketId }: ShopEventsProps) => {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/shop/${marketId}/create`);
+  };
 
   return (
     <ShopAddEventWrapper onClick={handleClick}>

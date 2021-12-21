@@ -78,11 +78,12 @@ const CreateEventForm = () => {
         files,
         request: eventInfo,
       });
+
+      router.push('/shop');
     },
     validate: ({ name, description, expiredAt, maxParticipants }) => {
       const today = new Date();
 
-      // TODO: marketId 처리
       if (!name) {
         newErrors.name = Constants.ERROR_MSG.eventNameInput;
       } else if (name.length > 20) {
