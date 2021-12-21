@@ -21,6 +21,7 @@ export const ShopProvider = ({ children }: { children: React.ReactNode }) => {
     getShopInfo,
     putShopInfo,
     createShopEvent,
+    getShopEvents,
     dispatchChangeEventContent,
   } = useShopProvider(dispatch);
 
@@ -30,6 +31,7 @@ export const ShopProvider = ({ children }: { children: React.ReactNode }) => {
       getShopInfo,
       putShopInfo,
       createShopEvent,
+      getShopEvents,
       dispatchChangeEventContent,
     }),
     [
@@ -37,6 +39,7 @@ export const ShopProvider = ({ children }: { children: React.ReactNode }) => {
       getShopInfo,
       putShopInfo,
       createShopEvent,
+      getShopEvents,
       dispatchChangeEventContent,
     ]
   );
