@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
 const useLoginCheck = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
   const [token, setToken] = useState<string | null>(null);
   const { state, handleUserCheck } = useContext(UserContext);
@@ -17,6 +18,10 @@ const useLoginCheck = () => {
   }, [token]);
 
   const handleCheck = useCallback(async () => {
+    if (isLoading) return;
+
+    setIsLoading(true);
+
     if (!token) {
       router.replace('/login');
       return;
@@ -29,8 +34,10 @@ const useLoginCheck = () => {
       router.replace('/login');
     } else if (!state.email && !state.nickname) {
       await handleUserCheck();
+      setIsLoading(false);
     }
-  }, [router, state, token, handleUserCheck]);
+    /* eslint-disable react-hooks/exhaustive-deps */
+  }, [router, state, token, isFirst, handleUserCheck]);
 
   return { isFirst, handleCheck };
 };
