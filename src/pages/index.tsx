@@ -82,6 +82,7 @@ const MainPage: NextPage = () => {
   const closeModal = () => {
     setModalVisible(() => false);
   };
+
   useEffect(() => {
     const storageValue = localStorage.getItem(USER_ADDRESS_KEY);
     if (storageValue) setUserAddress(() => JSON.parse(storageValue));
@@ -132,7 +133,6 @@ const MainPage: NextPage = () => {
     setSortState(() => 'desc');
   }, []);
 
-  if (eventList === null) return null;
   return (
     <>
       <MainContainer paddingWidth={24}>
@@ -145,7 +145,7 @@ const MainPage: NextPage = () => {
           css={AddressButtonCSS}
           onClick={() => setModalVisible(() => true)}
         >
-          <div>{userAddress || ''}</div>
+          <div>{userAddress || '주소를 입력해주세요!'}</div>
         </Button>
         <SortButtons
           width="100%"
@@ -179,22 +179,22 @@ const MainPage: NextPage = () => {
       </MainContainer>
       <Modal
         width={300}
-        height={400}
+        height={256}
         modalType="default"
         padding={24}
         visible={modalVisible}
         onClose={closeModal}
-        clickAway={false}
+        clickAway
       >
         <HeaderText level={1} marginBottom={20}>
           주소 등록
         </HeaderText>
         <HeaderText level={2} marginBottom={16}>
-          어떤 곳의 이벤트를 찾고 싶나요 ?
+          어떤 곳의 이벤트를 찾고 싶나요?
         </HeaderText>
         <Input
           sizeType="small"
-          placeholder="OO시 OO구 OO동으로 입력해주세요!"
+          placeholder="OO시 OO구 OO동으로 입력"
           error={false}
           onChange={handleChangeAddressInput}
         />

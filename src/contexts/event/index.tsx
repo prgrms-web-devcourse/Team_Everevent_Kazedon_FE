@@ -12,7 +12,7 @@ import eventReducer from './reducer';
 
 export const initialState: InitialStateType = {
   isLoading: false,
-  eventList: null,
+  eventList: [],
   event: {
     eventId: 0,
     name: '',

@@ -34,7 +34,7 @@ export interface EventListResponse {
   };
 }
 
-export type EventListType = Array<Event> | null;
+export type EventListType = Array<Event>;
 export interface EventListOptions {
   totalPages: number;
   totalElements: number;
