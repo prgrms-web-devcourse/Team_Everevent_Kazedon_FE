@@ -76,7 +76,11 @@ export type Action =
     }
   | {
       type: 'EVENTLIST/GET';
-      payload: { eventList: EventListType; eventError: ErrorType };
+      payload: {
+        eventList: EventListType;
+        eventListOptions: EventListOptions;
+        eventError: ErrorType;
+      };
     }
   | { type: 'EVENTLIST/INITIALIZE' }
   | {

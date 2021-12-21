@@ -12,7 +12,7 @@ import { useEvent } from '@contexts/event';
 import { css } from '@emotion/react';
 import styles from '@styles/index';
 import type { NextPage } from 'next';
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import {
   CardContainer,
@@ -60,8 +60,12 @@ const MainPage: NextPage = () => {
   /* eslint-disable-next-line */
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [addressValue, setAddressValue] = useState<string>('');
-  const { isLoading, eventList, dispatchEventList, initializeEventList } =
-    useEvent();
+  const {
+    eventList,
+    eventListOptions,
+    dispatchEventList,
+    initializeEventList,
+  } = useEvent();
   const [sortState, setSortState] = useState<SortOrder>('desc');
   const [sortTypeState, setSortTypeState] = useState<SortType>('createdAt');
   const router = useRouter();
@@ -89,8 +93,9 @@ const MainPage: NextPage = () => {
   }, []);
 
   useEffect(() => {
+    initializeEventList();
     if (userAddress) setStorage(USER_ADDRESS_KEY, userAddress);
-  }, [userAddress]);
+  }, [userAddress, initializeEventList]);
 
   useEffect(() => {
     if (!userAddress) {
@@ -139,6 +144,54 @@ const MainPage: NextPage = () => {
     setSortState(() => 'desc');
   }, []);
 
+  /* intersection observer */
+  // TODO: 추후 커스텀 훅으로 리팩토링을 한다.
+  const observerTarget = useRef<HTMLDivElement>(null);
+  const nowPageCnt = useRef<number>(0);
+  const getMoreList = useCallback(
+    (page) => {
+      dispatchEventList({
+        location: userAddress,
+        sort: `${sortTypeState},${sortState}`,
+        page,
+        size: 10,
+      });
+    },
+    [userAddress, sortTypeState, sortState, dispatchEventList]
+  );
+
+  useEffect(() => {
+    let observer: IntersectionObserver;
+    let observerTargetCurrent: HTMLDivElement | undefined;
+    if (observerTarget.current) {
+      observerTargetCurrent = observerTarget.current;
+    }
+
+    const cb = async (entries: IntersectionObserverEntry[]) => {
+      if (entries[0].isIntersecting) {
+        nowPageCnt.current += 1;
+        getMoreList(nowPageCnt.current);
+      }
+    };
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px 200px 0px',
+      threshold: 1,
+    };
+    if (
+      eventListOptions.totalPages &&
+      !eventListOptions.last &&
+      observerTargetCurrent
+    ) {
+      observer = new IntersectionObserver(cb, observerOptions);
+      observer.observe(observerTargetCurrent);
+    }
+
+    return () => {
+      if (observer && observerTargetCurrent) observer.disconnect();
+    };
+  }, [observerTarget, userAddress, eventListOptions, getMoreList]);
+
   return (
     <>
       <MainContainer paddingWidth={24}>
@@ -163,18 +216,16 @@ const MainPage: NextPage = () => {
           onSortDescend={handleSortDescend}
         />
         <CardList flexType="column" padding={0} margin="10px 0 0 0">
-          {eventList.length ? (
-            !isLoading &&
-            eventList.map((data, idx) => (
-              <EventCard
-                key={data.eventId}
-                eventData={data}
-                idx={idx}
-                marginHeight={10}
-                onClick={() => handleCardClick(data.eventId)}
-              />
-            ))
-          ) : (
+          {eventList.map((data, idx) => (
+            <EventCard
+              key={data.eventId}
+              eventData={data}
+              idx={idx}
+              marginHeight={10}
+              onClick={() => handleCardClick(data.eventId)}
+            />
+          ))}
+          {!eventList.length && (
             <CardContainer cardType="default" css={NoEventListCardCSS}>
               <Text size="large" bold color={styles.colors.background}>
                 <strong>앗! 이벤트가 없어요~</strong>😅
@@ -182,6 +233,7 @@ const MainPage: NextPage = () => {
             </CardContainer>
           )}
         </CardList>
+        <div ref={observerTarget} />
       </MainContainer>
       <Modal
         width={300}
