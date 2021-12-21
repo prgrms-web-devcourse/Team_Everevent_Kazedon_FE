@@ -3,15 +3,15 @@ import { ErrorType } from '@axios/types';
 export interface EventDetail {
   eventId: number;
   name: string;
-  expiredAt: string | Date;
+  expiredAt?: string | Date;
+  expriedAt?: string | Date;
   marketName: string;
   marketDescription: string;
   eventDescription: string;
   like: boolean | null;
   favorite: boolean | null;
   pictures: string[] | [];
-  participated: boolean | null;
-  completed: boolean | null;
+  participateStatus: 'notParticipated' | 'participated' | 'completed';
 }
 export interface Event {
   eventId: string;
@@ -34,7 +34,7 @@ export interface EventListResponse {
   };
 }
 
-export type EventListType = Array<Event> | [];
+export type EventListType = Array<Event> | null;
 export interface EventListOptions {
   totalPages: number;
   totalElements: number;

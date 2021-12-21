@@ -1,4 +1,4 @@
-import { Button, HeaderText, Text } from '@components/atoms';
+import { Button, HeaderText, ImageContainer, Text } from '@components/atoms';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -15,12 +15,33 @@ const MoreDescriptionButtonCSS = css`
   text-anchor: end;
 `;
 
+const MarketImageBox = styled.section`
+  display: flex;
+  height: auto;
+  margin-top: 10px;
+
+  div {
+    &:first-of-type {
+      margin-left: 0;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+`;
+
+type PictureType = string[];
 interface EventDescriptionsProps extends Partial<Event> {
   eventDescription: string;
+  pictures: PictureType;
   [prop: string]: any;
 }
 
-const EventDescriptions = ({ eventDescription }: EventDescriptionsProps) => {
+const EventDescriptions = ({
+  eventDescription,
+  pictures,
+}: EventDescriptionsProps) => {
   const [isEllipsis, setIsEllipsis] = useState(false);
   useEffect(() => {
     if (eventDescription?.length > 20) {
@@ -35,13 +56,13 @@ const EventDescriptions = ({ eventDescription }: EventDescriptionsProps) => {
   return (
     <StyledEventDescriptions>
       <HeaderText level={2} marginBottom={16}>
-        소개
+        이벤트 내용
       </HeaderText>
       <DescriptionBox>
         {isEllipsis ? (
           <>
             <Text size="small" width={40} height="auto">
-              {`${eventDescription.slice(0, 20)}...`}
+              {`${eventDescription.slice(0, 50)}...`}
             </Text>
             <Button
               display="inline-box"
@@ -62,6 +83,18 @@ const EventDescriptions = ({ eventDescription }: EventDescriptionsProps) => {
           </Text>
         )}
       </DescriptionBox>
+      <MarketImageBox>
+        {pictures.map((url, idx) => (
+          <ImageContainer
+            key={`${url + idx}`}
+            src={url}
+            alt="가게 사진"
+            width={96}
+            height={96}
+            margin="0 8px"
+          />
+        ))}
+      </MarketImageBox>
     </StyledEventDescriptions>
   );
 };

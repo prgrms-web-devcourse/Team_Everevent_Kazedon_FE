@@ -12,7 +12,7 @@ import eventReducer from './reducer';
 
 export const initialState: InitialStateType = {
   isLoading: false,
-  eventList: [],
+  eventList: null,
   event: {
     eventId: 0,
     name: '',
@@ -23,8 +23,7 @@ export const initialState: InitialStateType = {
     eventDescription: '',
     favorite: null,
     pictures: [],
-    participated: null,
-    completed: null,
+    participateStatus: 'notParticipated',
   },
   eventListOptions: {
     totalPages: 0,

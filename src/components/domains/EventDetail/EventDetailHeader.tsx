@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 import useControlModal from '@hooks/useControlModal';
 import useLoginCheck from '@hooks/useLoginCheck';
 import { useRouter } from 'next/router';
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { ControlModal } from '..';
 
 const StyledEventDetailHeader = styled.header`
@@ -48,10 +48,13 @@ const EventDetailHeader = ({
   name,
   isLike,
   isFavorite,
-  isParticipated,
-  isCompleted,
+  participateStatus,
 }: EventDetailHeaderProps) => {
   const router = useRouter();
+  const isParticipated = useMemo(
+    () => participateStatus !== 'notParticipated',
+    [participateStatus]
+  );
   const {
     isLoading,
     dispatchEvent,
@@ -146,7 +149,7 @@ const EventDetailHeader = ({
       );
       await dispatchEvent({ eventId });
     }
-    if (isParticipated && !isCompleted) {
+    if (isParticipated) {
       const resStatus = await dispatchCompleteParticipateEvent({
         eventId,
       });
@@ -158,10 +161,9 @@ const EventDetailHeader = ({
           ? '이미 참여 확인이 완료 됐어요! 리뷰를 하러 갈까요? 🎉'
           : '앗! 요청에 문제가 있는 것 같아요. 다시 시도해주시겠어요? 😂'
       );
-      // await dispatchEvent({ eventId });
-    }
-    if (isCompleted) {
-      router.push(`/event/${eventId}/create`);
+      if (resStatus === null || resStatus === 409) {
+        router.push(`/event/${eventId}/create`);
+      }
     }
   }, [
     isLoading,
@@ -169,7 +171,6 @@ const EventDetailHeader = ({
     router,
     dispatchParticipateEvent,
     dispatchEvent,
-    isCompleted,
     dispatchCompleteParticipateEvent,
     setControlModalVisible,
     setRequestType,
@@ -192,7 +193,7 @@ const EventDetailHeader = ({
         >
           {isLike ? '- 좋아요 취소' : '+ 좋아요'}
         </Button>
-        <Text size="small">{`~${expiredAt} 까지`}</Text>
+        <Text size="small">{`~ ${expiredAt}`}</Text>
       </LikeExpiredAtBox>
       <HeaderText level={1} css={HeaderTextCSS}>
         {name}
@@ -223,7 +224,7 @@ const EventDetailHeader = ({
         onClick={onParticipateButtonClick}
       >
         {isParticipated
-          ? isCompleted
+          ? participateStatus === 'completed'
             ? '리뷰 작성하기'
             : '참여 완료하기'
           : '참여하기'}

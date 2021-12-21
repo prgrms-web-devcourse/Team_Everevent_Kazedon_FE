@@ -7,6 +7,7 @@ import { useEvent } from '@contexts/event';
 import { useReview } from '@contexts/review';
 import { css } from '@emotion/react';
 import styles from '@styles/index';
+import getConvertedDate from '@utils/date';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect } from 'react';
 
@@ -50,19 +51,18 @@ const EventDetailPage = () => {
     <MainContainer paddingWidth={24}>
       <Header />
       <EventDetailHeader
-        expiredAt={event.expiredAt as string}
+        expiredAt={getConvertedDate(event.expriedAt as string)}
         marketName={event.marketName}
         name={event.name}
         isLike={event.like as boolean}
         isFavorite={event.favorite}
-        isParticipated={event.participated}
-        isCompleted={event.completed}
+        participateStatus={event.participateStatus}
       />
-      <MarketDescriptions
-        marketDescription={event.marketDescription}
+      <EventDescriptions
+        eventDescription={event.eventDescription}
         pictures={event.pictures}
       />
-      <EventDescriptions eventDescription={event.eventDescription} />
+      <MarketDescriptions marketDescription={event.marketDescription} />
       {reviewList.length ? (
         <EventReview
           reviewData={reviewList[0] ?? []}

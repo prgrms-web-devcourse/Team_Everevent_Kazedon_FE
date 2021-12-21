@@ -60,7 +60,8 @@ const MainPage: NextPage = () => {
   /* eslint-disable-next-line */
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [addressValue, setAddressValue] = useState<string>('');
-  const { eventList, dispatchEventList, initializeEventList } = useEvent();
+  const { isLoading, eventList, dispatchEventList, initializeEventList } =
+    useEvent();
   const [sortState, setSortState] = useState<SortOrder>('desc');
   const [sortTypeState, setSortTypeState] = useState<SortType>('createdAt');
   const router = useRouter();
@@ -103,6 +104,7 @@ const MainPage: NextPage = () => {
       page: 0,
       size: 10,
     });
+
     return () => initializeEventList();
   }, [
     userAddress,
@@ -130,6 +132,7 @@ const MainPage: NextPage = () => {
     setSortState(() => 'desc');
   }, []);
 
+  if (eventList === null) return null;
   return (
     <>
       <MainContainer paddingWidth={24}>
@@ -155,6 +158,7 @@ const MainPage: NextPage = () => {
         />
         <CardList flexType="column" padding={0} margin="10px 0 0 0">
           {eventList.length ? (
+            !isLoading &&
             eventList.map((data, idx) => (
               <EventCard
                 key={data.eventId}
