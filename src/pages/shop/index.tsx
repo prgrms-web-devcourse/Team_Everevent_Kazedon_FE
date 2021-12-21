@@ -7,7 +7,6 @@ import {
   ShopAddEvent,
   ShopEvents,
 } from '@components/domains/ShopDetail/index';
-import shopEventData from 'fixtures/shopEvents';
 import styled from '@emotion/styled';
 import { ShopContext } from '@contexts/Shop';
 import { ShopInfoData } from '@contexts/Shop/types';
@@ -55,7 +54,7 @@ const ShopDetailPage = () => {
           reviewCount={Number(reviewCount)}
         />
         <ShopAddEvent />
-        <ShopEvents events={shopEventData} />
+        <ShopEvents marketId={marketId} />
       </EventContentWrapper>
     </MainContainer>
   );

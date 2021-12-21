@@ -1,11 +1,13 @@
 import { Dispatch, useCallback } from 'react';
 import showShopInfo from '@axios/shop/showShopInfo';
 import updateShopInfo from '@axios/shop/updateShopInfo';
+import showShopEvents from '@axios/shop/showShopEvents';
 import postEventInfo from '@axios/event/createEvent';
 import {
   GET_SHOP_INFO,
   PUT_SHOP_INFO,
   POST_EVENT_INFO,
+  GET_SHOP_EVENTS,
   CHANGE_EVENT_CONTENT,
   EventCreateFormData,
 } from './types';
@@ -61,11 +63,25 @@ const useShopProvider = (dispatch: Dispatch<any>) => {
     [dispatch]
   );
 
+  const getShopEvents = useCallback(
+    async (marketId: number) => {
+      const res = await showShopEvents(marketId);
+
+      dispatch({
+        type: GET_SHOP_EVENTS,
+      });
+
+      return res.data.events.content;
+    },
+    [dispatch]
+  );
+
   return {
     getShopInfo,
     putShopInfo,
     dispatchChangeEventContent,
     createShopEvent,
+    getShopEvents,
   };
 };
 

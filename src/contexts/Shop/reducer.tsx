@@ -11,6 +11,8 @@ export const shopContextreducer = (
       return state;
     case 'POST_EVENT_INFO':
       return state;
+    case 'GET_SHOP_EVENTS':
+      return state;
     case 'EVENT/CHANGE_CONTENT': {
       const { name, value } = action.payload;
       return {

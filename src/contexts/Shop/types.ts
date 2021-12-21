@@ -23,8 +23,9 @@ export interface ShopEventInfo {
 }
 
 export interface ShopEvent {
-  name: string | null;
+  eventId: number | null;
   expiredAt: string | null;
+  name: string | null;
   marketName: string | null;
   likeCount: number | null;
   reviewCount: number | null;
@@ -41,6 +42,7 @@ export type Action =
   | { type: 'GET_SHOP_INFO' }
   | { type: 'PUT_SHOP_INFO' }
   | { type: 'POST_EVENT_INFO' }
+  | { type: 'GET_SHOP_EVENTS' }
   | {
       type: 'EVENT/CHANGE_CONTENT';
       payload: { name: string; value: File | string };
@@ -50,3 +52,4 @@ export const GET_SHOP_INFO = 'GET_SHOP_INFO';
 export const PUT_SHOP_INFO = 'PUT_SHOP_INFO';
 export const POST_EVENT_INFO = 'POST_EVENT_INFO';
 export const CHANGE_EVENT_CONTENT = 'EVENT/CHANGE_CONTENT';
+export const GET_SHOP_EVENTS = 'GET_SHOP_EVENTS';
