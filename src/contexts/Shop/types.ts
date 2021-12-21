@@ -35,7 +35,7 @@ export interface ShopContextType {
 }
 
 export type EventCreateFormData = Partial<ShopEventInfo>;
-export type ShopInfoData = Required<ShopInfo>;
+export type ShopInfoData = Partial<ShopInfo>;
 
 export type Action =
   | { type: 'GET_SHOP_INFO' }
