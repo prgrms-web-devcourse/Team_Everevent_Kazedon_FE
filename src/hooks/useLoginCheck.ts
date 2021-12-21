@@ -17,27 +17,31 @@ const useLoginCheck = () => {
     }
   }, [token]);
 
-  const handleCheck = useCallback(async () => {
-    if (isLoading) return;
+  const handleCheck = useCallback(
+    async (isPrivate = true) => {
+      if (isLoading) return;
 
-    setIsLoading(true);
+      setIsLoading(true);
 
-    if (!token) {
-      router.replace('/login');
-      return;
-    }
+      if (!token) {
+        if (!isPrivate) return;
+        router.replace('/login');
+        return;
+      }
 
-    const res = await onCheckToken();
+      const res = await onCheckToken();
 
-    if (res.error.code) {
-      localStorage.removeItem('token');
-      router.replace('/login');
-    } else if (!state.email && !state.nickname) {
-      await handleUserCheck();
-      setIsLoading(false);
-    }
-    /* eslint-disable react-hooks/exhaustive-deps */
-  }, [router, state, token, isFirst, handleUserCheck]);
+      if (res.error.code) {
+        localStorage.removeItem('token');
+        if (!isPrivate) router.replace('/login');
+      } else if (!state.email && !state.nickname) {
+        await handleUserCheck();
+        setIsLoading(false);
+      }
+      /* eslint-disable react-hooks/exhaustive-deps */
+    },
+    [router, state, token, isFirst, handleUserCheck]
+  );
 
   return { isFirst, handleCheck };
 };

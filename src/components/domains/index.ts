@@ -1,5 +1,4 @@
 export { default as CategoryList } from './CategoryList';
-export { default as EventCard } from './EventCard';
 export { default as Header } from './Header';
 export { default as LoginForm } from './LoginForm';
 export { default as ModalButtons } from './ModalButtons';
@@ -12,5 +11,9 @@ export { default as OverlapCheck } from './OverlapCheck';
 export { default as ProfileEdit } from './ProfileEdit';
 export { default as PasswordForm } from './PasswordForm';
 export { default as Tab } from './Tab';
-export { default as LoginInformContainer } from './LoginInformContainer';
+export { default as LoginInformContainer } from './ControlModal/LoginInformContainer';
 export * from './EventDetail/index';
+
+/* eslint-disable import/no-cycle */
+export { default as ControlModal } from './ControlModal';
+export { default as EventCard } from './EventCard';

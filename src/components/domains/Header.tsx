@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({
   const { isFirst, handleCheck } = useLoginCheck();
 
   useEffect(() => {
-    if (!isFirst) handleCheck();
+    if (!isFirst) handleCheck(false);
   }, [isFirst, handleCheck]);
 
   const [navModalVisible, setNavModalVisible] = useState<boolean>(false);

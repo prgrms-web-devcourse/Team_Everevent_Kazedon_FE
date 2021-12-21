@@ -26,7 +26,7 @@ export interface Event {
 }
 
 export interface EventListResponse {
-  simpleEvents: {
+  events: {
     content: EventListType;
     totalPages: number;
     totalElements: number;

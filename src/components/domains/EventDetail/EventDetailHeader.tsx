@@ -1,10 +1,14 @@
 import { Button, HeaderText, Text } from '@components/atoms';
 import { useEvent } from '@contexts/event';
 import { Event } from '@contexts/event/types';
+import UserContext from '@contexts/UserContext';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import useControlModal from '@hooks/useControlModal';
+import useLoginCheck from '@hooks/useLoginCheck';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
+import { ControlModal } from '..';
 
 const StyledEventDetailHeader = styled.header`
   margin: 20px 0;
@@ -56,28 +60,79 @@ const EventDetailHeader = ({
     dispatchParticipateEvent,
     dispatchCompleteParticipateEvent,
   } = useEvent();
+
+  const { isFirst, handleCheck } = useLoginCheck();
+  const {
+    requestType,
+    setRequestType,
+    controlModalVisible,
+    setControlModalVisible,
+  } = useControlModal();
+
+  const handleControlModalClose = () => {
+    setControlModalVisible(false);
+  };
+
+  useEffect(() => {
+    if (!isFirst) {
+      handleCheck();
+    }
+  }, [isFirst, handleCheck]);
+  const { state: userState } = useContext(UserContext);
+
   const handleLikeButtonClick = useCallback(async () => {
     if (isLoading) return;
+    if (!userState.userType.type) {
+      setRequestType(() => '좋아요');
+      setControlModalVisible(() => true);
+      return;
+    }
     const { eventId } = router.query;
     const resStatus = await dispatchEventLike(eventId, isLike);
     if (resStatus === 500) {
       /* eslint-disable-next-line */
-      alert('로그인 후에 가능해요! 로그인을 하러 갈까요? 😏');
+      alert('서버 측에서 오류가 발생했어요!');
     }
-  }, [isLoading, dispatchEventLike, router.query, isLike]);
+  }, [
+    isLoading,
+    setRequestType,
+    dispatchEventLike,
+    router.query,
+    isLike,
+    setControlModalVisible,
+    userState.userType.type,
+  ]);
 
   const handleFavoriteButtonClick = useCallback(async () => {
     if (isLoading) return;
+    if (!userState.userType.type) {
+      setRequestType(() => '즐겨찾기');
+      setControlModalVisible(() => true);
+      return;
+    }
     const { eventId } = router.query;
     const resStatus = await dispatchShopFavorite(eventId, isFavorite);
     if (resStatus === 500) {
       /* eslint-disable-next-line */
-      alert('로그인 후에 가능해요! 로그인을 하러 갈까요? 😏');
+      alert('서버 측에서 오류가 발생했어요!');
     }
-  }, [isLoading, dispatchShopFavorite, router.query, isFavorite]);
+  }, [
+    isLoading,
+    dispatchShopFavorite,
+    router.query,
+    isFavorite,
+    userState,
+    setRequestType,
+    setControlModalVisible,
+  ]);
 
   const onParticipateButtonClick = useCallback(async () => {
     if (isLoading) return;
+    if (!userState.userType.type) {
+      setRequestType(() => '이벤트 참여');
+      setControlModalVisible(() => true);
+      return;
+    }
     const { eventId } = router.query;
     if (!isParticipated) {
       const resStatus = await dispatchParticipateEvent({ eventId });
@@ -116,6 +171,9 @@ const EventDetailHeader = ({
     dispatchEvent,
     isCompleted,
     dispatchCompleteParticipateEvent,
+    setControlModalVisible,
+    setRequestType,
+    userState.userType.type,
   ]);
 
   return (
@@ -170,6 +228,11 @@ const EventDetailHeader = ({
             : '참여 완료하기'
           : '참여하기'}
       </Button>
+      <ControlModal
+        visible={controlModalVisible}
+        onClose={handleControlModalClose}
+        requestType={requestType}
+      />
     </StyledEventDetailHeader>
   );
 };

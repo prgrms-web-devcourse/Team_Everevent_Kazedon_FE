@@ -23,6 +23,7 @@ import {
 } from '@components/atoms';
 import { setStorage } from '@utils/storage';
 import { USER_ADDRESS_KEY } from '@utils/constantUser';
+import useLoginCheck from '@hooks/useLoginCheck';
 
 const AddressButtonCSS = css`
   margin-top: 60px;
@@ -47,6 +48,15 @@ const NoEventListCardCSS = css`
 
 const MainPage: NextPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const { isFirst, handleCheck } = useLoginCheck();
+
+  useEffect(() => {
+    if (!isFirst) {
+      handleCheck(false);
+    }
+  }, [isFirst, handleCheck]);
+
   /* eslint-disable-next-line */
   const [userAddress, setUserAddress] = useState<string | null>(null);
   const [addressValue, setAddressValue] = useState<string>('');

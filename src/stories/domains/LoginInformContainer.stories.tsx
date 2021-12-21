@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginInformContainer from '@components/domains/LoginInformContainer';
+import LoginInformContainer from '@components/domains/ControlModal/LoginInformContainer';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
