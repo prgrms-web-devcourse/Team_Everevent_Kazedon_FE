@@ -66,7 +66,7 @@ const useShopProvider = (dispatch: Dispatch<any>) => {
   const getShopEvents = useCallback(
     async (marketId: number) => {
       const res = await showShopEvents(marketId);
-      // console.log('actions: ', res.data.events.content);
+
       dispatch({
         type: GET_SHOP_EVENTS,
       });
