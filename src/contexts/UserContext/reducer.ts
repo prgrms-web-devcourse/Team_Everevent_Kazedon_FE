@@ -1,6 +1,7 @@
 import {
   LOGIN,
   LOGOUT,
+  MODIFYNICKNAME,
   REGISTER,
   TEXT,
   USERCHECK,
@@ -33,7 +34,8 @@ export const userContextreducer = (state: User, action: Action): User => {
         nickname: action.user.nickname,
         userType: action.user.userType,
       };
-
+    case MODIFYNICKNAME:
+      return { ...state, nickname: action.nickname };
     default:
       return state;
   }

@@ -2,6 +2,7 @@ import {
   HEADERTOKEN,
   LOGIN,
   LOGOUT,
+  MODIFYNICKNAME,
   REGISTER,
   TOKEN,
   USERCHECK,
@@ -97,11 +98,19 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
     dispatch({ type: USERCHECK, user: resUser });
   }, [dispatch]);
 
+  const handleModifyNickname = useCallback(
+    (nickname) => {
+      dispatch({ type: MODIFYNICKNAME, nickname });
+    },
+    [dispatch]
+  );
+
   return {
     handleLogIn,
     handleRegister,
     handleLogOut,
     handleUserCheck,
+    handleModifyNickname,
   };
 };
 

@@ -28,17 +28,14 @@ export type RegisterUserInfo = Omit<
   'passwordConfirm' | 'userType' | 'userId'
 >;
 export type OverlapParams = Pick<Info, 'email' | 'nickname'>;
-
-export type ProfileUserInfo = Partial<
-  Omit<Info, 'email' | 'userId' | 'userType'>
->;
-export type ErrorProfile = Partial<Omit<Info, 'email' | 'userId' | 'userType'>>;
+export type ProfileUserInfo = Omit<Info, 'email' | 'userId' | 'userType'>;
 
 export type Action =
   | { type: 'LOG_IN'; user: User }
   | { type: 'REGISTER' }
   | { type: 'LOG_OUT' }
-  | { type: 'USER_CHECK'; user: User };
+  | { type: 'USER_CHECK'; user: User }
+  | { type: 'MODIFY_NICKNAME'; nickname: string };
 
 export interface UserContextType {
   [dispatchEvent: string]: any;

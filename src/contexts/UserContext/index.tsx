@@ -13,8 +13,13 @@ const UserContext = createContext<UserContextType>(initialState);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(userContextreducer, initialState);
-  const { handleLogIn, handleRegister, handleLogOut, handleUserCheck } =
-    useUserProvider(dispatch);
+  const {
+    handleLogIn,
+    handleRegister,
+    handleLogOut,
+    handleUserCheck,
+    handleModifyNickname,
+  } = useUserProvider(dispatch);
 
   const value = useMemo(
     () => ({
@@ -23,8 +28,16 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       handleRegister,
       handleLogOut,
       handleUserCheck,
+      handleModifyNickname,
     }),
-    [state, handleLogIn, handleRegister, handleLogOut, handleUserCheck]
+    [
+      state,
+      handleLogIn,
+      handleRegister,
+      handleLogOut,
+      handleUserCheck,
+      handleModifyNickname,
+    ]
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
