@@ -24,15 +24,15 @@ const useReviewProvider = (dispatch: Dispatch<any>) => {
       if (!eventId) return;
       dispatchLoading();
       const res = await getReviewList({ eventId, sort, page, size });
-      const simpleReviews = res.data?.simpleReviews ?? null;
+      const reviews = res.data?.reviews ?? null;
       dispatch({
         type: GET_REVIEW_LIST,
         payload: {
-          reviewList: simpleReviews?.content ?? [],
+          reviewList: reviews?.content ?? [],
           reviewOptions: {
-            last: simpleReviews?.last ?? false,
-            totalPages: simpleReviews?.totalPages ?? 0,
-            totalElements: simpleReviews?.totalElements ?? 0,
+            last: reviews?.last ?? false,
+            totalPages: reviews?.totalPages ?? 0,
+            totalElements: reviews?.totalElements ?? 0,
           },
           reviewError: res.error,
         },
