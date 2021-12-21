@@ -74,8 +74,7 @@ const ReviewDetailPage = () => {
         name={event.name}
         isLike={event.like as boolean}
         isFavorite={event.favorite}
-        isParticipated={event.participated}
-        isCompleted={event.completed}
+        participateStatus={event.participateStatus}
       />
       <CategoryList
         headerLevel={2}

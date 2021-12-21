@@ -23,8 +23,7 @@ export const initialState: InitialStateType = {
     eventDescription: '',
     favorite: null,
     pictures: [],
-    participated: null,
-    completed: null,
+    participateStatus: 'notParticipated',
   },
   eventListOptions: {
     totalPages: 0,

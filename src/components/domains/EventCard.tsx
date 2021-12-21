@@ -11,6 +11,7 @@ import LikeButton from '@components/domains/LikeButton';
 import useControlModal from '@hooks/useControlModal';
 import useLoginCheck from '@hooks/useLoginCheck';
 import UserContext from '@contexts/UserContext/index';
+import getConvertedDate from '@utils/date';
 import { ControlModal } from '.';
 
 const StyledReviewCount = styled.section`
@@ -89,10 +90,8 @@ const EventCard = ({
   };
 
   const nowDate = useMemo(() => {
-    const now = new Date(expiredAt);
-    return `${now.toLocaleDateString()} ${
-      now.getHours() < 10 ? `0${now.getHours()}` : now.getHours()
-    }:${now.getMinutes() < 10 ? `0${now.getMinutes()}` : now.getMinutes()}`;
+    const date = new Date(expiredAt);
+    return getConvertedDate(date);
   }, [expiredAt]);
 
   return (
