@@ -3,13 +3,17 @@ import useUserProvider from './actions';
 import { User, UserContextType } from './types';
 import { userContextreducer } from './reducer';
 
-const initialState: User = { email: '', token: '', nickname: '' };
+const initialState: User = {
+  email: '',
+  nickname: '',
+  userType: { type: '', id: '' },
+};
 
 const UserContext = createContext<UserContextType>(initialState);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(userContextreducer, initialState);
-  const { handleLogIn, handleRegister, handleLogOut } =
+  const { handleLogIn, handleRegister, handleLogOut, handleUserCheck } =
     useUserProvider(dispatch);
 
   const value = useMemo(
@@ -18,8 +22,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       handleLogIn,
       handleRegister,
       handleLogOut,
+      handleUserCheck,
     }),
-    [state, handleLogIn, handleRegister, handleLogOut]
+    [state, handleLogIn, handleRegister, handleLogOut, handleUserCheck]
   );
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
