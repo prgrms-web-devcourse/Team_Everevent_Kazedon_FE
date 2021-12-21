@@ -1,14 +1,22 @@
-import React, { ReactNode, useState } from 'react';
+/* eslint-disable no-shadow */
+import React, { ReactNode, useContext, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, HeaderText, Text } from '@components/atoms';
 import { css } from '@emotion/react';
 import useForm from '@hooks/useForm';
 import Common from '@styles/index';
-import { ErrorProfile, ProfileUserInfo } from '@contexts/UserContext/types';
-import { text } from '@utils/constantUser';
+import { ProfileUserInfo } from '@contexts/UserContext/types';
+import {
+  errorMsg,
+  failMsg,
+  overlapMsg,
+  text,
+  validation,
+} from '@utils/constantUser';
 import { onConfirmPassword, onEditProfile, onRegisterCheck } from '@axios/user';
 import { useRouter } from 'next/router';
-import { marginBottom } from '@utils/computed';
+import { deleteProperty, marginBottom } from '@utils/computed';
+import UserContext from '@contexts/UserContext';
 import OverlapCheck from './OverlapCheck';
 import Tab from './Tab';
 import PasswordForm from './PasswordForm';
@@ -33,6 +41,7 @@ const styleCenter = { display: 'flex', justifyContent: 'center' };
 
 const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
   const router = useRouter();
+  const { handleModifyNickname } = useContext(UserContext);
   const [buttonFocus, setButtonFocus] = useState(true);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
   const [successNicknameMessage, setSuccessNicknameMessage] = useState(false);
@@ -44,45 +53,40 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
         password: '',
         passwordCheck: '',
       },
-      onSubmit: async (formData) => {
-        const newErrors: ErrorProfile = {};
-        if (!passwordConfirm) {
-          newErrors.nickname = text.passwordFail;
-          newErrors.password = text.passwordFail;
-
-          setErrors(newErrors);
-          return;
-        }
-
-        if (formData.nickname && !successNicknameMessage) {
-          newErrors.nickname = text.nicknameInput;
-
-          setErrors(newErrors);
-          return;
-        }
-
+      onSubmit: async (values) => {
         const profileEditUserInfo = {
           email,
-          nickname: formData.nickname === '' ? undefined : formData.nickname,
-          password: formData.password === '' ? undefined : formData.password,
+          nickname: values.nickname === '' ? undefined : values.nickname,
+          password: values.password === '' ? undefined : values.password,
         };
+
         const res = await onEditProfile(profileEditUserInfo);
 
         if (res.error.code) {
-          router.replace('/profile/edit');
+          const newErrors: Partial<ProfileUserInfo> = {};
+          newErrors.password = failMsg.profileEdit.submit;
+
+          setErrors(newErrors);
         } else {
-          router.push('/');
+          if (values.nickname) {
+            await handleModifyNickname(values.nickname);
+          }
+          router.replace('/');
         }
       },
-      validate: ({ password }) => {
-        const newErrors: ErrorProfile = {};
-        if (!password) return newErrors;
+      validate: ({ nickname, password, passwordCheck }) => {
+        const newErrors: Partial<ProfileUserInfo> = {};
 
-        if (
-          !text.passwordReg.test(password) ||
-          values.password !== values.passwordCheck
-        )
-          newErrors.password = text.passwordFail;
+        if (!passwordConfirm)
+          newErrors.password = failMsg.profileEdit.passwordConfirm;
+        if (nickname) {
+          if (!successNicknameMessage)
+            newErrors.nickname = failMsg.profileEdit.nickname;
+        }
+        if (password || passwordCheck) {
+          if (password !== passwordCheck)
+            newErrors.password = errorMsg.passwordConfirm;
+        }
 
         return newErrors;
       },
@@ -91,16 +95,14 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
   const handleConfirm = async (e: React.MouseEvent) => {
     const { name } = e.target as HTMLButtonElement;
     const key = name as 'passwordConfirm' | 'nickname';
-    const newErrors: ErrorProfile = JSON.parse(JSON.stringify(errors));
-
-    delete newErrors[key];
+    const newErrors = deleteProperty(errors, key);
 
     if (!values[key]) {
       if (key === 'passwordConfirm') {
-        newErrors[key] = text.passwordConfirm;
+        newErrors[key] = errorMsg.password;
         setPasswordConfirm(false);
       } else {
-        newErrors[key] = text.overlap.nickname;
+        newErrors[key] = errorMsg.nickname;
         setSuccessNicknameMessage(false);
       }
 
@@ -109,18 +111,34 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
     }
 
     let res;
+
     if (key === 'passwordConfirm') {
+      if (!validation.password.test(values[key])) {
+        newErrors[key] = errorMsg.password;
+        setPasswordConfirm(false);
+        setErrors(newErrors);
+
+        return;
+      }
+
       res = await onConfirmPassword(values[key] as 'passwordConfirm');
 
       if (res.error.code) {
         setPasswordConfirm(false);
-        newErrors[key] = text.passwordConfirm;
+        newErrors[key] = failMsg.passwordConfirm;
         setErrors(newErrors);
       } else {
         setErrors(newErrors);
         setPasswordConfirm(true);
       }
     } else {
+      if (!validation.nickname.test(values[key])) {
+        newErrors[key] = errorMsg.nickname;
+        setSuccessNicknameMessage(false);
+        setErrors(newErrors);
+        return;
+      }
+
       const checkInfo = {
         type: key,
         value: values[key],
@@ -129,13 +147,26 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
 
       if (res.error.code) {
         setSuccessNicknameMessage(false);
-        newErrors[key] = text.overlap.nickname;
+        newErrors[key] = overlapMsg.nickname;
         setErrors(newErrors);
       } else {
         setErrors(newErrors);
         setSuccessNicknameMessage(true);
       }
     }
+  };
+
+  const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    const key = name as keyof ProfileUserInfo;
+    if (key === 'passwordConfirm') setPasswordConfirm(false);
+    if (key === 'nickname') setSuccessNicknameMessage(false);
+    if (errors[key]) {
+      const newErrors = deleteProperty(errors, key);
+      setErrors(newErrors);
+    }
+
+    handleChange(e);
   };
 
   const handleChangeTab = (e: React.MouseEvent) => {
@@ -165,21 +196,11 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
         name="passwordConfirm"
         error={false}
         buttonText="비밀번호 확인"
-        onChange={handleChange}
+        onChange={changeInput}
         onClick={handleConfirm}
         css={marginBottom(16)}
       >
-        {errors.passwordConfirm && (
-          <Text
-            size="micro"
-            fontStyle={styleCenter}
-            color={Common.colors.warning}
-            css={marginBottom(8)}
-          >
-            {errors.passwordConfirm}
-          </Text>
-        )}
-        {passwordConfirm && (
+        {passwordConfirm ? (
           <Text
             size="micro"
             fontStyle={styleCenter}
@@ -187,6 +208,20 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
             css={marginBottom(8)}
           >
             확인 완료됐습니다.
+          </Text>
+        ) : (
+          <Text
+            size="micro"
+            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            block
+            css={marginBottom(8)}
+            color={
+              errors.passwordConfirm
+                ? Common.colors.warning
+                : Common.colors.placeholder
+            }
+          >
+            {errors.passwordConfirm ? errors.passwordConfirm : text.default}
           </Text>
         )}
       </OverlapCheck>
@@ -212,7 +247,7 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
           name="nickname"
           error={false}
           buttonText="닉네임 중복 확인"
-          onChange={handleChange}
+          onChange={changeInput}
           onClick={handleConfirm}
         >
           {errors.nickname && (
@@ -245,7 +280,7 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
         <HeaderText level={2} marginBottom={16}>
           비밀번호 변경
         </HeaderText>
-        <PasswordForm onChange={handleChange} error={false} />
+        <PasswordForm onChange={changeInput} error={false} />
         <Text
           size="micro"
           fontStyle={styleCenter}

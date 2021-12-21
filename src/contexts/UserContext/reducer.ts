@@ -1,5 +1,13 @@
-import { LOGIN, LOGOUT, REGISTER, text, USERCHECK } from '@utils/constantUser';
-import { User, Action, ErrorState, RegisterAction } from './types';
+import {
+  LOGIN,
+  LOGOUT,
+  MODIFYNICKNAME,
+  REGISTER,
+  TEXT,
+  USERCHECK,
+  validation,
+} from '@utils/constantUser';
+import { User, Action, RegisterAction, ErrorRegisterState } from './types';
 
 export const userContextreducer = (state: User, action: Action): User => {
   switch (action.type) {
@@ -26,30 +34,35 @@ export const userContextreducer = (state: User, action: Action): User => {
         nickname: action.user.nickname,
         userType: action.user.userType,
       };
-
+    case MODIFYNICKNAME:
+      return { ...state, nickname: action.nickname };
     default:
       return state;
   }
 };
 
-export const registerReducer = (state: ErrorState, action: RegisterAction) => {
+export const registerReducer = (
+  state: ErrorRegisterState,
+  action: RegisterAction
+) => {
   switch (action.name) {
-    case text.email: {
-      if (text.emailReg.test(action.value)) return { ...state, email: false };
+    case TEXT.EMAIL: {
+      if (validation.email.test(action.payload.email as string))
+        return { ...state, email: false };
       return { ...state, email: true };
     }
-    case text.password: {
-      if (text.passwordReg.test(action.value))
+    case TEXT.PASSWORD: {
+      if (validation.password.test(action.payload.password as string))
         return { ...state, password: false };
       return { ...state, password: true };
     }
-    case text.passwordCheck: {
-      if (action.password === action.value)
+    case TEXT.PASSWORDCHECK: {
+      if (action.payload.password === action.payload.passwordCheck)
         return { ...state, passwordCheck: false };
       return { ...state, passwordCheck: true };
     }
-    case text.nickname: {
-      if (text.nicknameReg.test(action.value))
+    case TEXT.NICKNAME: {
+      if (validation.nickname.test(action.payload.nickname as string))
         return { ...state, nickname: false };
       return { ...state, nickname: true };
     }

@@ -2,6 +2,7 @@ import {
   HEADERTOKEN,
   LOGIN,
   LOGOUT,
+  MODIFYNICKNAME,
   REGISTER,
   TOKEN,
   USERCHECK,
@@ -15,25 +16,23 @@ import {
   onCheckUser,
   onGetUserType,
 } from '@axios/user';
-import { LoginUserInfo, RegisterUserInfo, User } from './types';
+import { LoginUserInfo, User } from './types';
 
 const useUserProvider = (dispatch: Dispatch<any>) => {
   const handleLogIn = useCallback(
     async (userInfo: LoginUserInfo) => {
       const res = await onLogIn(userInfo);
 
-      if (res.error.code) {
-        throw new Error('로그인 실패');
-      }
+      if (res.error.code) return res;
 
-      const header = await res.headers;
-      const user = await res.data;
+      const header = res.headers;
+      const user = res.data;
 
       setStorage(TOKEN, header[HEADERTOKEN]);
 
       const userTypeRes = await onGetUserType();
       const resUser: User = {
-        email: user.email,
+        email: userInfo.email,
         nickname: user.nickname,
       };
 
@@ -50,21 +49,21 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
       }
 
       dispatch({ type: LOGIN, user: resUser });
+
+      return res;
     },
     [dispatch]
   );
 
   const handleRegister = useCallback(
-    async (registerUserInfo: RegisterUserInfo) => {
+    async (registerUserInfo) => {
       const res = await onRegister(registerUserInfo);
-
-      if (res.error.code) {
-        throw new Error(`회원가입 실패${res.error.code}`);
-      }
 
       dispatch({
         type: REGISTER,
       });
+
+      return res;
     },
     [dispatch]
   );
@@ -99,11 +98,19 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
     dispatch({ type: USERCHECK, user: resUser });
   }, [dispatch]);
 
+  const handleModifyNickname = useCallback(
+    (nickname) => {
+      dispatch({ type: MODIFYNICKNAME, nickname });
+    },
+    [dispatch]
+  );
+
   return {
     handleLogIn,
     handleRegister,
     handleLogOut,
     handleUserCheck,
+    handleModifyNickname,
   };
 };
 

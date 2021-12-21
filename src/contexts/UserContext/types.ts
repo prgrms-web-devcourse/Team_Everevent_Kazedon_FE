@@ -4,52 +4,46 @@ export interface UserType {
 }
 export interface Info {
   email: string;
-  userType: UserType;
-  userId: string;
+  nickname: string;
   password: string;
   passwordCheck: string;
   passwordConfirm: string;
-  nickname: string;
+  userType: UserType;
+  userId: string;
 }
 
-export type User = Partial<
-  Pick<Info, 'email' | 'nickname' | 'userId' | 'userType'>
->;
-export type LoginUserInfo = Required<Pick<Info, 'email' | 'password'>>;
-export type RegisterUserFormData = Required<
-  Omit<Info, 'passwordConfirm' | 'userId' | 'userType'>
->;
-export type RegisterUserInfo = Required<
-  Omit<Info, 'passwordCheck' | 'passwordConfirm' | 'userId' | 'userType'>
->;
-export type ErrorUserForm = Partial<
-  Omit<Info, 'passwordConfirm' | 'userId' | 'userType'>
->;
-export type ProfileUserInfo = Partial<
-  Omit<Info, 'email' | 'userId' | 'userType'>
->;
-export type ErrorProfile = Partial<Omit<Info, 'email' | 'userId' | 'userType'>>;
-
-export type Action =
-  | { type: 'LOG_IN'; user: User }
-  | { type: 'REGISTER' }
-  | { type: 'LOG_OUT' }
-  | { type: 'USER_CHECK'; user: User };
-
-export interface UserContextType {
-  [dispatchEvent: string]: any;
-}
-
-export interface ErrorState {
+export interface ErrorRegisterState {
   email: boolean;
   password: boolean;
   passwordCheck: boolean;
   nickname: boolean;
 }
+
+export type User = Partial<
+  Pick<Info, 'email' | 'nickname' | 'userId' | 'userType'>
+>;
+export type LoginUserInfo = Pick<Info, 'email' | 'password'>;
+export type RegisterUserInfo = Omit<
+  Info,
+  'passwordConfirm' | 'userType' | 'userId'
+>;
+export type OverlapParams = Pick<Info, 'email' | 'nickname'>;
+export type ProfileUserInfo = Omit<Info, 'email' | 'userId' | 'userType'>;
+
+export type Action =
+  | { type: 'LOG_IN'; user: User }
+  | { type: 'REGISTER' }
+  | { type: 'LOG_OUT' }
+  | { type: 'USER_CHECK'; user: User }
+  | { type: 'MODIFY_NICKNAME'; nickname: string };
+
+export interface UserContextType {
+  [dispatchEvent: string]: any;
+}
+
 export interface RegisterAction {
   name: string;
-  value: string;
-  password?: string;
+  payload: Partial<RegisterUserInfo>;
 }
 
 export interface OverlapCheckInfo {

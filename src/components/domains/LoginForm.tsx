@@ -4,9 +4,10 @@ import { Input, HeaderText, Button, Text } from '@components/atoms';
 import useForm from '@hooks/useForm';
 import Common from '@styles/index';
 import UserContext from '@contexts/UserContext';
-import { text } from '@utils/constantUser';
+import { errorMsg, failMsg, text, validation } from '@utils/constantUser';
 import { useRouter } from 'next/dist/client/router';
-import { ErrorUserForm, LoginUserInfo } from '@contexts/UserContext/types';
+import { LoginUserInfo } from '@contexts/UserContext/types';
+import { deleteProperty } from '@utils/computed';
 
 const LoginFormContainer = styled.div`
   display: flex;
@@ -42,26 +43,41 @@ const LoginForm = () => {
         password: '',
       },
       onSubmit: async (values) => {
-        try {
-          await handleLogIn(values);
-          router.push('/');
-        } catch {
-          const newErrors: ErrorUserForm = {};
-          newErrors.password = text.fail;
+        const res = await handleLogIn(values);
+        const loginError: Partial<LoginUserInfo> = {};
 
-          setErrors(newErrors);
+        if (!res.error.code) {
+          router.push('/');
+          return;
         }
+
+        loginError.password = failMsg.login;
+
+        setErrors(loginError);
       },
       validate: ({ email, password }) => {
-        const newErrors: ErrorUserForm = {};
+        const newErrors: Partial<LoginUserInfo> = {};
 
-        if (!text.emailReg.test(email)) newErrors.email = text.emailFormat;
-        if (!text.passwordReg.test(password))
-          newErrors.password = text.passwordInput;
+        if (!validation.email.test(email)) newErrors.email = errorMsg.email;
+        if (!validation.password.test(password))
+          newErrors.password = errorMsg.password;
 
         return newErrors;
       },
     });
+
+  const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    const key = name as keyof LoginUserInfo;
+
+    if (errors[key]) {
+      const resetError = deleteProperty<Partial<LoginUserInfo>>(errors, key);
+
+      setErrors(resetError);
+    }
+
+    handleChange(e);
+  };
 
   return (
     <LoginFormContainer>
@@ -73,7 +89,7 @@ const LoginForm = () => {
           sizeType="small"
           placeholder="이메일"
           name="email"
-          onChange={handleChange}
+          onChange={changeInput}
           error={!!errors.email}
         />
         {errors.email && (
@@ -92,9 +108,9 @@ const LoginForm = () => {
           type="password"
           sizeType="small"
           name="password"
-          onChange={handleChange}
+          onChange={changeInput}
           placeholder="비밀번호"
-          error={errors.password === text.fail ? false : !!errors.password}
+          error={errors.password === failMsg.login ? false : !!errors.password}
         />
         <Text
           size="micro"
