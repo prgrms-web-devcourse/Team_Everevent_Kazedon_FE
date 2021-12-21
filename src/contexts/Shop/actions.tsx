@@ -1,8 +1,10 @@
 import { Dispatch, useCallback } from 'react';
 import showShopInfo from '@axios/shop/showShopInfo';
+import updateShopInfo from '@axios/shop/updateShopInfo';
 import postEventInfo from '@axios/event/createEvent';
 import {
   GET_SHOP_INFO,
+  PUT_SHOP_INFO,
   POST_EVENT_INFO,
   CHANGE_EVENT_CONTENT,
   EventCreateFormData,
@@ -18,6 +20,17 @@ const useShopProvider = (dispatch: Dispatch<any>) => {
 
     return res.data;
   }, [dispatch]);
+
+  const putShopInfo = useCallback(
+    async (marketId, description) => {
+      await updateShopInfo(marketId, description);
+
+      dispatch({
+        type: PUT_SHOP_INFO,
+      });
+    },
+    [dispatch]
+  );
 
   // TODO: 추후에 삭제될 예정입니다.
   const dispatchChangeEventContent = useCallback(
@@ -50,6 +63,7 @@ const useShopProvider = (dispatch: Dispatch<any>) => {
 
   return {
     getShopInfo,
+    putShopInfo,
     dispatchChangeEventContent,
     createShopEvent,
   };

@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { HeaderText, Text } from '@components/atoms';
 import { ShopInfo } from '@contexts/Shop/types';
 import styled from '@emotion/styled';
 import Common from '@styles/index';
+import { ShopContext } from '@contexts/Shop/index';
 
 const ShopDetailHeaderWrapper = styled.div`
   display: flex;
@@ -36,14 +37,25 @@ interface ShopDetailHeaderProps extends Partial<ShopInfo> {
 }
 
 const ShopDetailHeader = ({
+  marketId,
   marketName,
   description,
 }: ShopDetailHeaderProps) => {
   const [visible, setVisible] = useState(false);
+  const [updatedDescription, setUpdatedDescription] = useState(description);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleEdit = () => {
-    // TODO: 추후 리팩토링할 예정입니다. 수정 API연동예정
+  const { putShopInfo } = useContext(ShopContext);
+
+  const handleEdit = async () => {
+    if (visible) {
+      const fetchedDescription =
+        descriptionRef.current?.value || '가게 소개가 없어요!';
+      setUpdatedDescription(fetchedDescription);
+      await putShopInfo(marketId, {
+        description: fetchedDescription,
+      });
+    }
     // eslint-disable-next-line no-unused-expressions
     visible ? setVisible(false) : setVisible(true);
   };
@@ -57,11 +69,11 @@ const ShopDetailHeader = ({
         {visible ? (
           <DescriptionTextarea
             ref={descriptionRef}
-            defaultValue={description || ''}
+            defaultValue={updatedDescription || description?.toString()}
           />
         ) : (
           <Text size="small" block fontStyle={{ overflow: 'hidden' }}>
-            {description || '가게소개가 없어요!'}
+            {updatedDescription || description}
           </Text>
         )}
         <EditButton onClick={handleEdit}>✏️</EditButton>

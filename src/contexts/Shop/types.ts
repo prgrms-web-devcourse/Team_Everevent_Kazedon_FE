@@ -39,6 +39,7 @@ export type ShopInfoData = Partial<ShopInfo>;
 
 export type Action =
   | { type: 'GET_SHOP_INFO' }
+  | { type: 'PUT_SHOP_INFO' }
   | { type: 'POST_EVENT_INFO' }
   | {
       type: 'EVENT/CHANGE_CONTENT';
@@ -46,5 +47,6 @@ export type Action =
     };
 
 export const GET_SHOP_INFO = 'GET_SHOP_INFO';
+export const PUT_SHOP_INFO = 'PUT_SHOP_INFO';
 export const POST_EVENT_INFO = 'POST_EVENT_INFO';
 export const CHANGE_EVENT_CONTENT = 'EVENT/CHANGE_CONTENT';

@@ -17,17 +17,28 @@ export const ShopContext = createContext<ShopContextType>(initialState);
 export const ShopProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = useReducer(shopContextreducer, initialState);
 
-  const { getShopInfo, createShopEvent, dispatchChangeEventContent } =
-    useShopProvider(dispatch);
+  const {
+    getShopInfo,
+    putShopInfo,
+    createShopEvent,
+    dispatchChangeEventContent,
+  } = useShopProvider(dispatch);
 
   const value = useMemo(
     () => ({
       state,
       getShopInfo,
+      putShopInfo,
       createShopEvent,
       dispatchChangeEventContent,
     }),
-    [state, getShopInfo, createShopEvent, dispatchChangeEventContent]
+    [
+      state,
+      getShopInfo,
+      putShopInfo,
+      createShopEvent,
+      dispatchChangeEventContent,
+    ]
   );
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

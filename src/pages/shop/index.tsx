@@ -1,4 +1,3 @@
-// import { useRouter } from 'next/dist/client/router';
 import React, { useContext, useEffect, useState } from 'react';
 import { MainContainer } from '@components/atoms';
 import { Header } from '@components/domains/index';
@@ -39,11 +38,16 @@ const ShopDetailPage = () => {
     });
   }, [getShopInfo]);
 
-  const { name, description, eventCount, likeCount, reviewCount } = shopInfo;
+  const { marketId, name, description, eventCount, likeCount, reviewCount } =
+    shopInfo;
   return (
     <MainContainer>
       <Header />
-      <ShopDetailHeader marketName={name} description={description} />
+      <ShopDetailHeader
+        marketId={marketId}
+        marketName={name}
+        description={description}
+      />
       <EventContentWrapper>
         <ShopCountInfo
           eventCount={Number(eventCount)}
