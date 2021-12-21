@@ -71,11 +71,15 @@ const UserChangeForm = () => {
       if (!name) {
         setErrorName(Constants.ERROR_MSG.marketNameInput);
         newErrors.address = 'Y';
+      } else {
+        setErrorName('');
       }
       if (description) {
         if (description.length > 200) {
           setErrorDescription(Constants.ERROR_MSG.marketDescriptionFormat);
           newErrors.description = 'Y';
+        } else {
+          setErrorDescription('');
         }
       } else {
         setErrorDescription(Constants.ERROR_MSG.marketDescriptionInput);
@@ -85,7 +89,10 @@ const UserChangeForm = () => {
       if (!address) {
         setErrorAddress(Constants.ERROR_MSG.marketAddressInput);
         newErrors.address = 'Y';
+      } else {
+        setErrorAddress('');
       }
+
       if (Object.keys(newErrors).length === 0) {
         setErrorName('');
         setErrorDescription('');
