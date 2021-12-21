@@ -34,12 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   /* eslint-disable no-template-curly-in-string */
-  const [mounted, setMounted] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   useEffect(() => {
     const firebaseConfig = {
@@ -89,25 +84,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=block"
         />
       </Head>
-      {mounted ? (
-        <>
-          <Mobile>
-            <ContextProvider>
-              <Component {...pageProps} />
-            </ContextProvider>
-          </Mobile>
-          <Desktop>
-            <ContextProvider>
-              <div>여기에 반응형</div>
-              <Component {...pageProps} />
-            </ContextProvider>
-          </Desktop>
-        </>
-      ) : (
-        <ContextProvider>
-          <Component {...pageProps} />
-        </ContextProvider>
-      )}
+      <ContextProvider>
+        <Component {...pageProps} />
+      </ContextProvider>
     </>
   );
 }
