@@ -1,17 +1,23 @@
-import React, { useReducer, useState } from 'react';
+/* eslint-disable no-shadow */
+import React, { useContext, useReducer, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, HeaderText, Text } from '@components/atoms';
 import useForm from '@hooks/useForm';
 import Common from '@styles/index';
-import { onRegister, onRegisterCheck } from '@axios/user';
-import { text } from '@utils/constantUser';
+import { onRegisterCheck } from '@axios/user';
 import {
-  ErrorUserForm,
-  RegisterUserFormData,
-} from '@contexts/UserContext/types';
+  errorMsg,
+  failMsg,
+  overlapMsg,
+  TEXT,
+  text,
+  validation,
+} from '@utils/constantUser';
+import { RegisterUserInfo, OverlapParams } from '@contexts/UserContext/types';
 import { registerReducer } from '@contexts/UserContext/reducer';
 import { useRouter } from 'next/router';
-import { marginBottom } from '@utils/computed';
+import { deleteProperty, marginBottom } from '@utils/computed';
+import UserContext from '@contexts/UserContext';
 import OverlapCheck from './OverlapCheck';
 import PasswordForm from './PasswordForm';
 
@@ -28,10 +34,9 @@ const PasswordWrapper = styled.div`
   flex-direction: column;
 `;
 
-type OverlapParams = 'email' | 'nickname';
-
 const RegisterForm = () => {
   const router = useRouter();
+  const { handleRegister } = useContext(UserContext);
   const [validateErrors, dispatch] = useReducer(registerReducer, {
     email: false,
     password: false,
@@ -41,83 +46,86 @@ const RegisterForm = () => {
   const [successEmailMessage, setSuccessEmailMessage] = useState(false);
   const [successNicknameMessage, setSuccessNicknameMessage] = useState(false);
   const { values, errors, setErrors, handleChange, handleSubmit } =
-    useForm<RegisterUserFormData>({
+    useForm<RegisterUserInfo>({
       initialValues: {
         email: '',
         password: '',
         passwordCheck: '',
         nickname: '',
       },
-      onSubmit: async (formData: RegisterUserFormData) => {
+      onSubmit: async (values) => {
+        const newErrors: Partial<RegisterUserInfo> = {};
         if (!successEmailMessage || !successNicknameMessage) {
-          const newErrors: ErrorUserForm = {};
           newErrors.password = text.overlap.check;
           setErrors(newErrors);
           return;
         }
 
         const registerUserInfo = {
-          email: formData.email,
-          password: formData.password,
-          nickname: formData.nickname,
+          email: values.email,
+          password: values.password,
+          nickname: values.nickname,
         };
 
-        const res = await onRegister(registerUserInfo);
+        const res = await handleRegister(registerUserInfo);
 
-        if (!res.error.code) {
-          router.push('/register/success');
+        if (res.error.code) {
+          newErrors.password = failMsg.register;
+          setErrors(newErrors);
+          return;
         }
+
+        router.push('/register/success');
       },
       validate: ({ email, password, passwordCheck, nickname }) => {
-        const newErrors: ErrorUserForm = {};
+        const newErrors: Partial<RegisterUserInfo> = {};
 
-        if (!text.emailReg.test(email)) newErrors.email = text.emailInput;
-        if (!text.nicknameReg.test(nickname))
-          newErrors.nickname = text.emailInput;
+        if (!validation.email.test(email)) newErrors.email = errorMsg.email;
+        if (!validation.nickname.test(nickname))
+          newErrors.nickname = errorMsg.nickname;
         if (
-          !text.passwordReg.test(password) ||
-          !text.passwordReg.test(passwordCheck)
+          !validation.password.test(password) ||
+          !validation.password.test(passwordCheck)
         )
-          newErrors.password = text.passwordFail;
+          newErrors.password = errorMsg.password;
+        if (password !== passwordCheck)
+          newErrors.password = errorMsg.passwordConfirm;
+
         return newErrors;
       },
     });
 
   const onOverlapCheck = async (e: React.MouseEvent) => {
     const { name } = e.target as HTMLButtonElement;
-    const key = name as OverlapParams;
-    const newErrors: ErrorUserForm = JSON.parse(JSON.stringify(errors));
-
-    delete newErrors[key];
-
-    if (!values[key] || validateErrors[key]) {
-      newErrors[key] = text[`${key}Input`];
-      setErrors(newErrors);
-      return;
-    }
-
+    const key = name as keyof OverlapParams;
+    const overlapErrors = deleteProperty(errors, key);
     const checkInfo = {
       type: key,
       value: values[key],
     };
-    const res = await onRegisterCheck(checkInfo);
-    if (res.error.code) {
-      if (key === text.email) {
-        setSuccessEmailMessage(false);
-      } else {
-        setSuccessNicknameMessage(false);
-      }
-      newErrors[key] = text.overlap[key];
-      setErrors(newErrors);
-    } else {
-      setErrors(newErrors);
 
-      if (key === text.email) {
-        setSuccessEmailMessage(true);
-      } else {
-        setSuccessNicknameMessage(true);
-      }
+    if (!values[key] || validateErrors[key]) {
+      overlapErrors[key] = errorMsg[key];
+      setErrors(overlapErrors);
+      return;
     }
+
+    const res = await onRegisterCheck(checkInfo);
+
+    if (res.error.code) {
+      if (key === TEXT.EMAIL) setSuccessEmailMessage(false);
+      else setSuccessNicknameMessage(false);
+
+      overlapErrors[key] = overlapMsg[key];
+      setErrors(overlapErrors);
+
+      return;
+    }
+
+    setErrors(overlapErrors);
+
+    if (key === TEXT.EMAIL) setSuccessEmailMessage(true);
+    else setSuccessNicknameMessage(true);
   };
 
   const onValidate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,10 +133,23 @@ const RegisterForm = () => {
 
     handleChange(e);
 
-    if (name === text.passwordCheck) {
-      dispatch({ name, value, password: values.password });
+    if (name === TEXT.PASSWORD || name === TEXT.PASSWORDCHECK) {
+      const key = name as keyof RegisterUserInfo;
+      const inputErrors = deleteProperty(errors, key);
+
+      setErrors(inputErrors);
+
+      if (name === TEXT.PASSWORDCHECK) {
+        dispatch({
+          name,
+          payload: { password: values.password, passwordCheck: value },
+        });
+      } else dispatch({ name, payload: { [name]: value } });
     } else {
-      dispatch({ name, value });
+      if (name === TEXT.EMAIL) setSuccessEmailMessage(false);
+      else setSuccessNicknameMessage(false);
+
+      dispatch({ name, payload: { [name]: value } });
     }
   };
 

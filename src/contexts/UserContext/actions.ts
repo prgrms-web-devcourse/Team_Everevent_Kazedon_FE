@@ -15,7 +15,7 @@ import {
   onCheckUser,
   onGetUserType,
 } from '@axios/user';
-import { LoginUserInfo, RegisterUserInfo, User } from './types';
+import { LoginUserInfo, User } from './types';
 
 const useUserProvider = (dispatch: Dispatch<any>) => {
   const handleLogIn = useCallback(
@@ -48,21 +48,21 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
       }
 
       dispatch({ type: LOGIN, user: resUser });
+
+      return res;
     },
     [dispatch]
   );
 
   const handleRegister = useCallback(
-    async (registerUserInfo: RegisterUserInfo) => {
+    async (registerUserInfo) => {
       const res = await onRegister(registerUserInfo);
-
-      if (res.error.code) {
-        throw new Error(`회원가입 실패${res.error.code}`);
-      }
 
       dispatch({
         type: REGISTER,
       });
+
+      return res;
     },
     [dispatch]
   );

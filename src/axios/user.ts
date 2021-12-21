@@ -27,7 +27,9 @@ export const onLogIn = async (userInfo: LoginUserInfo) => {
   return res;
 };
 
-export const onRegister = async (registerUserInfo: RegisterUserInfo) => {
+export const onRegister = async (
+  registerUserInfo: Omit<RegisterUserInfo, 'passwordCheck'>
+) => {
   const res: ResType<any> = await request.post('/signup', registerUserInfo);
 
   return res;
