@@ -11,6 +11,7 @@ import LikeButton from '@components/domains/LikeButton';
 import useControlModal from '@hooks/useControlModal';
 import useLoginCheck from '@hooks/useLoginCheck';
 import UserContext from '@contexts/UserContext/index';
+import { ControlModal } from '.';
 
 const StyledReviewCount = styled.section`
   position: absolute;
@@ -60,22 +61,32 @@ const EventCard = ({
 
   useEffect(() => {
     if (!isFirst) {
-      handleCheck();
+      handleCheck(false);
     }
   }, [isFirst, handleCheck]);
 
-  const { setRequestType, setControlModalVisible } = useControlModal();
+  const {
+    requestType,
+    setRequestType,
+    controlModalVisible,
+    setControlModalVisible,
+  } = useControlModal();
+  const handleControlModalClose = () => {
+    setControlModalVisible(false);
+  };
 
   const handleLikeButtonClick = (e: MouseEvent) => {
     e.stopPropagation();
     // TODO: 로딩을 걸어서, 만약 로딩 중에 또 눌렀다면 dispatch가 실행되지 않도록 해야 한다.
     /* eslint-disable no-console */
     console.log(`좋아요가 등록되었습니다.`);
+    console.log(userState);
     if (!userState?.userType?.type) {
       setRequestType(() => '좋아요');
       setControlModalVisible(true);
     }
   };
+
   return (
     <CardContainer
       width={width}
@@ -116,6 +127,11 @@ const EventCard = ({
         isLike={like}
         likeCount={likeCount}
         onClick={handleLikeButtonClick}
+      />
+      <ControlModal
+        visible={controlModalVisible}
+        onClose={handleControlModalClose}
+        requestType={requestType}
       />
     </CardContainer>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import Text from '@components/atoms/Text';
 import Link from 'next/link';
+import { LoginInformContainer } from '..';
 
 interface NavigatorProps {
   userType: 'user' | 'owner';
@@ -36,7 +37,7 @@ const Navigator: React.FC<NavigatorProps> = ({ userType, ...props }) => {
     }
   }, [userType]);
 
-  if (isInnerLoading) return null;
+  if (isInnerLoading) return <LoginInformContainer requestType="설정" />;
   return (
     <NavigatorContainer {...props}>
       <Text block size="large" style={fontStyle}>
