@@ -30,11 +30,18 @@ const initialState: ShopInfoData = {
 const ShopDetailPage = () => {
   const { getShopInfo } = useContext(ShopContext);
   const [shopInfo, setShopInfo] = useState(initialState);
+  const [, setIsLoading] = useState(false);
 
   useEffect(() => {
+    return () => setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    setIsLoading(true);
     getShopInfo().then((data: ShopInfoData) => {
       setShopInfo(data);
     });
+    setIsLoading(false);
   }, [getShopInfo]);
 
   const { marketId, name, description, eventCount, likeCount, reviewCount } =
