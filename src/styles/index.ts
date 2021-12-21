@@ -39,6 +39,8 @@ export default {
   },
 
   media: {
+    screenMobile: '(max-width: 1200px)',
+    screenDesktop: '(min-width: 1200px)',
     mobile: '(max-width: 480px)',
     sm: '(max-width: 767px)',
     md: '(min-width : 768px) and (max-width : 1200px)',
