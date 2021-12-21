@@ -11,10 +11,9 @@ import ContextProvider from '@contexts/index';
 import '@styles/globals.css';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { pageview } from '@utils/googleAnalytics';
-import { Desktop, Mobile } from '@styles/responsive';
 
 /* eslint-disable prefer-destructuring */
 const NEXT_PUBLIC_FIREBASE_API_KEY = process.env.NEXT_PUBLIC_FIREBASE_API_KEY;
