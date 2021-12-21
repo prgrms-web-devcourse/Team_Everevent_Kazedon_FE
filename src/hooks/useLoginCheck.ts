@@ -11,6 +11,10 @@ const useLoginCheck = () => {
   const router = useRouter();
 
   useEffect(() => {
+    return () => setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
     setIsFirst(() => false);
     if (window) {
       setToken(localStorage.getItem('token'));
