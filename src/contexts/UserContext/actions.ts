@@ -32,7 +32,7 @@ const useUserProvider = (dispatch: Dispatch<any>) => {
 
       const userTypeRes = await onGetUserType();
       const resUser: User = {
-        email: user.email,
+        email: userInfo.email,
         nickname: user.nickname,
       };
 
