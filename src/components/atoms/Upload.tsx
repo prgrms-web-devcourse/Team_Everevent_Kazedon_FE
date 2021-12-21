@@ -74,7 +74,7 @@ const Upload = ({
           : { name: 'pictures', value: file.files };
       dispatchEvent(payload);
     }
-  }, [file, dispatchEvent]);
+  }, [file, uploadType, dispatchEvent]);
 
   const handleButtonClick = useCallback(() => {
     if (

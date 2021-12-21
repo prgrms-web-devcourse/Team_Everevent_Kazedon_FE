@@ -1,5 +1,4 @@
 export { default as CategoryList } from './CategoryList';
-export { default as EventCard } from './EventCard';
 export { default as Header } from './Header';
 export { default as LoginForm } from './LoginForm';
 export { default as ModalButtons } from './ModalButtons';
@@ -17,3 +16,4 @@ export * from './EventDetail/index';
 
 /* eslint-disable import/no-cycle */
 export { default as ControlModal } from './ControlModal';
+export { default as EventCard } from './EventCard';
