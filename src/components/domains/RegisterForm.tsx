@@ -71,13 +71,14 @@ const RegisterForm = () => {
       validate: ({ email, password, passwordCheck, nickname }) => {
         const newErrors: ErrorUserForm = {};
 
-        if (!email) newErrors.email = text.emailFormat;
-        else if (errors.email) newErrors.email = errors.email;
-        if (!nickname) newErrors.nickname = text.nicknameFail;
-        else if (errors.nickname) newErrors.nickname = errors.nickname;
-        if (!password) newErrors.password = text.passwordFail;
-        if (!passwordCheck) newErrors.passwordCheck = text.passwordFail;
-
+        if (!text.emailReg.test(email)) newErrors.email = text.emailInput;
+        if (!text.nicknameReg.test(nickname))
+          newErrors.nickname = text.emailInput;
+        if (
+          !text.passwordReg.test(password) ||
+          !text.passwordReg.test(passwordCheck)
+        )
+          newErrors.password = text.passwordFail;
         return newErrors;
       },
     });
