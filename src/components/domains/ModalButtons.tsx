@@ -12,7 +12,7 @@ export interface ButtonProps {
 export interface ModalButtonsProps extends Partial<ButtonProps> {
   width: string | number;
   onConfirm: () => void;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const Button: React.FC<ButtonProps> = styled.button`
@@ -64,9 +64,11 @@ const ModalButtons = ({
           예
         </Button>
       )}
-      <Button modalType={modalType} onClick={onClose}>
-        아니오
-      </Button>
+      {onClose && (
+        <Button modalType={modalType} onClick={onClose}>
+          아니오
+        </Button>
+      )}
     </StyledModalButtons>
   );
 };

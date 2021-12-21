@@ -12,4 +12,5 @@ export { default as OverlapCheck } from './OverlapCheck';
 export { default as ProfileEdit } from './ProfileEdit';
 export { default as PasswordForm } from './PasswordForm';
 export { default as Tab } from './Tab';
+export { default as LoginInformContainer } from './LoginInformContainer';
 export * from './EventDetail/index';
