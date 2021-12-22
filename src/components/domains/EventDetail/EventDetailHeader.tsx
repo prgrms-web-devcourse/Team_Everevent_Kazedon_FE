@@ -260,7 +260,7 @@ const EventDetailHeader = ({
         >
           {isLike ? '- 좋아요 취소' : '+ 좋아요'}
         </Button>
-        <Text size="small">{`~ ${expiredAt}`}</Text>
+        {expiredAt && <Text size="small">{`~ ${expiredAt}`}</Text>}
       </LikeExpiredAtBox>
       <HeaderText level={1} css={HeaderTextCSS}>
         {name}

@@ -69,7 +69,16 @@ const EventDetailPage = () => {
           onHeaderOptionClick={handleHeaderOptionClick}
         />
       ) : (
-        <CardContainer cardType="default" padding={24} css={NoReviewCardCSS}>
+        <CardContainer
+          cardType="default"
+          padding={24}
+          css={NoReviewCardCSS}
+          onClick={() => {
+            if (event.participateStatus === 'completed') {
+              router.push(`/event/${router.query.eventId}/create`);
+            }
+          }}
+        >
           <div>
             <Text paragraph size="medium" css={marginBottomCSS}>
               <strong>앗! 리뷰가 없어요</strong> 😅
@@ -78,12 +87,10 @@ const EventDetailPage = () => {
               리뷰를 통해 가게 사장님께
             </Text>
             <Text paragraph size="small">
-              <Text>
-                <Text underline>
-                  <strong>응원의 한 마디</strong>
-                </Text>
-              </Text>{' '}
-              건네보는 건 어떨까요~? 🎉
+              <Text underline>
+                <strong>응원의 한 마디</strong>
+              </Text>
+              <Text> 건네보는 건 어떨까요?</Text>
             </Text>
           </div>
         </CardContainer>

@@ -2,13 +2,16 @@ import {
   Button,
   HeaderText,
   MainContainer,
+  Modal,
+  Text,
   Textarea,
   Upload,
 } from '@components/atoms';
 import { useReview } from '@contexts/review';
 import { css } from '@emotion/react';
+import { marginTop } from '@utils/computed';
 import { useRouter } from 'next/router';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 const TextAreaCSS = css`
   margin-bottom: 96px;
@@ -21,7 +24,12 @@ const SubmitButtonCSS = css`
   margin: 0 auto;
   margin-top: 24px;
 `;
+const modalButtonCSS = css`
+  position: absolute;
+  bottom: 24px;
+`;
 const ReviewCreatePage = () => {
+  const [modalVisible, setModalVisible] = useState(false);
   const router = useRouter();
   const { eventId } = router.query;
   const {
@@ -30,6 +38,7 @@ const ReviewCreatePage = () => {
     dispatchCreateReview,
     reviewError,
   } = useReview();
+
   const onChangeContent = useCallback(
     (e, value = undefined) => {
       const { name } = e.target;
@@ -43,11 +52,15 @@ const ReviewCreatePage = () => {
       if (!description || !eventId) return;
       dispatchCreateReview({ eventId, description, picture });
       if (!reviewError.code) {
-        router.push(`/event/${eventId}`);
+        setModalVisible(() => true);
       }
     },
-    [dispatchCreateReview, router, eventId, reviewError]
+    [dispatchCreateReview, eventId, reviewError]
   );
+  const handleModalClose = useCallback(() => {
+    setModalVisible(() => false);
+    router.push(`/event/${eventId}`);
+  }, []);
 
   return (
     <MainContainer paddingWidth={24} paddingHeight={96}>
@@ -79,6 +92,23 @@ const ReviewCreatePage = () => {
       >
         리뷰 남기기
       </Button>
+      <Modal
+        width={300}
+        height={184}
+        modalType="default"
+        padding={24}
+        visible={modalVisible}
+        onClose={handleModalClose}
+      >
+        <HeaderText level={2}>리뷰 작성 완료!</HeaderText>
+        <Text size={14} css={marginTop(16)}>
+          리뷰 작성을 완료하셨어요!
+        </Text>
+        <Text size={14}>원래 보았던 페이지로 돌아가볼까요?</Text>
+        <Button onClick={handleModalClose} css={modalButtonCSS}>
+          이벤트 페이지로 가기
+        </Button>
+      </Modal>
     </MainContainer>
   );
 };
