@@ -1,4 +1,4 @@
-import { Button, HeaderText, Text } from '@components/atoms';
+import { Button, HeaderText, Modal, Text } from '@components/atoms';
 import { useEvent } from '@contexts/event';
 import { Event } from '@contexts/event/types';
 import UserContext from '@contexts/UserContext';
@@ -6,8 +6,15 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import useControlModal from '@hooks/useControlModal';
 import useLoginCheck from '@hooks/useLoginCheck';
+import { marginBottom } from '@utils/computed';
 import { useRouter } from 'next/router';
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { ControlModal } from '..';
 
 const StyledEventDetailHeader = styled.header`
@@ -38,8 +45,18 @@ const HeaderTextCSS = css`
   margin: 10px 0;
 `;
 
+const modalConfirmButtonCSS = css`
+  position: absolute;
+  bottom: 24px;
+`;
+
 interface EventDetailHeaderProps extends Partial<Event> {
   [index: string]: any;
+}
+
+interface ModalType {
+  type: 'like' | 'favorite' | 'notParticipated' | 'participated';
+  status: 200 | 409 | 500;
 }
 
 const EventDetailHeader = ({
@@ -55,6 +72,42 @@ const EventDetailHeader = ({
     () => participateStatus !== 'notParticipated',
     [participateStatus]
   );
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalType, setModalType] = useState<ModalType>({
+    type: 'like',
+    status: 200,
+  });
+  const modalMessage = {
+    like: {
+      200: '',
+      409: '이미 좋아요를 누르셨어요!',
+      500: '서버 측에서 오류가 발생했네요!',
+    },
+    favorite: {
+      200: '',
+      409: '',
+      500: '서버 측에서 오류가 발생했네요!😂',
+    },
+    notParticipated: {
+      200: '이제 이벤트에 참여할 수 있어요~🎉',
+      409: '앗! 이미 참여를 하신 것 같은데요?! 한 번 확인해주세요!',
+      500: '앗! 요청에 문제가 있는 것 같아요. 다시 시도해주시겠어요? 😂',
+    },
+    participated: {
+      200: `
+        이벤트를 완전히 참여하셨어요! 
+        리뷰를 하러 갈까요? 🎉
+      `,
+      409: '이미 참여 확인이 완료 됐어요! 리뷰를 하러 갈까요? 🎉',
+      500: '앗! 요청에 문제가 있는 것 같아요. 다시 시도해주시겠어요? 😂',
+    },
+  } as const;
+
+  const handleModal = useCallback((visible) => {
+    setModalVisible(() => visible);
+  }, []);
+
   const {
     isLoading,
     dispatchEvent,
@@ -92,9 +145,8 @@ const EventDetailHeader = ({
     }
     const { eventId } = router.query;
     const resStatus = await dispatchEventLike(eventId, isLike);
-    if (resStatus === 500) {
-      /* eslint-disable-next-line */
-      alert('서버 측에서 오류가 발생했어요!');
+    if (!resStatus) {
+      setModalType((state) => ({ ...state, type: 'like', status: resStatus }));
     }
   }, [
     isLoading,
@@ -115,9 +167,13 @@ const EventDetailHeader = ({
     }
     const { eventId } = router.query;
     const resStatus = await dispatchShopFavorite(eventId, isFavorite);
+    setModalType((state) => ({
+      ...state,
+      type: 'favorite',
+      status: resStatus,
+    }));
     if (resStatus === 500) {
-      /* eslint-disable-next-line */
-      alert('서버 측에서 오류가 발생했어요!');
+      setModalVisible(() => true);
     }
   }, [
     isLoading,
@@ -137,16 +193,18 @@ const EventDetailHeader = ({
       return;
     }
     const { eventId } = router.query;
+    if (participateStatus === 'completed') {
+      router.push(`/event/${eventId}/create`);
+      return;
+    }
     if (!isParticipated) {
       const resStatus = await dispatchParticipateEvent({ eventId });
-      /* eslint-disable-next-line */
-      alert(
-        resStatus === null
-          ? '이벤트를 이제 참여할 수 있어요 ~ 🎉'
-          : resStatus === 409
-          ? '앗! 이미 참여를 하신 것 같은데요?! 한 번 확인해주세요!'
-          : '앗! 요청에 문제가 있는 것 같아요. 다시 시도해주시겠어요? 😂'
-      );
+      setModalType((state) => ({
+        ...state,
+        type: 'notParticipated',
+        status: resStatus || 200,
+      }));
+      setModalVisible(() => true);
       await dispatchEvent({ eventId });
     }
     if (isParticipated) {
@@ -154,20 +212,18 @@ const EventDetailHeader = ({
         eventId,
       });
       /* eslint-disable-next-line */
-      alert(
-        resStatus === null
-          ? '이벤트를 완전히 참여하게 되셨어요! 리뷰를 하러 갈까요? 🎉'
-          : resStatus === 409
-          ? '이미 참여 확인이 완료 됐어요! 리뷰를 하러 갈까요? 🎉'
-          : '앗! 요청에 문제가 있는 것 같아요. 다시 시도해주시겠어요? 😂'
-      );
-      if (resStatus === null || resStatus === 409) {
-        router.push(`/event/${eventId}/create`);
-      }
+      setModalType((state) => ({
+        ...state,
+        type: 'participated',
+        status: resStatus || 200,
+      }));
+
+      setModalVisible(() => true);
     }
   }, [
     isLoading,
     isParticipated,
+    participateStatus,
     router,
     dispatchParticipateEvent,
     dispatchEvent,
@@ -177,6 +233,17 @@ const EventDetailHeader = ({
     userState.userType.type,
   ]);
 
+  const onModalButtonClick = () => {
+    if (
+      modalType.type === 'participated' &&
+      (modalType.status === 409 || modalType.status === 200)
+    ) {
+      const { eventId } = router.query;
+      router.push(`/event/${eventId}/create`);
+      return;
+    }
+    handleModal(false);
+  };
   return (
     <StyledEventDetailHeader>
       <LikeExpiredAtBox>
@@ -234,6 +301,32 @@ const EventDetailHeader = ({
         onClose={handleControlModalClose}
         requestType={requestType}
       />
+      {modalMessage[modalType.type][modalType.status] && (
+        <Modal
+          modalType="default"
+          width={320}
+          height={200}
+          padding={20}
+          visible={modalVisible}
+          onClose={() => handleModal(false)}
+          clickAway
+        >
+          {modalType.type && (
+            <>
+              <HeaderText level={2} css={marginBottom(16)}>
+                {modalType.status !== 200 ? '오류 발생' : '참여 완료'}
+              </HeaderText>
+              <Text>{modalMessage[modalType.type][modalType.status]}</Text>
+              <Button
+                css={modalConfirmButtonCSS}
+                onClick={() => onModalButtonClick()}
+              >
+                확인
+              </Button>
+            </>
+          )}
+        </Modal>
+      )}
     </StyledEventDetailHeader>
   );
 };
