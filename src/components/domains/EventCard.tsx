@@ -6,10 +6,9 @@ import { Event } from '@contexts/event/types';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import styles from '@styles/index';
-import React, { useEffect, useContext, useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import LikeButton from '@components/domains/LikeButton';
 import useControlModal from '@hooks/useControlModal';
-import useLoginCheck from '@hooks/useLoginCheck';
 import UserContext from '@contexts/UserContext/index';
 import getConvertedDate from '@utils/date';
 import { ControlModal } from '.';
@@ -58,14 +57,7 @@ const EventCard = ({
   } = eventData as Event;
   const cardBgColorKeys = Object.keys(styles.cardBackgroundColors);
   const colorLength = cardBgColorKeys.length;
-  const { isFirst, handleCheck } = useLoginCheck();
   const { state: userState } = useContext(UserContext);
-
-  useEffect(() => {
-    if (!isFirst) {
-      handleCheck(false);
-    }
-  }, [isFirst, handleCheck]);
 
   const {
     requestType,
