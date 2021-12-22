@@ -78,6 +78,11 @@ const EventDetailHeader = ({
     type: 'like',
     status: 200,
   });
+
+  const ARR_MSG_SERVER_ERROR = [
+    '앗! 요청에 문제가 있는 것 같아요.',
+    '다시 시도해주시겠어요? 😂',
+  ];
   const modalMessage = {
     like: {
       200: [],
@@ -92,12 +97,12 @@ const EventDetailHeader = ({
     notParticipated: {
       200: ['이제 이벤트에 참여할 수 있어요~🎉'],
       409: ['앗! 이미 참여를 하신 것 같은데요?!', '한 번 확인해주세요!'],
-      500: ['앗! 요청에 문제가 있는 것 같아요.', '다시 시도해주시겠어요? 😂'],
+      500: ARR_MSG_SERVER_ERROR,
     },
     participated: {
       200: ['이벤트를 완전히 참여하셨어요!', '리뷰를 하러 갈까요? 🎉'],
       409: ['이미 참여 확인이 완료 됐어요!', '리뷰를 하러 갈까요? 🎉'],
-      500: ['앗! 요청에 문제가 있는 것 같아요.', '다시 시도해주시겠어요? 😂'],
+      500: ARR_MSG_SERVER_ERROR,
     },
   } as const;
 

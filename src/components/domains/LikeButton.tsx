@@ -29,7 +29,10 @@ const LikeButton = ({ isLike, likeCount, onClick }: LikeButtonProps) => {
   return (
     <StyledLikeButton>
       <Text block size="large" onClick={(e: MouseEvent) => onLike(e)}>
-        <Icon size={24} color={isLike ? '#f85b56' : styles.colors.background}>
+        <Icon
+          size={24}
+          color={isLike ? styles.colors.red : styles.colors.background}
+        >
           <MdOutlineFavorite />
         </Icon>
       </Text>
