@@ -6,7 +6,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import useControlModal from '@hooks/useControlModal';
 import useLoginCheck from '@hooks/useLoginCheck';
-import { marginBottom } from '@utils/computed';
+import { marginBottom, marginTop } from '@utils/computed';
 import { useRouter } from 'next/router';
 import React, {
   useCallback,
@@ -80,27 +80,24 @@ const EventDetailHeader = ({
   });
   const modalMessage = {
     like: {
-      200: '',
-      409: '이미 좋아요를 누르셨어요!',
-      500: '서버 측에서 오류가 발생했네요!',
+      200: [],
+      409: ['이미 좋아요를 누르셨어요!'],
+      500: ['서버 측에서 오류가 발생했네요!'],
     },
     favorite: {
-      200: '',
-      409: '',
-      500: '서버 측에서 오류가 발생했네요!😂',
+      200: [],
+      409: [],
+      500: ['서버 측에서 오류가 발생했네요!😂'],
     },
     notParticipated: {
-      200: '이제 이벤트에 참여할 수 있어요~🎉',
-      409: '앗! 이미 참여를 하신 것 같은데요?! 한 번 확인해주세요!',
-      500: '앗! 요청에 문제가 있는 것 같아요. 다시 시도해주시겠어요? 😂',
+      200: ['이제 이벤트에 참여할 수 있어요~🎉'],
+      409: ['앗! 이미 참여를 하신 것 같은데요?!', '한 번 확인해주세요!'],
+      500: ['앗! 요청에 문제가 있는 것 같아요.', '다시 시도해주시겠어요? 😂'],
     },
     participated: {
-      200: `
-        이벤트를 완전히 참여하셨어요! 
-        리뷰를 하러 갈까요? 🎉
-      `,
-      409: '이미 참여 확인이 완료 됐어요! 리뷰를 하러 갈까요? 🎉',
-      500: '앗! 요청에 문제가 있는 것 같아요. 다시 시도해주시겠어요? 😂',
+      200: ['이벤트를 완전히 참여하셨어요!', '리뷰를 하러 갈까요? 🎉'],
+      409: ['이미 참여 확인이 완료 됐어요!', '리뷰를 하러 갈까요? 🎉'],
+      500: ['앗! 요청에 문제가 있는 것 같아요.', '다시 시도해주시겠어요? 😂'],
     },
   } as const;
 
@@ -301,7 +298,7 @@ const EventDetailHeader = ({
         onClose={handleControlModalClose}
         requestType={requestType}
       />
-      {modalMessage[modalType.type][modalType.status] && (
+      {!!modalMessage[modalType.type][modalType.status].length && (
         <Modal
           modalType="default"
           width={320}
@@ -316,7 +313,12 @@ const EventDetailHeader = ({
               <HeaderText level={2} css={marginBottom(16)}>
                 {modalType.status !== 200 ? '오류 발생' : '참여 완료'}
               </HeaderText>
-              <Text>{modalMessage[modalType.type][modalType.status]}</Text>
+              {!!modalMessage[modalType.type][modalType.status].length &&
+                modalMessage[modalType.type][modalType.status].map((text) => (
+                  <Text size={14} css={marginTop(4)}>
+                    {text}
+                  </Text>
+                ))}
               <Button
                 css={modalConfirmButtonCSS}
                 onClick={() => onModalButtonClick()}

@@ -60,7 +60,7 @@ const ReviewCreatePage = () => {
   const handleModalClose = useCallback(() => {
     setModalVisible(() => false);
     router.push(`/event/${eventId}`);
-  }, []);
+  }, [router, eventId]);
 
   return (
     <MainContainer paddingWidth={24} paddingHeight={96}>
