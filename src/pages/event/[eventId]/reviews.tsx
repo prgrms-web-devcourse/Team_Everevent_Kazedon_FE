@@ -72,8 +72,8 @@ const ReviewDetailPage = () => {
         expiredAt={event.expiredAt as string}
         marketName={event.marketName}
         name={event.name}
-        isLike={event.like as boolean}
-        isFavorite={event.favorite}
+        isLike={event.isLike as boolean}
+        isFavorite={event.isFavorite}
         participateStatus={event.participateStatus}
       />
       <CategoryList

@@ -4,6 +4,7 @@ export default {
     warning: 'rgba(147, 28, 40, 1)',
     confirm: 'rgba(57, 219, 178, 1)',
     background: 'rgba(255, 255, 255, 1)',
+    red: '#f85b56',
 
     title: 'rgba(0, 0, 0, 1)',
     primary: 'rgba(41, 41, 41, 1)',

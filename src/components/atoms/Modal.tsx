@@ -43,7 +43,7 @@ export interface ModalProps {
   padding: number | string;
   visible: boolean;
   clickAway?: boolean;
-  onClose: () => void;
+  onClose: (param?: any) => void;
 }
 
 const Modal = ({

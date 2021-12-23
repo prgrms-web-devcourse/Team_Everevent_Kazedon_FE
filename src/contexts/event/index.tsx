@@ -17,11 +17,12 @@ export const initialState: InitialStateType = {
     eventId: 0,
     name: '',
     expiredAt: '',
+    marketId: 0,
     marketName: '',
-    like: null,
+    isLike: null,
     marketDescription: '',
     eventDescription: '',
-    favorite: null,
+    isFavorite: null,
     pictures: [],
     participateStatus: 'notParticipated',
   },
@@ -54,6 +55,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
     dispatchShopFavorite,
     dispatchParticipateEvent,
     dispatchCompleteParticipateEvent,
+    dispatchEventListLike,
   } = useEventProvider(dispatch);
 
   const contextValue = useMemo(
@@ -71,6 +73,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       dispatchShopFavorite,
       dispatchParticipateEvent,
       dispatchCompleteParticipateEvent,
+      dispatchEventListLike,
     }),
     [
       isLoading,
@@ -86,6 +89,7 @@ const EventListProvider: React.FC<ReactNode> = ({ children }) => {
       dispatchShopFavorite,
       dispatchParticipateEvent,
       dispatchCompleteParticipateEvent,
+      dispatchEventListLike,
     ]
   );
 

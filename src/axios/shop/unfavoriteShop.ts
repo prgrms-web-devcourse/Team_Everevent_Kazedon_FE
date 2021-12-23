@@ -8,7 +8,7 @@ const unfavoriteShop = async (eventId: string) => {
   return {
     ...res,
     data: {
-      favorite: !!res.error.code,
+      isFavorite: !!res.error.code,
     },
   };
 };

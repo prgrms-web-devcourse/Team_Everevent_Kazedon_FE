@@ -5,7 +5,7 @@ const likeEvent = async (eventId: number) => {
   const res: ResType<any> = await request.post(`/likes/events/${eventId}`);
   return {
     ...res,
-    data: { like: !res.error.code },
+    data: { isLike: !!res.error.code },
   };
 };
 
