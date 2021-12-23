@@ -58,7 +58,7 @@ const EventCard = ({
     expiredAt,
     name,
     marketName,
-    like,
+    isLike,
     likeCount,
     reviewCount,
     remainingParticipants,
@@ -89,7 +89,7 @@ const EventCard = ({
     e.stopPropagation();
     // TODO: 로딩을 걸어서, 만약 로딩 중에 또 눌렀다면 dispatch가 실행되지 않도록 해야 한다.
     /* eslint-disable no-console */
-    dispatchEventListLike(eventId, like);
+    dispatchEventListLike(eventId, isLike);
     console.log(userState);
     if (!userState?.userType?.type) {
       setRequestType(() => '좋아요');
@@ -137,7 +137,7 @@ const EventCard = ({
         </Text>
       </StyledReviewCount>
       <LikeButton
-        isLike={like}
+        isLike={isLike}
         likeCount={likeCount}
         onClick={handleLikeButtonClick}
       />

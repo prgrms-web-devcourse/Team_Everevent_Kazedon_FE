@@ -75,7 +75,7 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
       dispatch({
         type: LIKE_EVENT,
         payload: {
-          like: res?.data.like,
+          isLike: res?.data.isLike,
           eventError: res.error,
         },
       });
@@ -94,7 +94,7 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
       dispatch({
         type: FAVORITE_EVENT,
         payload: {
-          favorite: res?.data.favorite,
+          isFavorite: res?.data.isFavorite,
           eventError: res.error,
         },
       });
@@ -150,7 +150,7 @@ const useEventProvider = (dispatch: Dispatch<any>) => {
       dispatch({
         type: LIKE_EVENT,
         payload: {
-          like: res?.data.like,
+          isLike: res?.data.isLike,
           eventError: res.error,
           isLoading: true,
         },

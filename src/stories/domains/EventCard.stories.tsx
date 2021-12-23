@@ -27,7 +27,8 @@ export const Default: ComponentStory<typeof EventCard> = (args) => {
     marketName: '오비맥주 광진점',
     likeCount: 329,
     reviewCount: 72,
-    like: false,
+    isLike: false,
+    isFavorite: true,
     remainingParticipants: 7,
     pictureUrl: '',
   };

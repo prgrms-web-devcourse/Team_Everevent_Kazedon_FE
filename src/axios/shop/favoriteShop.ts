@@ -6,7 +6,7 @@ const favoriteShop = async (eventId: number) => {
   return {
     ...res,
     data: {
-      favorite: !res.error.code,
+      isFavorite: !res.error.code,
     },
   };
 };

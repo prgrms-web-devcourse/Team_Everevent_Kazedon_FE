@@ -53,25 +53,25 @@ const eventReducer = (state: InitialStateType, action: Action) => {
       };
     }
     case LIKE_EVENT: {
-      const { like, eventError } = action.payload;
+      const { isLike, eventError } = action.payload;
       return {
         ...state,
         isLoading: false,
         event: {
           ...state.event,
-          like,
+          isLike: !isLike,
         },
         eventError,
       };
     }
     case FAVORITE_EVENT: {
-      const { favorite, eventError } = action.payload;
+      const { isFavorite, eventError } = action.payload;
       return {
         ...state,
         isLoading: false,
         event: {
           ...state.event,
-          favorite,
+          isFavorite,
         },
         eventError,
       };
@@ -105,7 +105,13 @@ const eventReducer = (state: InitialStateType, action: Action) => {
       return {
         ...state,
         eventList: state.eventList.map((event) =>
-          event.eventId === eventId ? { ...event, isLike: !isLike } : event
+          event.eventId === eventId
+            ? {
+                ...event,
+                isLike: !isLike,
+                likeCount: event.likeCount + (isLike ? -1 : 1),
+              }
+            : event
         ),
       };
     }

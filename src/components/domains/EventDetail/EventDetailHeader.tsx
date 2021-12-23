@@ -61,6 +61,7 @@ interface ModalType {
 
 const EventDetailHeader = ({
   expiredAt,
+  marketId,
   marketName,
   name,
   isLike,
@@ -167,8 +168,7 @@ const EventDetailHeader = ({
       setControlModalVisible(() => true);
       return;
     }
-    const { eventId } = router.query;
-    const resStatus = await dispatchShopFavorite(eventId, isFavorite);
+    const resStatus = await dispatchShopFavorite(marketId, isFavorite);
     setModalType((state) => ({
       ...state,
       type: 'favorite',
@@ -179,8 +179,8 @@ const EventDetailHeader = ({
     }
   }, [
     isLoading,
+    marketId,
     dispatchShopFavorite,
-    router.query,
     isFavorite,
     userState,
     setRequestType,
@@ -303,7 +303,7 @@ const EventDetailHeader = ({
         onClose={handleControlModalClose}
         requestType={requestType}
       />
-      {!!modalMessage[modalType.type][modalType.status].length && (
+      {!!modalMessage[modalType.type][modalType.status]?.length && (
         <Modal
           modalType="default"
           width={320}
@@ -318,7 +318,7 @@ const EventDetailHeader = ({
               <HeaderText level={2} css={marginBottom(16)}>
                 {modalType.status !== 200 ? '오류 발생' : '참여 완료'}
               </HeaderText>
-              {!!modalMessage[modalType.type][modalType.status].length &&
+              {!!modalMessage[modalType.type][modalType.status]?.length &&
                 modalMessage[modalType.type][modalType.status].map((text) => (
                   <Text size={14} css={marginTop(4)}>
                     {text}
