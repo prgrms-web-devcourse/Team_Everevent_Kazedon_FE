@@ -77,8 +77,10 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
       validate: ({ nickname, password, passwordCheck }) => {
         const newErrors: Partial<ProfileUserInfo> = {};
 
-        if (!passwordConfirm)
+        if (!passwordConfirm) {
           newErrors.password = failMsg.profileEdit.passwordConfirm;
+          newErrors.nickname = failMsg.profileEdit.passwordConfirm;
+        }
         if (nickname) {
           if (!successNicknameMessage)
             newErrors.nickname = failMsg.profileEdit.nickname;

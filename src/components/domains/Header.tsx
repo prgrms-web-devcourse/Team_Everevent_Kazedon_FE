@@ -5,7 +5,6 @@ import { css } from '@emotion/react';
 import { MdOutlineMenu, MdOutlineArrowBackIosNew } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import UserContext from '@contexts/UserContext';
-import useLoginCheck from '@hooks/useLoginCheck';
 import { UserType } from '@contexts/UserContext/types';
 import logo from '../../../public/logo.svg';
 import { NavModal, NavModalInner } from './NavModal';
@@ -76,11 +75,6 @@ const Header: React.FC<HeaderProps> = ({
   ...props
 }) => {
   const { state: userState } = useContext(UserContext);
-  const { isFirst, handleCheck } = useLoginCheck();
-
-  useEffect(() => {
-    if (!isFirst) handleCheck(false);
-  }, [isFirst, handleCheck]);
 
   const [navModalVisible, setNavModalVisible] = useState<boolean>(false);
   const router = useRouter();
