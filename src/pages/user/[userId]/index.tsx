@@ -3,6 +3,7 @@ import { Header, ReviewCard } from '@components/domains';
 import StateCounter from '@components/domains/StateCounter';
 import { useUserHistory } from '@contexts/userHistory';
 import styled from '@emotion/styled';
+import useLoginCheck from '@hooks/useLoginCheck';
 import { marginTop } from '@utils/computed';
 import { useRouter } from 'next/dist/client/router';
 import React, { useEffect } from 'react';
@@ -20,6 +21,14 @@ const UserDetailPage = () => {
   const { userId: memberId } = router.query;
   const { userReviewList, userReviewListOptions, dispatchUserReviews } =
     useUserHistory();
+
+  const { isFirst, handleCheck } = useLoginCheck();
+
+  useEffect(() => {
+    if (!isFirst) {
+      handleCheck(false);
+    }
+  }, [isFirst, handleCheck]);
 
   useEffect(() => {
     if (!memberId) return;
