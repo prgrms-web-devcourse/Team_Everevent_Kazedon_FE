@@ -1,5 +1,7 @@
 import { Text } from '@components/atoms';
 import styled from '@emotion/styled';
+import styles from '@styles/index';
+import { marginTop } from '@utils/computed';
 import React from 'react';
 
 interface StateCounterProps {
@@ -14,8 +16,12 @@ const StyledStateCounter = styled.div`
 const StateCounter = ({ name, count }: StateCounterProps) => {
   return (
     <StyledStateCounter>
-      <Text size={24}>{name}</Text>
-      <Text size={14}>{count}</Text>
+      <Text size={24} bold color={styles.colors.point}>
+        {count}
+      </Text>
+      <Text size={14} color={styles.colors.primary} css={marginTop(16)}>
+        {name}
+      </Text>
     </StyledStateCounter>
   );
 };
