@@ -88,8 +88,7 @@ const useHistoryProvider = (dispatch: Dispatch<any>) => {
       let { userReviewListOptions } = initialState;
       if (data?.reviews?.content) {
         const { reviewerEventCount, reviewerReviewCount } = data;
-        const { content, totalPages, totalElements, last } =
-          data.reviews.content;
+        const { content, totalPages, totalElements, last } = data.reviews;
         userReviewList = content;
         userReviewListOptions = {
           totalPages,

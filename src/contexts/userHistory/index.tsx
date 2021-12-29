@@ -4,8 +4,8 @@ import {
   HistoryProviderProps,
   InitialStateType,
 } from '@contexts/userHistory/types';
-import useHistoryProvider from './actions';
 /* eslint-disable import/no-cycle */
+import useHistoryProvider from './actions';
 import userHistoryReducer from './reducer';
 
 export const initialState: InitialStateType = {
@@ -19,6 +19,8 @@ export const initialState: InitialStateType = {
     last: null,
     totalPages: 0,
     totalElements: 0,
+    reviewerEventCount: 0,
+    reviewerReviewCount: 0,
   },
   historyError: {
     code: null,
@@ -38,6 +40,7 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
       joinedEventList,
       myReviewList,
       userReviewList,
+      userReviewListOptions,
       historyError,
     },
     dispatch,
@@ -60,6 +63,7 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
       likeEventList,
       myReviewList,
       userReviewList,
+      userReviewListOptions,
       historyError,
       initializeHistory,
       dispatchFavoriteShops,
@@ -75,6 +79,7 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
       likeEventList,
       myReviewList,
       userReviewList,
+      userReviewListOptions,
       historyError,
       initializeHistory,
       dispatchFavoriteShops,

@@ -1,14 +1,8 @@
-import {
-  CardContainer,
-  CardList,
-  HeaderText,
-  MainContainer,
-} from '@components/atoms';
+import { CardList, HeaderText, MainContainer } from '@components/atoms';
 import { Header, ReviewCard } from '@components/domains';
 import { useUserHistory } from '@contexts/userHistory';
 import styled from '@emotion/styled';
 import { marginTop } from '@utils/computed';
-import getConvertedDate from '@utils/date';
 import { useRouter } from 'next/dist/client/router';
 import React, { useEffect } from 'react';
 
@@ -25,36 +19,6 @@ const UserDetailPage = () => {
     dispatchUserReviews(memberId);
   }, [dispatchUserReviews, memberId]);
 
-  const userReviews = [
-    {
-      reviewId: 1,
-      description:
-        '회덮밥이 너무나 맛있었어요~ 너무나 맛난 저녁에다 맥주 공짜로 먹어서 좋았어요!',
-      memberNickname: 'JengYoungTest2',
-      memberId: 0,
-      pictureUrls: ['https://picsum.photos/200'],
-      createdAt: getConvertedDate(new Date()),
-    },
-    {
-      reviewId: 1,
-      description:
-        '회덮밥이 너무나 맛있었어요~ 너무나 맛난 저녁에다 맥주 공짜로 먹어서 좋았어요!',
-      memberNickname: 'JengYoungTest2',
-      memberId: 0,
-      pictureUrls: ['https://picsum.photos/200'],
-      createdAt: getConvertedDate(new Date()),
-    },
-    {
-      reviewId: 1,
-      description:
-        '회덮밥이 너무나 맛있었어요~ 너무나 맛난 저녁에다 맥주 공짜로 먹어서 좋았어요!',
-      memberNickname: 'JengYoungTest2',
-      memberId: 0,
-      pictureUrls: ['https://picsum.photos/200'],
-      createdAt: getConvertedDate(new Date()),
-    },
-  ];
-
   return (
     <MainContainer>
       <Header isVisibleMenu isVisiblePrev />
@@ -63,10 +27,17 @@ const UserDetailPage = () => {
       </HeaderText>
       <CounterBox />
       <CardList box flexType="default" width={320} padding={0} margin={0}>
-        {userReviews.map((reviewData) => (
+        {userReviewList.map((reviewData) => (
           <ReviewCard
+            key={reviewData.marketName + reviewData.reviewId}
             cardType="box"
-            reviewData={reviewData}
+            reviewData={{
+              reviewId: reviewData.reviewId,
+              memberId: Number(memberId),
+              marketName: reviewData.marketName,
+              pictureUrl: reviewData.pictureUrl,
+              description: reviewData.description,
+            }}
             marginWidth={8}
             marginHeight={8}
           />

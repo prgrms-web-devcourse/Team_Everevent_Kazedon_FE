@@ -35,6 +35,12 @@ const CardFooterBox = styled.div`
   ${TextMarginBottomCSS}
 `;
 
+const MarketNameCSS = css`
+  position: absolute;
+  bottom: 10px;
+  ${TextMarginBottomCSS}
+`;
+
 const StyledDescriptionBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -42,15 +48,15 @@ const StyledDescriptionBox = styled.div`
   width: 100%;
 `;
 
-export interface reviewDataTypes {
+export interface ReviewData extends Partial<Review> {
   marketName?: string;
-  pictureUrl: string | undefined;
-  description: string;
+  pictureUrl?: string | undefined;
+  description?: string;
   [prop: string]: any;
 }
 interface ReviewCardProps {
   cardType: 'default' | 'box';
-  reviewData: Review;
+  reviewData: ReviewData;
   marginWidth?: string | number;
   marginHeight?: string | number;
   [prop: string]: any;
@@ -78,12 +84,22 @@ const ReviewCard = ({
           <Text block size="small" css={DescriptionMarginBottomCSS}>
             {reviewData.description}
           </Text>
-          <Text block size="micro">
-            {reviewData.createdAt}
-          </Text>
-          <Text block size="micro" css={TextMarginBottomCSS}>
-            {`by ${reviewData.memberNickname}`}
-          </Text>
+          {/* TODO: 추후 해당 옵션값을 넣어줄 것을 백엔드 측에 요구한다. */}
+          {reviewData.createdAt && (
+            <Text block size="micro">
+              {reviewData.createdAt}
+            </Text>
+          )}
+          {reviewData.memberNickname && (
+            <Text block size="micro" css={TextMarginBottomCSS}>
+              {`by ${reviewData.memberNickname}`}
+            </Text>
+          )}
+          {reviewData.marketName && (
+            <Text block size="micro" css={MarketNameCSS}>
+              {`To. ${reviewData.marketName}`}
+            </Text>
+          )}
         </>
       ) : (
         <DefaultTypeReviewInner>

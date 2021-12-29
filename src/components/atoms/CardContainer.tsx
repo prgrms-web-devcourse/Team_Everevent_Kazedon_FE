@@ -57,6 +57,7 @@ const StyledDefaultCardContainer = styled('article')<StyledDefaultCardProps>`
 `;
 
 const StyledBoxCardContainer = styled('article')<CardStyleProps>`
+  position: relative;
   box-sizing: border-box;
   height: 170px;
   background: ${styles.colors.background};
