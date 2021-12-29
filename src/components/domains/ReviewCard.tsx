@@ -51,7 +51,6 @@ const StyledDescriptionBox = styled.div`
 export interface ReviewData extends Partial<Review> {
   marketName?: string;
   pictureUrl?: string | undefined;
-  description?: string;
   [prop: string]: any;
 }
 interface ReviewCardProps {
