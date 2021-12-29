@@ -7,6 +7,7 @@ type sizeTypes = 'micro' | 'small' | 'medium' | 'large';
 
 export interface TextProps {
   children: string | ReactNode;
+  bold?: boolean;
   size?: string | number;
   color?: string;
   underline?: boolean;
@@ -15,14 +16,20 @@ export interface TextProps {
   [prop: string]: any;
 }
 
-const StyledText = styled.div`
+const StyledText = styled.div<TextProps>`
   ${({ size }: TextProps) => css`
     ${typeof size === 'string' && Common.fontStyle[size as sizeTypes]()}
   `}
+  ${({ bold }) =>
+    bold &&
+    css`
+      font-weight: 700;
+    `}
 `;
 
 const Text = ({
   children,
+  bold,
   size,
   color,
   underline,
@@ -43,6 +50,7 @@ const Text = ({
     <StyledText
       as={Tag}
       size={size}
+      bold={bold}
       style={{ ...props.fontStyle, ...fontStyle }}
       {...props}
     >

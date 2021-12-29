@@ -42,6 +42,7 @@ export const GET_JOINED_EVENT = 'HISTORY/GET_JOINED_EVENT' as const;
 export const GET_FAVORITE_SHOP = 'HISTORY/GET_FAVORITE_SHOP' as const;
 export const GET_LIKE_EVENT = 'HISTORY/GET_LIKE_EVENT' as const;
 export const GET_MY_REVIEW = 'HISTORY/GET_MY_REVIEW' as const;
+export const GET_USER_REVIEWS = 'HISTORY/GET_USER_REVIEWS';
 
 export interface HistoryProviderProps {
   children: ReactNode;
@@ -53,7 +54,11 @@ export interface InitialStateType {
   likeEventList: Array<LikeEvent> | [];
   joinedEventList: Array<JoinedEvent> | [];
   myReviewList: Array<MyReview> | [];
+  userReviewList: Array<MyReview> | [];
   historyError: ErrorType;
+}
+export interface ContextType extends InitialStateType {
+  [dispatchEvent: string]: any;
 }
 
 export type Action =
@@ -74,4 +79,8 @@ export type Action =
   | {
       type: 'HISTORY/GET_MY_REVIEW';
       payload: { myReviewList: MyReview[]; historyError: ErrorType };
+    }
+  | {
+      type: 'HISTORY/GET_USER_REVIEWS';
+      payload: { userReviewList: MyReview[]; historyError: ErrorType };
     };

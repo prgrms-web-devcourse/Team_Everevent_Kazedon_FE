@@ -6,6 +6,7 @@ import {
   GET_JOINED_EVENT,
   GET_LIKE_EVENT,
   GET_MY_REVIEW,
+  GET_USER_REVIEWS,
   HISTORY_LOADING,
   INITIALIZE_HISTORY,
   InitialStateType,
@@ -62,6 +63,15 @@ const userHistoryReducer = (state: InitialStateType, action: Action) => {
       return {
         ...state,
         myReviewList,
+        historyError,
+        isLoading: false,
+      };
+    }
+    case GET_USER_REVIEWS: {
+      const { userReviewList, historyError } = action.payload;
+      return {
+        ...state,
+        userReviewList,
         historyError,
         isLoading: false,
       };

@@ -1,5 +1,6 @@
 import { createContext, useContext, useMemo, useReducer } from 'react';
 import {
+  ContextType,
   HistoryProviderProps,
   InitialStateType,
 } from '@contexts/userHistory/types';
@@ -13,14 +14,15 @@ export const initialState: InitialStateType = {
   favoriteShopList: [],
   likeEventList: [],
   myReviewList: [],
+  userReviewList: [],
   historyError: {
     code: null,
     message: null,
   },
 };
 
-const UserHistoryContext = createContext(initialState);
-export const useHistory = () => useContext(UserHistoryContext);
+const UserHistoryContext = createContext<ContextType>(initialState);
+export const useUserHistory = () => useContext(UserHistoryContext);
 
 const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
   const [
@@ -30,6 +32,7 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
       likeEventList,
       joinedEventList,
       myReviewList,
+      userReviewList,
       historyError,
     },
     dispatch,
@@ -40,7 +43,8 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
     dispatchFavoriteShops,
     dispatchLikeEvents,
     dispatchJoinedEvents,
-    dispatchMyReview,
+    dispatchMyReviews,
+    dispatchUserReviews,
   } = useHistoryProvider(dispatch);
 
   const contextValue = useMemo(
@@ -50,12 +54,14 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
       favoriteShopList,
       likeEventList,
       myReviewList,
+      userReviewList,
       historyError,
       initializeHistory,
       dispatchFavoriteShops,
       dispatchLikeEvents,
       dispatchJoinedEvents,
-      dispatchMyReview,
+      dispatchMyReviews,
+      dispatchUserReviews,
     }),
     [
       isLoading,
@@ -63,12 +69,14 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
       favoriteShopList,
       likeEventList,
       myReviewList,
+      userReviewList,
       historyError,
       initializeHistory,
       dispatchFavoriteShops,
       dispatchLikeEvents,
       dispatchJoinedEvents,
-      dispatchMyReview,
+      dispatchMyReviews,
+      dispatchUserReviews,
     ]
   );
 
