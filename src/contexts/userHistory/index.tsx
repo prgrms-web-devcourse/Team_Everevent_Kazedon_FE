@@ -1,8 +1,11 @@
 import { createContext, useContext, useMemo, useReducer } from 'react';
+import {
+  HistoryProviderProps,
+  InitialStateType,
+} from '@contexts/userHistory/types';
 import useHistoryProvider from './actions';
 /* eslint-disable import/no-cycle */
 import userHistoryReducer from './reducer';
-import { HistoryProviderProps, InitialStateType } from './types';
 
 export const initialState: InitialStateType = {
   isLoading: false,
