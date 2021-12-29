@@ -20,7 +20,7 @@ export const getJoinedEvents = async (memberId: string) => {
   return res;
 };
 
-export const getMyReview = async (memberId: string) => {
+export const getReviews = async (memberId: string) => {
   const res: ResType<any> = await request.get(`/members/${memberId}/reviews`);
   return res;
 };

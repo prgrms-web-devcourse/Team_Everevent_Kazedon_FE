@@ -68,10 +68,12 @@ const userHistoryReducer = (state: InitialStateType, action: Action) => {
       };
     }
     case GET_USER_REVIEWS: {
-      const { userReviewList, historyError } = action.payload;
+      const { userReviewList, userReviewListOptions, historyError } =
+        action.payload;
       return {
         ...state,
         userReviewList,
+        userReviewListOptions,
         historyError,
         isLoading: false,
       };

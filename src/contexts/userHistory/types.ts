@@ -36,6 +36,20 @@ export interface MyReview {
   reviewerReviewCount: number;
 }
 
+export interface UserReview {
+  reviewId: number;
+  description: string;
+  marketName: string;
+  pictureUrl: string;
+}
+export interface UserReviewListOptions {
+  last: boolean | null;
+  totalPages: number;
+  totalElements: number;
+  reviewerEventCount: number;
+  reviewerReviewCount: number;
+}
+
 export const HISTORY_LOADING = 'HISTORY/LOADING' as const;
 export const INITIALIZE_HISTORY = 'HISTORY/INITIALIZE_HISTORY' as const;
 export const GET_JOINED_EVENT = 'HISTORY/GET_JOINED_EVENT' as const;
@@ -54,7 +68,8 @@ export interface InitialStateType {
   likeEventList: Array<LikeEvent> | [];
   joinedEventList: Array<JoinedEvent> | [];
   myReviewList: Array<MyReview> | [];
-  userReviewList: Array<MyReview> | [];
+  userReviewList: Array<UserReview> | [];
+  userReviewListOptions: UserReviewListOptions;
   historyError: ErrorType;
 }
 export interface ContextType extends InitialStateType {
@@ -82,5 +97,9 @@ export type Action =
     }
   | {
       type: 'HISTORY/GET_USER_REVIEWS';
-      payload: { userReviewList: MyReview[]; historyError: ErrorType };
+      payload: {
+        userReviewList: UserReview[];
+        userReviewListOptions: UserReviewListOptions;
+        historyError: ErrorType;
+      };
     };

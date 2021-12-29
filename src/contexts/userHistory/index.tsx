@@ -15,6 +15,11 @@ export const initialState: InitialStateType = {
   likeEventList: [],
   myReviewList: [],
   userReviewList: [],
+  userReviewListOptions: {
+    last: null,
+    totalPages: 0,
+    totalElements: 0,
+  },
   historyError: {
     code: null,
     message: null,
