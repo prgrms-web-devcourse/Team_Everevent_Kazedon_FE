@@ -1,6 +1,41 @@
 import { ErrorType } from '@axios/types';
 import { ReactNode } from 'react';
 
+interface ReviewerCount {
+  reviewerEventCount: number;
+  reviewerReviewCount: number;
+}
+export interface ReviewListResponse extends ReviewerCount {
+  reviews: {
+    content: Array<UserReview>;
+    pageable: {
+      sort: {
+        empty: boolean;
+        unsorted: boolean;
+        sorted: boolean;
+      };
+      offset: number;
+      pageNumber: number;
+      pageSize: number;
+      unpaged: boolean;
+      paged: boolean;
+    };
+    last: boolean;
+    totalPages: number;
+    totalElements: number;
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      unsorted: boolean;
+      sorted: boolean;
+    };
+    first: boolean;
+    numberOfElements: number;
+    empty: boolean;
+  };
+}
+
 export interface FavoriteShop {
   marketId: number;
   name: string;
@@ -26,14 +61,11 @@ export interface JoinedEvent {
   isLike: boolean;
   isParticipated: boolean;
 }
-
-export interface MyReview {
+export interface MyReview extends ReviewerCount {
   reviewId: number;
   description: string;
   marketName: string;
   pictureUrl: string;
-  reviewerEventCount: number;
-  reviewerReviewCount: number;
 }
 
 export interface UserReview {
@@ -42,12 +74,10 @@ export interface UserReview {
   marketName: string;
   pictureUrl: string;
 }
-export interface UserReviewListOptions {
+export interface UserReviewListOptions extends ReviewerCount {
   last: boolean | null;
   totalPages: number;
   totalElements: number;
-  reviewerEventCount: number;
-  reviewerReviewCount: number;
 }
 
 export const HISTORY_LOADING = 'HISTORY/LOADING' as const;

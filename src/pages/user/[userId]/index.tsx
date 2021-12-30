@@ -38,7 +38,7 @@ const UserDetailPage = () => {
   return (
     <MainContainer>
       <Header isVisibleMenu isVisiblePrev />
-      <HeaderText level={1} bold block css={marginTop(42)}>
+      <HeaderText level={1} css={marginTop(42)}>
         {memberId}
       </HeaderText>
       <CounterBox>

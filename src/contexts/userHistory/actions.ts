@@ -84,8 +84,8 @@ const useHistoryProvider = (dispatch: Dispatch<any>) => {
       dispatchLoading();
       const res = await getReviews(memberId);
       const { data, error } = res;
-      let { userReviewList } = initialState;
-      let { userReviewListOptions } = initialState;
+
+      let { userReviewList, userReviewListOptions } = initialState;
       if (data?.reviews?.content) {
         const { reviewerEventCount, reviewerReviewCount } = data;
         const { content, totalPages, totalElements, last } = data.reviews;
@@ -98,6 +98,7 @@ const useHistoryProvider = (dispatch: Dispatch<any>) => {
           reviewerReviewCount,
         };
       }
+
       dispatch({
         type: GET_USER_REVIEWS,
         payload: {
