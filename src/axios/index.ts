@@ -60,6 +60,7 @@ const setInterceptors = (instance: AxiosInstance) => {
 const createInstance = () => {
   const instance: AxiosInstance = axios.create({
     baseURL: API_END_POINT,
+    withCredentials: true,
   });
   return setInterceptors(instance);
 };
