@@ -2,6 +2,7 @@ import React from 'react';
 import ReviewCard from '@components/domains/ReviewCard';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import CardList from '@components/atoms/CardList';
+import getConvertedDate from '@utils/date';
 
 export default {
   title: 'Component/domains/ReviewCard',
@@ -34,7 +35,7 @@ export const Default: ComponentStory<typeof ReviewCard> = (args) => {
     memberNickname: 'JengYoungTest2',
     memberId: 0,
     pictureUrls: ['https://picsum.photos/200'],
-    createdAt: new Date(),
+    createdAt: getConvertedDate(new Date()),
   };
   return (
     <CardList box flexType="default" width={320} padding={0} margin={0}>

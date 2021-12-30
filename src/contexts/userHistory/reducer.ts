@@ -6,6 +6,7 @@ import {
   GET_JOINED_EVENT,
   GET_LIKE_EVENT,
   GET_MY_REVIEW,
+  GET_USER_REVIEWS,
   HISTORY_LOADING,
   INITIALIZE_HISTORY,
   InitialStateType,
@@ -16,14 +17,14 @@ const userHistoryReducer = (state: InitialStateType, action: Action) => {
     case HISTORY_LOADING: {
       return {
         ...state,
-        isLaoding: true,
+        isLoading: true,
       };
     }
 
     case INITIALIZE_HISTORY: {
       return {
         ...state,
-        initialState,
+        ...initialState,
       };
     }
 
@@ -33,6 +34,7 @@ const userHistoryReducer = (state: InitialStateType, action: Action) => {
         ...state,
         favoriteShopList,
         historyError,
+        isLoading: false,
       };
     }
 
@@ -42,6 +44,7 @@ const userHistoryReducer = (state: InitialStateType, action: Action) => {
         ...state,
         likeEventList,
         historyError,
+        isLoading: false,
       };
     }
 
@@ -51,6 +54,7 @@ const userHistoryReducer = (state: InitialStateType, action: Action) => {
         ...state,
         joinedEventList,
         historyError,
+        isLoading: false,
       };
     }
 
@@ -60,6 +64,18 @@ const userHistoryReducer = (state: InitialStateType, action: Action) => {
         ...state,
         myReviewList,
         historyError,
+        isLoading: false,
+      };
+    }
+    case GET_USER_REVIEWS: {
+      const { userReviewList, userReviewListOptions, historyError } =
+        action.payload;
+      return {
+        ...state,
+        userReviewList,
+        userReviewListOptions,
+        historyError,
+        isLoading: false,
       };
     }
     default: {

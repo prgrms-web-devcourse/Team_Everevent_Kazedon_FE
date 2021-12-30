@@ -1,8 +1,12 @@
 import { createContext, useContext, useMemo, useReducer } from 'react';
-import useHistoryProvider from './actions';
+import {
+  ContextType,
+  HistoryProviderProps,
+  InitialStateType,
+} from '@contexts/userHistory/types';
 /* eslint-disable import/no-cycle */
+import useHistoryProvider from './actions';
 import userHistoryReducer from './reducer';
-import { HistoryProviderProps, InitialStateType } from './types';
 
 export const initialState: InitialStateType = {
   isLoading: false,
@@ -10,14 +14,22 @@ export const initialState: InitialStateType = {
   favoriteShopList: [],
   likeEventList: [],
   myReviewList: [],
+  userReviewList: [],
+  userReviewListOptions: {
+    last: null,
+    totalPages: 0,
+    totalElements: 0,
+    reviewerEventCount: 0,
+    reviewerReviewCount: 0,
+  },
   historyError: {
     code: null,
     message: null,
   },
 };
 
-const UserHistoryContext = createContext(initialState);
-export const useHistory = () => useContext(UserHistoryContext);
+const UserHistoryContext = createContext<ContextType>(initialState);
+export const useUserHistory = () => useContext(UserHistoryContext);
 
 const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
   const [
@@ -27,6 +39,8 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
       likeEventList,
       joinedEventList,
       myReviewList,
+      userReviewList,
+      userReviewListOptions,
       historyError,
     },
     dispatch,
@@ -37,7 +51,8 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
     dispatchFavoriteShops,
     dispatchLikeEvents,
     dispatchJoinedEvents,
-    dispatchMyReview,
+    dispatchMyReviews,
+    dispatchUserReviews,
   } = useHistoryProvider(dispatch);
 
   const contextValue = useMemo(
@@ -47,12 +62,15 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
       favoriteShopList,
       likeEventList,
       myReviewList,
+      userReviewList,
+      userReviewListOptions,
       historyError,
       initializeHistory,
       dispatchFavoriteShops,
       dispatchLikeEvents,
       dispatchJoinedEvents,
-      dispatchMyReview,
+      dispatchMyReviews,
+      dispatchUserReviews,
     }),
     [
       isLoading,
@@ -60,12 +78,15 @@ const UserHistoryProvider = ({ children }: HistoryProviderProps) => {
       favoriteShopList,
       likeEventList,
       myReviewList,
+      userReviewList,
+      userReviewListOptions,
       historyError,
       initializeHistory,
       dispatchFavoriteShops,
       dispatchLikeEvents,
       dispatchJoinedEvents,
-      dispatchMyReview,
+      dispatchMyReviews,
+      dispatchUserReviews,
     ]
   );
 

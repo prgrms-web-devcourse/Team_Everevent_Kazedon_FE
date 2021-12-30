@@ -1,5 +1,6 @@
 import request from '@axios/index';
 import { ResType } from '@axios/types';
+import { ReviewListResponse } from '@contexts/userHistory/types';
 
 export const getFavoriteShops = async (memberId: string) => {
   const res: ResType<any> = await request.get(
@@ -20,7 +21,9 @@ export const getJoinedEvents = async (memberId: string) => {
   return res;
 };
 
-export const getMyReview = async (memberId: string) => {
-  const res: ResType<any> = await request.get(`/members/${memberId}/reviews`);
+export const getReviews = async (memberId: string) => {
+  const res: ResType<ReviewListResponse | null> = await request.get(
+    `/members/${memberId}/reviews`
+  );
   return res;
 };
