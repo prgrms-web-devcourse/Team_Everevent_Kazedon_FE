@@ -5,6 +5,7 @@ import {
   Upload,
   Text,
   Button,
+  Modal,
 } from '@components/atoms';
 
 import { css } from '@emotion/react';
@@ -13,6 +14,7 @@ import useForm from '@hooks/useForm';
 import Common from '@styles/index';
 import Constants from '@utils/index';
 import { EventCreateFormData } from '@contexts/Shop/types';
+import { marginBottom } from '@utils/computed';
 import { ShopContext } from '@contexts/Shop/index';
 import { useCallback, useContext, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -49,10 +51,20 @@ const CreateEventForm = () => {
   const { shopId } = router.query;
   const newErrors: EventCreateFormData = {};
   const [files, setFiles] = useState<File[] | []>([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleUpload = useCallback(({ value }) => {
     setFiles(() => value);
   }, []);
+
+  const handleModal = useCallback((visible) => {
+    setModalVisible(() => visible);
+  }, []);
+
+  const onModalButtonClick = () => {
+    handleModal(false);
+    router.push('/shop');
+  };
 
   const { errors, handleChange, handleSubmit } = useForm<EventCreateFormData>({
     initialValues: {
@@ -79,7 +91,7 @@ const CreateEventForm = () => {
         request: eventInfo,
       });
 
-      router.push('/shop');
+      setModalVisible(() => true);
     },
     validate: ({ name, description, expiredAt, maxParticipants }) => {
       const today = new Date();
@@ -215,6 +227,23 @@ const CreateEventForm = () => {
       <Text size="micro" block>
         5mb 이하의 용량으로 올려주세요.
       </Text>
+      <Modal
+        modalType="default"
+        width={320}
+        height={200}
+        padding={20}
+        visible={modalVisible}
+        onClose={() => handleModal(false)}
+        clickAway
+      >
+        <HeaderText level={2} marginBottom={24}>
+          이벤트 만들기
+        </HeaderText>
+        <Text size={14} css={marginBottom(44)}>
+          이벤트 생성이 성공적으로 완료되었어요~ 🎉
+        </Text>
+        <Button onClick={() => onModalButtonClick()}>확인</Button>
+      </Modal>
       <ButtonWrapper>
         <Button css={ButtonCSS} onClick={handleSubmit}>
           만들기
