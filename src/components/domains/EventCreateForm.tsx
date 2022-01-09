@@ -242,7 +242,7 @@ const CreateEventForm = () => {
         <Text size={14} css={marginBottom(44)}>
           이벤트 생성이 성공적으로 완료되었어요~ 🎉
         </Text>
-        <Button onClick={() => onModalButtonClick()}>확인</Button>
+        <Button onClick={onModalButtonClick}>확인</Button>
       </Modal>
       <ButtonWrapper>
         <Button css={ButtonCSS} onClick={handleSubmit}>
