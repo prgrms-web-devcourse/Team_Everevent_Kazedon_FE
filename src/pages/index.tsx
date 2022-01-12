@@ -24,6 +24,7 @@ import {
 import { setStorage } from '@utils/storage';
 import { USER_ADDRESS_KEY } from '@utils/constantUser';
 import useLoginCheck from '@hooks/useLoginCheck';
+import PostCode from '@components/domains/PostCode';
 
 const AddressButtonCSS = css`
   margin-top: 60px;
@@ -250,12 +251,13 @@ const MainPage: NextPage = () => {
         <HeaderText level={2} marginBottom={16}>
           어떤 곳의 이벤트를 찾고 싶나요?
         </HeaderText>
-        <Input
+        <PostCode />
+        {/* <Input
           sizeType="small"
           placeholder="OO시 OO구 OO동으로 입력"
           error={false}
           onChange={handleChangeAddressInput}
-        />
+        /> */}
         <Button onClick={handleSubmitAddress} css={AddressSubmitButtonCSS}>
           주소 등록하기
         </Button>
