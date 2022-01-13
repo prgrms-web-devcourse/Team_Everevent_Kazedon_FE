@@ -34,6 +34,8 @@ const PasswordWrapper = styled.div`
   flex-direction: column;
 `;
 
+const fontStyle = { display: 'flex', justifyContent: 'center' };
+
 const RegisterForm = () => {
   const router = useRouter();
   const { handleRegister } = useContext(UserContext);
@@ -130,15 +132,17 @@ const RegisterForm = () => {
 
   const onValidate = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const key = name as keyof RegisterUserInfo;
+
+    if (errors[key]) {
+      const inputErrors = deleteProperty(errors, key);
+
+      setErrors(inputErrors);
+    }
 
     handleChange(e);
 
     if (name === TEXT.PASSWORD || name === TEXT.PASSWORDCHECK) {
-      const key = name as keyof RegisterUserInfo;
-      const inputErrors = deleteProperty(errors, key);
-
-      setErrors(inputErrors);
-
       if (name === TEXT.PASSWORDCHECK) {
         dispatch({
           name,
@@ -170,7 +174,7 @@ const RegisterForm = () => {
         {errors.email && (
           <Text
             size="micro"
-            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            fontStyle={fontStyle}
             block
             color={Common.colors.warning}
             css={marginBottom(8)}
@@ -181,7 +185,7 @@ const RegisterForm = () => {
         {successEmailMessage && (
           <Text
             size="micro"
-            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            fontStyle={fontStyle}
             block
             color={Common.colors.point}
             css={marginBottom(8)}
@@ -202,7 +206,7 @@ const RegisterForm = () => {
         {errors.nickname && (
           <Text
             size="micro"
-            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            fontStyle={fontStyle}
             block
             color={Common.colors.warning}
             css={marginBottom(8)}
@@ -213,7 +217,7 @@ const RegisterForm = () => {
         {successNicknameMessage && (
           <Text
             size="micro"
-            fontStyle={{ display: 'flex', justifyContent: 'center' }}
+            fontStyle={fontStyle}
             block
             color={Common.colors.point}
             css={marginBottom(8)}
@@ -226,7 +230,7 @@ const RegisterForm = () => {
         <PasswordForm onChange={onValidate} error={validateErrors} />
         <Text
           size="micro"
-          fontStyle={{ display: 'flex', justifyContent: 'center' }}
+          fontStyle={fontStyle}
           block
           css={marginBottom(8)}
           color={
