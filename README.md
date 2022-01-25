@@ -5,7 +5,7 @@
 ![Thumbnail](https://images.velog.io/images/young_pallete/post/6f0f4cc9-bcde-4bf6-b625-4463cad72b04/Desktop%20-%201.png)
 
 ## 기획 배경 및 동기
-### **기획 동기 - "Every + Event = Eventry"**
+### **기획 동기 - "Every + Event = Everevent"**
 
 > **"어떻게 하면 사업자에게는 홍보를, 사용자에게 일상의 행복을 줄 수 있을까?"**
 
@@ -18,7 +18,7 @@
 ## 프론트엔드 팀원 소개
 | 김지은 | 이미란 | 이선재 | 황재영 | 
 | --- | --- | --- | --- |
-| [oranjik](https://github.com/oranjik) | [Sunjae95](https://github.com/Sunjae95)  | [MiranLeeeee](https://github.com/MiranLeeeee) | [JengYoung](https://github.com/JengYoung) |
+| [oranjik](https://github.com/oranjik) | [MiranLeeeee](https://github.com/MiranLeeeee)  | [Sunjae95](https://github.com/Sunjae95) | [JengYoung](https://github.com/JengYoung) |
 ## 기술 스택
 + UI 라이브러리: `React` - v17.0.2
 + 프레임워크: `next.js` - v12.0.4
