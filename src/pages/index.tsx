@@ -102,6 +102,8 @@ const MainPage: NextPage = () => {
   const handleSubmitAddress = (e: React.MouseEvent) => {
     e.preventDefault();
     setUserAddress(() => addressValue);
+    setAddressValue(() => '');
+    setShowPostCode(() => true);
     setModalVisible(() => false);
   };
 
