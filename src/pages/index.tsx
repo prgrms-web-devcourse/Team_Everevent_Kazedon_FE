@@ -14,17 +14,12 @@ import styles from '@styles/index';
 import type { NextPage } from 'next';
 import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
-import {
-  CardContainer,
-  HeaderText,
-  Input,
-  Modal,
-  Text,
-} from '@components/atoms';
+import { CardContainer, HeaderText, Modal, Text } from '@components/atoms';
 import { setStorage } from '@utils/storage';
 import { USER_ADDRESS_KEY } from '@utils/constantUser';
 import useLoginCheck from '@hooks/useLoginCheck';
 import PostCode from '@components/domains/PostCode';
+import styled from '@emotion/styled';
 
 const AddressButtonCSS = css`
   margin-top: 60px;
@@ -33,8 +28,14 @@ const AddressButtonCSS = css`
 `;
 
 const AddressSubmitButtonCSS = css`
-  position: absolute;
-  bottom: 24px;
+  left: 0;
+  width: 48%;
+`;
+
+const AddressResearchButtonCSS = css`
+  ${AddressSubmitButtonCSS}
+  right: 0;
+  left: auto;
 `;
 
 const NoEventListCardCSS = css`
@@ -47,8 +48,24 @@ const NoEventListCardCSS = css`
   }
 `;
 
+const AddressButtonBox = styled.div`
+  position: absolute;
+  bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 1rem;
+`;
+const StyledAddressInfo = styled.address`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  text-decoration: normal;
+`;
+
 const MainPage: NextPage = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [showPostCode, setShowPostCode] = useState(true);
 
   const { isFirst, handleCheck } = useLoginCheck();
 
@@ -67,8 +84,10 @@ const MainPage: NextPage = () => {
     dispatchEventList,
     initializeEventList,
   } = useEvent();
+
   const [sortState, setSortState] = useState<SortOrder>('desc');
   const [sortTypeState, setSortTypeState] = useState<SortType>('createdAt');
+
   const router = useRouter();
 
   const handleCardClick = (eventId: string) => {
@@ -76,12 +95,20 @@ const MainPage: NextPage = () => {
   };
 
   const handleChangeAddressInput = useCallback((e) => {
-    setAddressValue(() => e.target.value);
+    setAddressValue(() => e);
+    // setAddressValue(() => e.target.value);
   }, []);
 
   const handleSubmitAddress = (e: React.MouseEvent) => {
     e.preventDefault();
     setUserAddress(() => addressValue);
+    setModalVisible(() => false);
+  };
+
+  const handleReSearchAddress = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setAddressValue(() => '');
+    setShowPostCode(() => true);
   };
 
   const closeModal = () => {
@@ -120,6 +147,7 @@ const MainPage: NextPage = () => {
     sortState,
     sortTypeState,
   ]);
+
   useEffect(() => {
     return () => {
       setUserAddress(() => null);
@@ -238,7 +266,7 @@ const MainPage: NextPage = () => {
       </MainContainer>
       <Modal
         width={300}
-        height={256}
+        height={addressValue ? 280 : 600}
         modalType="default"
         padding={24}
         visible={modalVisible}
@@ -251,16 +279,35 @@ const MainPage: NextPage = () => {
         <HeaderText level={2} marginBottom={16}>
           어떤 곳의 이벤트를 찾고 싶나요?
         </HeaderText>
-        <PostCode />
-        {/* <Input
-          sizeType="small"
-          placeholder="OO시 OO구 OO동으로 입력"
-          error={false}
-          onChange={handleChangeAddressInput}
-        /> */}
-        <Button onClick={handleSubmitAddress} css={AddressSubmitButtonCSS}>
-          주소 등록하기
-        </Button>
+        {addressValue && (
+          <StyledAddressInfo>
+            <Text bold block size="large">
+              {addressValue}
+            </Text>
+            에서의 이벤트를 찾으시겠어요?
+          </StyledAddressInfo>
+        )}
+        {modalVisible && showPostCode && (
+          <PostCode
+            autoClose
+            onChangeAddressInput={handleChangeAddressInput}
+            setShowPostCode={setShowPostCode}
+            setModalVisible={setModalVisible}
+          />
+        )}
+        {addressValue && (
+          <AddressButtonBox>
+            <Button onClick={handleSubmitAddress} css={AddressSubmitButtonCSS}>
+              주소 등록하기
+            </Button>
+            <Button
+              onClick={handleReSearchAddress}
+              css={AddressResearchButtonCSS}
+            >
+              주소 다시 찾기
+            </Button>
+          </AddressButtonBox>
+        )}
       </Modal>
     </>
   );

@@ -1,25 +1,43 @@
-import React from 'react';
+import styled from '@emotion/styled';
+import React, { SetStateAction } from 'react';
 import DaumPostcode, { Address } from 'react-daum-postcode';
 
-const PostCode = ({ ...props }) => {
-  const handleComplete = (data: Address) => {
-    let fullAddress = data.address;
-    let extraAddress = '';
-    if (data.addressType === 'R') {
-      if (data.bname !== '') {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== '') {
-        extraAddress +=
-          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-    }
+const StyledPostcode = styled.div`
+  width: 300px;
+  height: calc(100%);
+`;
 
-    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+interface TPostCode {
+  onChangeAddressInput: (address: string) => void;
+  setShowPostCode: React.Dispatch<SetStateAction<boolean>>;
+  setModalVisible: React.Dispatch<SetStateAction<boolean>>;
+  autoClose: boolean;
+}
+
+const PostCode = ({
+  onChangeAddressInput,
+  setShowPostCode,
+  setModalVisible,
+  ...props
+}: TPostCode) => {
+  const handleComplete = (data: Address) => {
+    const address = `${data.sido} ${data.sigungu} ${data.bname}`;
+
+    onChangeAddressInput(address);
+    setShowPostCode(() => false);
+
+    return address;
   };
 
-  return <DaumPostcode onComplete={handleComplete} {...props} />;
+  return (
+    <StyledPostcode>
+      <DaumPostcode
+        style={{ height: '100%' }}
+        onComplete={handleComplete}
+        {...props}
+      />
+    </StyledPostcode>
+  );
 };
 
 export default PostCode;

@@ -46,6 +46,7 @@ module.exports = {
     '@next/next/no-page-custom-font': 'off',
     '@typescript-eslint/no-unused-vars': [2, { args: 'none' }],
     'no-param-reassign': 'off',
+    'react/prop-types': 'off',
   },
   globals: {
     React: true,
