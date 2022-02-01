@@ -57,7 +57,7 @@ const AddressButtonBox = styled.div`
   padding: 0 1rem;
 `;
 const StyledAddressInfo = styled.address`
-  margin-top: 1rem;
+  margin-top: 2rem;
   margin-bottom: 1rem;
   text-align: center;
   text-decoration: normal;
@@ -276,18 +276,12 @@ const MainPage: NextPage = () => {
         clickAway
       >
         <HeaderText level={1} marginBottom={20}>
-          주소 등록
+          {addressValue ? '주소 확인' : '주소 등록'}
         </HeaderText>
-        <HeaderText level={2} marginBottom={16}>
-          어떤 곳의 이벤트를 찾고 싶나요?
-        </HeaderText>
-        {addressValue && (
-          <StyledAddressInfo>
-            <Text bold block size="large">
-              {addressValue}
-            </Text>
-            에서의 이벤트를 찾으시겠어요?
-          </StyledAddressInfo>
+        {!addressValue && (
+          <HeaderText level={2} marginBottom={16}>
+            어떤 곳의 이벤트를 찾고 싶나요?
+          </HeaderText>
         )}
         {modalVisible && showPostCode && (
           <PostCode
@@ -298,17 +292,28 @@ const MainPage: NextPage = () => {
           />
         )}
         {addressValue && (
-          <AddressButtonBox>
-            <Button onClick={handleSubmitAddress} css={AddressSubmitButtonCSS}>
-              주소 등록하기
-            </Button>
-            <Button
-              onClick={handleReSearchAddress}
-              css={AddressResearchButtonCSS}
-            >
-              주소 다시 찾기
-            </Button>
-          </AddressButtonBox>
+          <>
+            <StyledAddressInfo>
+              <Text bold block size="large">
+                {addressValue}
+              </Text>
+              에서의 이벤트를 찾으시겠어요?
+            </StyledAddressInfo>
+            <AddressButtonBox>
+              <Button
+                onClick={handleSubmitAddress}
+                css={AddressSubmitButtonCSS}
+              >
+                주소 등록하기
+              </Button>
+              <Button
+                onClick={handleReSearchAddress}
+                css={AddressResearchButtonCSS}
+              >
+                주소 다시 찾기
+              </Button>
+            </AddressButtonBox>
+          </>
         )}
       </Modal>
     </>
