@@ -1,11 +1,11 @@
 import request from '@axios/index';
 import { ResType } from '@axios/types';
-import {
-  LoginUserInfo,
-  OverlapCheckInfo,
-  RegisterUserInfo,
-  User,
-} from '@contexts/UserContext/types';
+import { BaseAuthInfo, RegisterUserInfo, User } from '@contexts/userInfo/types';
+
+interface RegisterCheckType {
+  type: 'nickname' | 'email';
+  value: string;
+}
 
 export const onLogOut = async () => {
   const res: ResType<any> = await request.get('logout');
@@ -13,7 +13,7 @@ export const onLogOut = async () => {
   return res;
 };
 
-export const onRegisterCheck = async (check: OverlapCheckInfo) => {
+export const onRegisterCheck = async (check: RegisterCheckType) => {
   const res: ResType<any> = await request.get(
     `signup/check?type=${check.type}&value=${check.value}`
   );
@@ -21,7 +21,7 @@ export const onRegisterCheck = async (check: OverlapCheckInfo) => {
   return res;
 };
 
-export const onLogIn = async (userInfo: LoginUserInfo) => {
+export const onLogIn = async (userInfo: BaseAuthInfo) => {
   const res: ResType<User> = await request.post('login', userInfo);
 
   return res;
@@ -55,7 +55,7 @@ export const onCheckUser = async () => {
   return res;
 };
 
-export const onGetUserType = async () => {
+export const getMarketId = async () => {
   const res: ResType<any> = await request.get('/markets');
 
   return res;

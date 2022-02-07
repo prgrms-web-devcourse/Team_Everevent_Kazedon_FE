@@ -9,7 +9,7 @@ import styles from '@styles/index';
 import React, { useContext, useMemo } from 'react';
 import LikeButton from '@components/domains/LikeButton';
 import useControlModal from '@hooks/useControlModal';
-import UserContext from '@contexts/UserContext/index';
+import { UserContext } from '@contexts/userInfo';
 import getConvertedDate from '@utils/date';
 import { Icon } from '@components/atoms';
 import { MdOutlineChatBubble } from 'react-icons/md';
@@ -64,7 +64,7 @@ const EventCard = ({
   } = eventData as Event;
   const cardBgColorKeys = Object.keys(styles.cardBackgroundColors);
   const colorLength = cardBgColorKeys.length;
-  const { state: userState } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { dispatchEventListLike } = useEvent();
 
   const {
@@ -82,8 +82,8 @@ const EventCard = ({
     // TODO: 로딩을 걸어서, 만약 로딩 중에 또 눌렀다면 dispatch가 실행되지 않도록 해야 한다.
     /* eslint-disable no-console */
     dispatchEventListLike(eventId, isLike);
-    console.log(userState);
-    if (!userState?.userType?.type) {
+
+    if (!user.userId) {
       setRequestType(() => '좋아요');
       setControlModalVisible(true);
     }
