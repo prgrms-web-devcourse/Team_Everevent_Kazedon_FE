@@ -12,6 +12,7 @@ export { default as ProfileEdit } from './ProfileEdit';
 export { default as PasswordForm } from './PasswordForm';
 export { default as Tab } from './Tab';
 export { default as LoginInformContainer } from './ControlModal/LoginInformContainer';
+export { default as Pagination } from './Pagination';
 export * from './EventDetail/index';
 
 /* eslint-disable import/no-cycle */
