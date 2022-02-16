@@ -1,5 +1,5 @@
 import { onCheckToken } from '@axios/user';
-import UserContext from '@contexts/UserContext';
+import { UserContext } from '@contexts/userInfo';
 import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect, useState } from 'react';
 
@@ -7,7 +7,7 @@ const useLoginCheck = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFirst, setIsFirst] = useState(true);
   const [token, setToken] = useState<string | null>(null);
-  const { state, handleUserCheck } = useContext(UserContext);
+  const { user, handleUserCheck } = useContext(UserContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,6 +27,11 @@ const useLoginCheck = () => {
 
       setIsLoading(true);
 
+      if (user.userId) {
+        setIsLoading(false);
+        return;
+      }
+
       if (!token) {
         if (!isPrivate) return;
         router.replace('/login');
@@ -38,13 +43,13 @@ const useLoginCheck = () => {
       if (res.error.code) {
         localStorage.removeItem('token');
         if (!isPrivate) router.replace('/login');
-      } else if (!state.email && !state.nickname) {
-        await handleUserCheck();
+      } else {
+        await handleUserCheck(res.data);
         setIsLoading(false);
       }
       /* eslint-disable react-hooks/exhaustive-deps */
     },
-    [router, state, token, isFirst, handleUserCheck]
+    [router, user, token, isFirst, handleUserCheck]
   );
 
   return { isFirst, handleCheck };

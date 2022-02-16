@@ -1,7 +1,7 @@
 import React from 'react';
 import EventListProvider from '@contexts/event';
 import ReviewProvider from '@contexts/review';
-import { UserProvider } from '@contexts/UserContext';
+import { UserProvider } from '@contexts/userInfo';
 import { OwnerProvider } from '@contexts/Owner';
 import { ShopProvider } from '@contexts/Shop';
 import UserHistoryProvider from '@contexts/userHistory';

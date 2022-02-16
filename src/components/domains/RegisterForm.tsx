@@ -13,11 +13,11 @@ import {
   text,
   validation,
 } from '@utils/constantUser';
-import { RegisterUserInfo, OverlapParams } from '@contexts/UserContext/types';
-import { registerReducer } from '@contexts/UserContext/reducer';
+import { RegisterUserInfo } from '@contexts/userInfo/types';
 import { useRouter } from 'next/router';
 import { deleteProperty, marginBottom } from '@utils/computed';
-import UserContext from '@contexts/UserContext';
+import { UserContext } from '@contexts/userInfo';
+import registerReducer from '@utils/registerReducer';
 import OverlapCheck from './OverlapCheck';
 import PasswordForm from './PasswordForm';
 
@@ -71,7 +71,7 @@ const RegisterForm = () => {
 
         const res = await handleRegister(registerUserInfo);
 
-        if (res.error.code) {
+        if (res.code) {
           newErrors.password = failMsg.register;
           setErrors(newErrors);
           return;
@@ -99,7 +99,7 @@ const RegisterForm = () => {
 
   const onOverlapCheck = async (e: React.MouseEvent) => {
     const { name } = e.target as HTMLButtonElement;
-    const key = name as keyof OverlapParams;
+    const key = name as keyof Pick<RegisterUserInfo, 'email' | 'nickname'>;
     const overlapErrors = deleteProperty(errors, key);
     const checkInfo = {
       type: key,

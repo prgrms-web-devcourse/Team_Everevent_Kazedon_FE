@@ -5,7 +5,7 @@ import { Button, HeaderText, Text } from '@components/atoms';
 import { css } from '@emotion/react';
 import useForm from '@hooks/useForm';
 import Common from '@styles/index';
-import { ProfileUserInfo } from '@contexts/UserContext/types';
+import { ProfileUserInfo } from '@contexts/userInfo/types';
 import {
   errorMsg,
   failMsg,
@@ -13,10 +13,10 @@ import {
   text,
   validation,
 } from '@utils/constantUser';
-import { onConfirmPassword, onEditProfile, onRegisterCheck } from '@axios/user';
+import { onConfirmPassword, onRegisterCheck } from '@axios/user';
 import { useRouter } from 'next/router';
 import { deleteProperty, marginBottom } from '@utils/computed';
-import UserContext from '@contexts/UserContext';
+import { UserContext } from '@contexts/userInfo';
 import OverlapCheck from './OverlapCheck';
 import Tab from './Tab';
 import PasswordForm from './PasswordForm';
@@ -41,7 +41,7 @@ const styleCenter = { display: 'flex', justifyContent: 'center' };
 
 const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
   const router = useRouter();
-  const { handleModifyNickname } = useContext(UserContext);
+  const { handleModifyInfo } = useContext(UserContext);
   const [buttonFocus, setButtonFocus] = useState(true);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
   const [successNicknameMessage, setSuccessNicknameMessage] = useState(false);
@@ -60,17 +60,14 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
           password: values.password === '' ? undefined : values.password,
         };
 
-        const res = await onEditProfile(profileEditUserInfo);
+        const res = await handleModifyInfo(profileEditUserInfo);
 
-        if (res.error.code) {
+        if (res.code) {
           const newErrors: Partial<ProfileUserInfo> = {};
           newErrors.password = failMsg.profileEdit.submit;
 
           setErrors(newErrors);
         } else {
-          if (values.nickname) {
-            await handleModifyNickname(values.nickname);
-          }
           router.replace('/');
         }
       },

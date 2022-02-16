@@ -1,11 +1,9 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Text, Icon } from '@components/atoms';
 import { css } from '@emotion/react';
 import { MdOutlineMenu, MdOutlineArrowBackIosNew } from 'react-icons/md';
 import { useRouter } from 'next/router';
-import UserContext from '@contexts/UserContext';
-import { UserType } from '@contexts/UserContext/types';
 import logo from '../../../public/logo.svg';
 import { NavModal, NavModalInner } from './NavModal';
 
@@ -20,7 +18,6 @@ export interface HeaderProps {
   isVisiblePrev?: boolean;
   src?: string;
   justifyContent?: 'none' | 'space-between';
-  userType?: UserType;
   onMenuClick?: () => void;
   onClick?: () => void;
 }
@@ -74,10 +71,9 @@ const Header: React.FC<HeaderProps> = ({
   isVisibleMenu = true,
   ...props
 }) => {
-  const { state: userState } = useContext(UserContext);
-
   const [navModalVisible, setNavModalVisible] = useState<boolean>(false);
   const router = useRouter();
+
   useEffect(() => {
     return () => setNavModalVisible(() => false);
   }, []);
@@ -88,6 +84,7 @@ const Header: React.FC<HeaderProps> = ({
   const handleNavModalClose = () => {
     setNavModalVisible(() => false);
   };
+
   return (
     <HeaderContainer {...props}>
       <HeaderSection
@@ -122,7 +119,7 @@ const Header: React.FC<HeaderProps> = ({
         </HeaderSection>
       )}
       <NavModal visible={navModalVisible} onClose={handleNavModalClose}>
-        <NavModalInner userType={userState.userType.type} />
+        <NavModalInner />
       </NavModal>
     </HeaderContainer>
   );

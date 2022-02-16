@@ -1,7 +1,7 @@
 import { Button, HeaderText, Modal, Text } from '@components/atoms';
 import { useEvent } from '@contexts/event';
 import { Event } from '@contexts/event/types';
-import UserContext from '@contexts/UserContext';
+import { UserContext } from '@contexts/userInfo';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import useControlModal from '@hooks/useControlModal';
@@ -137,11 +137,11 @@ const EventDetailHeader = ({
       handleCheck();
     }
   }, [isFirst, handleCheck]);
-  const { state: userState } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const handleLikeButtonClick = useCallback(async () => {
     if (isLoading) return;
-    if (!userState.userType.type) {
+    if (!user.userId) {
       setRequestType(() => '좋아요');
       setControlModalVisible(() => true);
       return;
@@ -158,12 +158,12 @@ const EventDetailHeader = ({
     router.query,
     isLike,
     setControlModalVisible,
-    userState.userType.type,
+    user.userId,
   ]);
 
   const handleFavoriteButtonClick = useCallback(async () => {
     if (isLoading) return;
-    if (!userState.userType.type) {
+    if (!user.userId) {
       setRequestType(() => '즐겨찾기');
       setControlModalVisible(() => true);
       return;
@@ -182,14 +182,14 @@ const EventDetailHeader = ({
     marketId,
     dispatchShopFavorite,
     isFavorite,
-    userState,
+    user,
     setRequestType,
     setControlModalVisible,
   ]);
 
   const onParticipateButtonClick = useCallback(async () => {
     if (isLoading) return;
-    if (!userState.userType.type) {
+    if (!user.userId) {
       setRequestType(() => '이벤트 참여');
       setControlModalVisible(() => true);
       return;
@@ -232,7 +232,7 @@ const EventDetailHeader = ({
     dispatchCompleteParticipateEvent,
     setControlModalVisible,
     setRequestType,
-    userState.userType.type,
+    user.userId,
   ]);
 
   const onModalButtonClick = () => {

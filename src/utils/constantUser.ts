@@ -3,7 +3,12 @@ export const LOGOUT = 'LOG_OUT';
 export const REGISTER = 'REGISTER';
 export const USERCHECK = 'USER_CHECK';
 export const MODIFYNICKNAME = 'MODIFY_NICKNAME';
+export const MODIFY = 'MODIFY';
 export const TOKEN = 'token';
+export const HEADERTOKEN = 'x-auth-token';
+export const USER_ADDRESS_KEY = 'user-address';
+export const LOADING = 'LOADING';
+
 export const TEXT = {
   EMAIL: 'email',
   PASSWORD: 'password',
@@ -38,5 +43,3 @@ export const overlapMsg = {
 export const text = {
   default: '6자 이상 영어 대소문자, 숫자를 입력해주세요.',
 };
-export const HEADERTOKEN = 'x-auth-token';
-export const USER_ADDRESS_KEY = 'user-address';

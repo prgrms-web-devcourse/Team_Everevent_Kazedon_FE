@@ -3,10 +3,10 @@ import styled from '@emotion/styled';
 import { Input, HeaderText, Button, Text } from '@components/atoms';
 import useForm from '@hooks/useForm';
 import Common from '@styles/index';
-import UserContext from '@contexts/UserContext';
+import { UserContext } from '@contexts/userInfo';
 import { errorMsg, failMsg, text, validation } from '@utils/constantUser';
 import { useRouter } from 'next/dist/client/router';
-import { LoginUserInfo } from '@contexts/UserContext/types';
+import { BaseAuthInfo } from '@contexts/userInfo/types';
 import { deleteProperty } from '@utils/computed';
 
 const LoginFormContainer = styled.div`
@@ -37,16 +37,16 @@ const LoginForm = () => {
   const { handleLogIn } = useContext(UserContext);
 
   const { errors, setErrors, handleChange, handleSubmit } =
-    useForm<LoginUserInfo>({
+    useForm<BaseAuthInfo>({
       initialValues: {
         email: '',
         password: '',
       },
       onSubmit: async (values) => {
         const res = await handleLogIn(values);
-        const loginError: Partial<LoginUserInfo> = {};
+        const loginError: Partial<BaseAuthInfo> = {};
 
-        if (!res.error.code) {
+        if (!res.code) {
           router.push('/');
           return;
         }
@@ -56,7 +56,7 @@ const LoginForm = () => {
         setErrors(loginError);
       },
       validate: ({ email, password }) => {
-        const newErrors: Partial<LoginUserInfo> = {};
+        const newErrors: Partial<BaseAuthInfo> = {};
 
         if (!validation.email.test(email)) newErrors.email = errorMsg.email;
         if (!validation.password.test(password))
@@ -68,10 +68,10 @@ const LoginForm = () => {
 
   const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
-    const key = name as keyof LoginUserInfo;
+    const key = name as keyof BaseAuthInfo;
 
     if (errors[key]) {
-      const resetError = deleteProperty<Partial<LoginUserInfo>>(errors, key);
+      const resetError = deleteProperty<Partial<BaseAuthInfo>>(errors, key);
 
       setErrors(resetError);
     }
