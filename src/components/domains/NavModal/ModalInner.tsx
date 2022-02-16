@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable no-shadow */
+import React, { useContext } from 'react';
 import styled from '@emotion/styled';
 import Text from '@components/atoms/Text';
 import Link from 'next/link';
+import { UserContext } from '@contexts/userInfo';
+import { User } from '@contexts/userInfo/types';
 import { LoginInformContainer } from '..';
-
-interface NavigatorProps {
-  userType: 'user' | 'owner';
-}
 
 const NavigatorContainer = styled.div`
   display: flex;
@@ -29,15 +28,15 @@ const dynamicTitle = {
   owner: '가게 보기',
 };
 
-const Navigator: React.FC<NavigatorProps> = ({ userType, ...props }) => {
-  const [isInnerLoading, setIsInnerLoading] = useState(true);
-  useEffect(() => {
-    if (userType) {
-      setIsInnerLoading(() => false);
-    }
-  }, [userType]);
+const Navigator: React.FC = ({ ...props }) => {
+  const { user } = useContext(UserContext);
+  const getUrlKey = (user: User) => {
+    if (user.marketId) return 'owner';
+    return 'user';
+  };
 
-  if (isInnerLoading) return <LoginInformContainer requestType="설정" />;
+  if (!user.userId) return <LoginInformContainer requestType="설정" />;
+
   return (
     <NavigatorContainer {...props}>
       <Text block size="large" style={fontStyle}>
@@ -59,16 +58,16 @@ const Navigator: React.FC<NavigatorProps> = ({ userType, ...props }) => {
         </a>
       </Link>
       <Link href="/profile/edit" passHref>
-        <a href={dynamicUrl[userType]}>
+        <a href={dynamicUrl[getUrlKey(user)]}>
           <Text block size="medium" style={fontStyle}>
             프로필 수정
           </Text>
         </a>
       </Link>
-      <Link href={dynamicUrl[userType]} passHref>
-        <a href={dynamicUrl[userType]}>
+      <Link href={dynamicUrl[getUrlKey(user)]} passHref>
+        <a href={dynamicUrl[getUrlKey(user)]}>
           <Text block size="medium" style={fontStyle}>
-            {dynamicTitle[userType]}
+            {dynamicTitle[getUrlKey(user)]}
           </Text>
         </a>
       </Link>

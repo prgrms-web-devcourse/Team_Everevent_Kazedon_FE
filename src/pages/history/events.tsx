@@ -6,7 +6,7 @@ import MainContainer from '@components/atoms/MainContainer';
 import { HeaderText } from '@components/atoms';
 import { Header, Tab } from '@components/domains';
 import type { NextPage } from 'next';
-import UserContext from '@contexts/UserContext';
+import { UserContext } from '@contexts/userInfo';
 // import eventList from '@fixtures/events';
 
 const UserEventHistoryPage: NextPage = () => {
