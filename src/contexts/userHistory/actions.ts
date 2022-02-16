@@ -47,7 +47,10 @@ const useHistoryProvider = (dispatch: Dispatch<any>) => {
       const res = await getLikeEvents(memberId);
       dispatch({
         type: GET_LIKE_EVENT,
-        payload: { likeEventList: res.data, historyError: res.error },
+        payload: {
+          likeEventList: res.data.events.content,
+          historyError: res.error,
+        },
       });
     },
     [dispatch, dispatchLoading]

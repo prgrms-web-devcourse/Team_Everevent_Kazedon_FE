@@ -11,7 +11,7 @@ export const getFavoriteShops = async (memberId: string) => {
 
 export const getLikeEvents = async (memberId: string) => {
   const res: ResType<any> = await request.get(
-    `/members/${memberId}/member/likes/events`
+    `/members/${memberId}/likes/events`
   );
   return res;
 };
