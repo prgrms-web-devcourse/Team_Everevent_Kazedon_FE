@@ -26,7 +26,7 @@ interface Props {
   email: string;
 }
 
-const ProfileEditContainer = styled.div`
+const ProfileEditContainer = styled.form`
   width: 280px;
   margin-top: 60px;
 `;
@@ -41,7 +41,7 @@ const styleCenter = { display: 'flex', justifyContent: 'center' };
 
 const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
   const router = useRouter();
-  const { handleModifyInfo } = useContext(UserContext);
+  const { isLoading, handleModifyInfo } = useContext(UserContext);
   const [buttonFocus, setButtonFocus] = useState(true);
   const [passwordConfirm, setPasswordConfirm] = useState(false);
   const [successNicknameMessage, setSuccessNicknameMessage] = useState(false);
@@ -54,6 +54,8 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
         passwordCheck: '',
       },
       onSubmit: async (values) => {
+        if (isLoading) return;
+
         const profileEditUserInfo = {
           email,
           nickname: values.nickname === '' ? undefined : values.nickname,
@@ -176,7 +178,7 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
   };
 
   return (
-    <ProfileEditContainer {...props}>
+    <ProfileEditContainer onSubmit={handleSubmit} {...props}>
       <HeaderText level={1} marginBottom={43}>
         프로필 수정
       </HeaderText>
@@ -290,7 +292,16 @@ const ProfileEdit: React.FC<Props> = ({ email, children, ...props }) => {
           {errors.password ? errors.password : text.default}
         </Text>
       </ModifyWrapper>
-      <Button onClick={handleSubmit}>확인</Button>
+      {isLoading ? (
+        <Button
+          backgroundColor={Common.colors.placeholder}
+          onClick={handleSubmit}
+        >
+          수정 중...
+        </Button>
+      ) : (
+        <Button onClick={handleSubmit}>수정</Button>
+      )}
     </ProfileEditContainer>
   );
 };
