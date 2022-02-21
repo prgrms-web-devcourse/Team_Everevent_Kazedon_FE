@@ -34,7 +34,10 @@ const useHistoryProvider = (dispatch: Dispatch<any>) => {
       const res = await getFavoriteShops(memberId);
       dispatch({
         type: GET_FAVORITE_SHOP,
-        payload: { favoriteShopList: res.data, historyError: res.error },
+        payload: {
+          favoriteShopList: res.data.markets.content,
+          historyError: res.error,
+        },
       });
     },
     [dispatch, dispatchLoading]

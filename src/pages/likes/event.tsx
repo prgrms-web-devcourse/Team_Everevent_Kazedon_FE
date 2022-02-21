@@ -7,6 +7,7 @@ import type { NextPage } from 'next';
 import { UserContext } from '@contexts/userInfo';
 import { useUserHistory } from '@contexts/userHistory';
 import useLoginCheck from '@hooks/useLoginCheck';
+import { marginBottom } from '@utils/computed';
 
 const UserLikeDetailPage: NextPage = () => {
   const {
@@ -15,7 +16,7 @@ const UserLikeDetailPage: NextPage = () => {
     initializeHistory,
   } = useUserHistory();
   const router = useRouter();
-  const { user, isLoading } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const { isFirst, handleCheck } = useLoginCheck();
 
   useEffect(() => {
@@ -45,14 +46,19 @@ const UserLikeDetailPage: NextPage = () => {
   return (
     <MainContainer paddingWidth={24}>
       <Header isVisiblePrev />
-      <HeaderText level={1}>
+      <HeaderText level={1} marginBottom={32}>
         {`${user.nickname}님의 즐겨찾기 / 좋아요`}
       </HeaderText>
       <Tab
+        width={320}
+        isLeft
+        isLeftFocused
         leftText="즐겨찾기"
         rightText="좋아요"
+        onClick={(id) => handleCardClick(id)}
         onClickLeft={handleTabLeftClick}
         onClickRight={handleTabRightClick}
+        css={marginBottom(16)}
       />
       <CardList flexType="column" padding={0} margin="10px 0 0 0">
         {likeEvents &&
@@ -60,8 +66,8 @@ const UserLikeDetailPage: NextPage = () => {
             <EventCard
               onClick={() => handleCardClick(likeEvent.eventId)}
               key={likeEvent.eventId}
-              eventData={likeEvent}
               idx={idx}
+              eventData={likeEvent}
               marginHeight={10}
             />
           ))}
