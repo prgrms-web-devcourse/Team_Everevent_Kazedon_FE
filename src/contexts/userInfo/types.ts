@@ -30,7 +30,7 @@ export type UserAction = {
   payload?: any;
 };
 
-export interface UserContextType {
+export interface UserContextType extends UserInfo {
   [dispatchEvent: string]: any;
 }
 
