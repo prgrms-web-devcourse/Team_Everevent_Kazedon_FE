@@ -65,30 +65,28 @@ const UserChangeForm = () => {
       await handleChangeOwner(ownerInfo);
       router.push('/owner/success');
     },
-
-    // TODO: 추후 리팩토링 예정입니다.
     validate: ({ name, description, address }) => {
       if (!name) {
         setErrorName(Constants.ERROR_MSG.marketNameInput);
-        newErrors.address = 'Y';
+        newErrors.address = errorName;
       } else {
         setErrorName('');
       }
       if (description) {
         if (description.length > 200) {
           setErrorDescription(Constants.ERROR_MSG.marketDescriptionFormat);
-          newErrors.description = 'Y';
+          newErrors.description = errorDescription;
         } else {
           setErrorDescription('');
         }
       } else {
         setErrorDescription(Constants.ERROR_MSG.marketDescriptionInput);
-        newErrors.description = 'Y';
+        newErrors.description = errorDescription;
       }
 
       if (!address) {
         setErrorAddress(Constants.ERROR_MSG.marketAddressInput);
-        newErrors.address = 'Y';
+        newErrors.address = errorAddress;
       } else {
         setErrorAddress('');
       }
