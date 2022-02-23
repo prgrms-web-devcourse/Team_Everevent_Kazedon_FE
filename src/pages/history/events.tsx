@@ -1,27 +1,44 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useContext } from 'react';
 // import { useRouter } from 'next/router';
-import MainContainer from '@components/atoms/MainContainer';
+// import MainContainer from '@components/atoms/MainContainer';
 // import { useEvent } from '@contexts/event/index';
-import { HeaderText } from '@components/atoms';
-import { Header, Tab } from '@components/domains';
+// import { CardContainer, CardList, HeaderText, Text } from '@components/atoms';
+// import { EventCard, Header, Tab } from '@components/domains';
 import type { NextPage } from 'next';
-import { UserContext } from '@contexts/userInfo';
-// import eventList from '@fixtures/events';
+// import UserContext from '@contexts/UserContext';
+// import styles from '@styles/index';
+// import { css } from '@emotion/react';
+// import styled from '@emotion/styled';
+// import { marginBottom } from '@utils/computed';
+
+// const NoEventListCardCSS = css`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+
+//   strong {
+//     font-weight: 700;
+//   }
+// `;
 
 const UserEventHistoryPage: NextPage = () => {
   // const { eventList, dispatchEventList, initializeEventList } = useEvent();
+  // const [userAddress, setUserAddress] = useState<string | null>(null);
+  // const [buttonFocus, setButtonFocus] = useState(true);
   // const router = useRouter();
-  const useUser = () => useContext(UserContext);
-  /* eslint-disable-next-line */
-  const { state } = useUser();
+  // const useUser = () => useContext(UserContext);
+  // const { state } = useUser();
 
-  // const handleCardClick = useCallback(
-  //   (eventId = 'e49e47f9-739a-4014-8395-efa1f810aebb') => {
-  //     router.push(`/event/${eventId}`);
-  //   },
-  //   [router]
-  // );
+  // const handleCardClick = (eventId: string) => {
+  //   router.push(`/event/${eventId}`);
+  // };
+
+  // const Wrapper = styled.div`
+  //   display: flex;
+  //   flex-direction: column;
+  //   margin-bottom: 32px;
+  // `;
 
   // useEffect(() => {
   //   dispatchEventList();
