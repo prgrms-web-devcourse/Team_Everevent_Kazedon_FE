@@ -12,11 +12,6 @@ const UserFavoriteDetailPage = () => {
   const { dispatchFavoriteShops, initializeHistory, favoriteShopList } =
     useUserHistory();
   const router = useRouter();
-  const [buttonFocus, setButtonFocus] = useState(true);
-
-  const handleCardClick = (shopId: string) => {
-    router.push(`/shop/${shopId}`);
-  };
 
   const { user } = useContext(UserContext);
   const { isFirst, handleCheck } = useLoginCheck();

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useContext } from 'react';
+// import { useContext } from 'react';
 // import { useRouter } from 'next/router';
 // import MainContainer from '@components/atoms/MainContainer';
 // import { useEvent } from '@contexts/event/index';
@@ -45,19 +45,20 @@ const UserEventHistoryPage: NextPage = () => {
   //   return () => initializeEventList();
   // }, [dispatchEventList, initializeEventList]);
 
-  const handleChangeTab = (e: React.MouseEvent) => {
-    const { id } = e.currentTarget as HTMLElement;
+  // const handleChangeTab = (e: React.MouseEvent) => {
+  //   const { id } = e.currentTarget as HTMLElement;
 
-    if (id === 'left') setButtonFocus(true);
-    else if (id === 'right') setButtonFocus(false);
-  };
+  //   if (id === 'left') setButtonFocus(true);
+  //   else if (id === 'right') setButtonFocus(false);
+  // };
 
-  return (
-    <MainContainer paddingWidth={24}>
-      <Header isVisiblePrev />
-      <HeaderText level={1}>활동내역</HeaderText>
-      <Tab leftText="이벤트(좋아요)" rightText="가게(즐겨찾기)" />
-      {/* <CardList flexType="column" padding={0} margin="10px 0 0 0">
+  return null;
+  // <MainContainer paddingWidth={24}>
+  //   <Header isVisiblePrev />
+  //   <HeaderText level={1}>활동내역</HeaderText>
+  //   <Tab leftText="이벤트(좋아요)" rightText="가게(즐겨찾기)" />
+  // {
+  /* <CardList flexType="column" padding={0} margin="10px 0 0 0">
         {eventList.map((data, idx) => (
           <EventCard
             onClick={() => handleCardClick()}
@@ -67,9 +68,10 @@ const UserEventHistoryPage: NextPage = () => {
             marginHeight={10}
           />
         ))}
-      </CardList> */}
-    </MainContainer>
-  );
+      </CardList> */
+  // }
+  //   </MainContainer>
+  // );
 };
 
 export default UserEventHistoryPage;

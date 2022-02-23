@@ -1,7 +1,6 @@
 import React from 'react';
 import ShopCard from '@components/domains/ShopCard';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import ShopInfo from '../../../fixtures/shopInfo';
 
 export default {
   title: 'Component/domains/ShopCard',
@@ -21,5 +20,5 @@ export default {
 } as ComponentMeta<typeof ShopCard>;
 
 export const Default: ComponentStory<typeof ShopCard> = (args) => {
-  return <ShopCard {...args} shopData={ShopInfo} />;
+  return <ShopCard {...args} />;
 };

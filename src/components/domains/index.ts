@@ -13,6 +13,7 @@ export { default as PasswordForm } from './PasswordForm';
 export { default as LoginInformContainer } from './ControlModal/LoginInformContainer';
 export { default as Pagination } from './Pagination';
 export * from './EventDetail/index';
+export { default as Tab } from './Tab';
 
 /* eslint-disable import/no-cycle */
 export { default as ControlModal } from './ControlModal';
