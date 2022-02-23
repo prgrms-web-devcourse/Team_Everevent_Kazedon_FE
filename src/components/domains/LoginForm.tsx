@@ -9,7 +9,7 @@ import { useRouter } from 'next/dist/client/router';
 import { BaseAuthInfo } from '@contexts/userInfo/types';
 import { deleteProperty } from '@utils/computed';
 
-const LoginFormContainer = styled.div`
+const LoginFormContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,7 +34,7 @@ const ButtonWrapper = styled.div`
 
 const LoginForm = () => {
   const router = useRouter();
-  const { handleLogIn } = useContext(UserContext);
+  const { isLoading, handleLogIn } = useContext(UserContext);
 
   const { errors, setErrors, handleChange, handleSubmit } =
     useForm<BaseAuthInfo>({
@@ -43,6 +43,8 @@ const LoginForm = () => {
         password: '',
       },
       onSubmit: async (values) => {
+        if (isLoading) return;
+
         const res = await handleLogIn(values);
         const loginError: Partial<BaseAuthInfo> = {};
 
@@ -80,7 +82,7 @@ const LoginForm = () => {
   };
 
   return (
-    <LoginFormContainer>
+    <LoginFormContainer onSubmit={handleSubmit}>
       <HeaderText level={1} marginBottom={32}>
         에브리벤트에 함께하세요!
       </HeaderText>
@@ -124,16 +126,30 @@ const LoginForm = () => {
         </Text>
       </InputWrapper>
       <ButtonWrapper>
-        <Button
-          buttonType="primary"
-          width={280}
-          height={48}
-          borderRadius="15px"
-          onClick={handleSubmit}
-          bold
-        >
-          로그인
-        </Button>
+        {isLoading ? (
+          <Button
+            buttonType="primary"
+            width={280}
+            height={48}
+            borderRadius="15px"
+            onClick={handleSubmit}
+            backgroundColor={Common.colors.placeholder}
+            bold
+          >
+            로그인 중...
+          </Button>
+        ) : (
+          <Button
+            buttonType="primary"
+            width={280}
+            height={48}
+            borderRadius="15px"
+            onClick={handleSubmit}
+            bold
+          >
+            로그인
+          </Button>
+        )}
         <Button
           buttonType="primary"
           width={280}

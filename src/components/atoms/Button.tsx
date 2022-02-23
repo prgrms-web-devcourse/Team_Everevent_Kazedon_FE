@@ -65,7 +65,7 @@ const Button: React.FC<ButtonProps> = ({
       : Common.colors.point;
 
   return (
-    <StyledButton backgroundColor={backgroundColor} {...props}>
+    <StyledButton type="button" backgroundColor={backgroundColor} {...props}>
       {props.children}
     </StyledButton>
   );

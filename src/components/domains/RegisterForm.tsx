@@ -21,7 +21,7 @@ import registerReducer from '@utils/registerReducer';
 import OverlapCheck from './OverlapCheck';
 import PasswordForm from './PasswordForm';
 
-const RegisterFormContainer = styled.div`
+const RegisterFormContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,7 +38,7 @@ const fontStyle = { display: 'flex', justifyContent: 'center' };
 
 const RegisterForm = () => {
   const router = useRouter();
-  const { handleRegister } = useContext(UserContext);
+  const { isLoading, handleRegister } = useContext(UserContext);
   const [validateErrors, dispatch] = useReducer(registerReducer, {
     email: false,
     password: false,
@@ -56,6 +56,8 @@ const RegisterForm = () => {
         nickname: '',
       },
       onSubmit: async (values) => {
+        if (isLoading) return;
+
         const newErrors: Partial<RegisterUserInfo> = {};
         if (!successEmailMessage || !successNicknameMessage) {
           newErrors.password = failMsg.register;
@@ -158,7 +160,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <RegisterFormContainer>
+    <RegisterFormContainer onSubmit={handleSubmit}>
       <HeaderText level={1} marginBottom={25}>
         에브리벤트 가입하기
       </HeaderText>
@@ -240,16 +242,30 @@ const RegisterForm = () => {
           {errors.password ? errors.password : text.default}
         </Text>
       </PasswordWrapper>
-      <Button
-        buttonType="primary"
-        width={280}
-        height={48}
-        borderRadius="15px"
-        onClick={handleSubmit}
-        bold
-      >
-        회원가입
-      </Button>
+      {isLoading ? (
+        <Button
+          buttonType="primary"
+          width={280}
+          height={48}
+          borderRadius="15px"
+          onClick={handleSubmit}
+          backgroundColor={Common.colors.placeholder}
+          bold
+        >
+          회원가입 중...
+        </Button>
+      ) : (
+        <Button
+          buttonType="primary"
+          width={280}
+          height={48}
+          borderRadius="15px"
+          onClick={handleSubmit}
+          bold
+        >
+          회원가입
+        </Button>
+      )}
     </RegisterFormContainer>
   );
 };
