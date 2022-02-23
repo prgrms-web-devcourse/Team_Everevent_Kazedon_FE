@@ -10,10 +10,10 @@ export { default as Success } from './Success';
 export { default as OverlapCheck } from './OverlapCheck';
 export { default as ProfileEdit } from './ProfileEdit';
 export { default as PasswordForm } from './PasswordForm';
-export { default as Tab } from './Tab';
 export { default as LoginInformContainer } from './ControlModal/LoginInformContainer';
 export { default as Pagination } from './Pagination';
 export * from './EventDetail/index';
+export { default as Tab } from './Tab';
 
 /* eslint-disable import/no-cycle */
 export { default as ControlModal } from './ControlModal';

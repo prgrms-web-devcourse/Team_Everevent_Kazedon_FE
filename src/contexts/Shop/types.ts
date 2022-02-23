@@ -7,6 +7,12 @@ export interface ShopInfo {
   reviewCount: number | null;
 }
 
+export interface Shop {
+  shopId: string;
+  name: string;
+  shopName: string;
+}
+
 interface PicturesType {
   url: string;
 }

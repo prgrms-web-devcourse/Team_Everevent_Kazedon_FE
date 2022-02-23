@@ -14,6 +14,7 @@ import getConvertedDate from '@utils/date';
 import { Icon } from '@components/atoms';
 import { MdOutlineChatBubble } from 'react-icons/md';
 import { useEvent } from '@contexts/event';
+import { LikeEvent } from '@contexts/userHistory/types';
 import { ControlModal } from '.';
 
 const StyledReviewCount = styled.section`
@@ -36,7 +37,7 @@ const marginLeftCSS = (width = '4') => css`
 `;
 
 export interface EventCardProps {
-  eventData?: Event;
+  eventData?: Event | LikeEvent;
   idx: number;
   width?: number | string;
   marginWidth?: number | string;

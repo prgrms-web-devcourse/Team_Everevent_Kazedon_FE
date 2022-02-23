@@ -34,7 +34,10 @@ const useHistoryProvider = (dispatch: Dispatch<any>) => {
       const res = await getFavoriteShops(memberId);
       dispatch({
         type: GET_FAVORITE_SHOP,
-        payload: { favoriteShopList: res.data, historyError: res.error },
+        payload: {
+          favoriteShopList: res.data.markets.content,
+          historyError: res.error,
+        },
       });
     },
     [dispatch, dispatchLoading]
@@ -47,7 +50,10 @@ const useHistoryProvider = (dispatch: Dispatch<any>) => {
       const res = await getLikeEvents(memberId);
       dispatch({
         type: GET_LIKE_EVENT,
-        payload: { likeEventList: res.data, historyError: res.error },
+        payload: {
+          likeEventList: res.data.events.content,
+          historyError: res.error,
+        },
       });
     },
     [dispatch, dispatchLoading]

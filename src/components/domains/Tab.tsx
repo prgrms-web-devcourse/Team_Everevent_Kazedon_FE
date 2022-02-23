@@ -1,8 +1,8 @@
-import * as React from 'react';
-import styled from '@emotion/styled';
+import React from 'react';
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import styles from '@styles/index';
 import TabButton from '@components/atoms/TabButton';
-import Common from '../../styles';
 
 export interface TabProps {
   children?: React.ReactNode;
@@ -24,6 +24,8 @@ export interface TabProps {
   leftText: string;
   rightText: string;
   onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onClickLeft?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onClickRight?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const TabContainer: React.FC<Partial<TabProps>> = styled.div`
@@ -33,11 +35,11 @@ const TabContainer: React.FC<Partial<TabProps>> = styled.div`
     height: ${typeof height === 'string' ? height : `${height}px`};
     padding: ${typeof padding === 'string' ? padding : `${padding}px`};
     margin: ${typeof margin === 'string' ? margin : `${margin}px`};
-    font-size: ${Common.fontSize.medium};
+    font-size: ${styles.fontSize.medium};
   `}
 `;
 
-const Tab: React.FC<TabProps> = ({
+const Tab = ({
   children,
   width = 320,
   height = 48,
@@ -48,8 +50,10 @@ const Tab: React.FC<TabProps> = ({
   leftText,
   rightText,
   onClick,
+  onClickLeft,
+  onClickRight,
   ...props
-}) => {
+}: TabProps) => {
   return (
     <TabContainer
       {...props}
@@ -59,7 +63,8 @@ const Tab: React.FC<TabProps> = ({
       padding={padding}
     >
       <TabButton
-        onClick={onClick}
+        // onClick={onClick}
+        onClick={onClickLeft}
         isLeft={isLeft}
         isLeftFocused={isLeftFocused}
         id="left"
@@ -67,7 +72,8 @@ const Tab: React.FC<TabProps> = ({
         {leftText}
       </TabButton>
       <TabButton
-        onClick={onClick}
+        // onClick={onClick}
+        onClick={onClickRight}
         isLeft={!isLeft}
         isLeftFocused={!isLeftFocused}
         id="right"

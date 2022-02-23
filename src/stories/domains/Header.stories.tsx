@@ -12,6 +12,13 @@ export default {
         type: 'boolean',
       },
     },
+    isVisiblePrev: {
+      name: 'isVisiblePrev',
+      defaultValue: true,
+      control: {
+        type: 'boolean',
+      },
+    },
     children: {
       name: 'text',
       defaultValue: '뒤로',
