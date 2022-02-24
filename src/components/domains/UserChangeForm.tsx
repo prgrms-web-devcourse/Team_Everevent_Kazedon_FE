@@ -8,7 +8,7 @@ import {
   Button,
 } from '@components/atoms/index';
 import useForm from '@hooks/useForm';
-import Constants from '@utils/index';
+import { Errors } from '@utils/index';
 import Common from '@styles/index';
 import { OwnerContext } from '@contexts/Owner';
 import { ChangeOwnerInfo } from '@contexts/Owner/types';
@@ -67,25 +67,25 @@ const UserChangeForm = () => {
     },
     validate: ({ name, description, address }) => {
       if (!name) {
-        setErrorName(Constants.ERROR_MSG.marketNameInput);
+        setErrorName(Errors.marketNameInput);
         newErrors.address = errorName;
       } else {
         setErrorName('');
       }
       if (description) {
         if (description.length > 200) {
-          setErrorDescription(Constants.ERROR_MSG.marketDescriptionFormat);
+          setErrorDescription(Errors.marketDescriptionFormat);
           newErrors.description = errorDescription;
         } else {
           setErrorDescription('');
         }
       } else {
-        setErrorDescription(Constants.ERROR_MSG.marketDescriptionInput);
+        setErrorDescription(Errors.marketDescriptionInput);
         newErrors.description = errorDescription;
       }
 
       if (!address) {
-        setErrorAddress(Constants.ERROR_MSG.marketAddressInput);
+        setErrorAddress(Errors.marketAddressInput);
         newErrors.address = errorAddress;
       } else {
         setErrorAddress('');

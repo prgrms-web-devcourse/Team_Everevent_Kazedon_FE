@@ -1,7 +1,7 @@
 import request from '@axios/index';
 import { ResType } from '@axios/types';
 import { EventDetail } from '@contexts/event/types';
-import constants from '@utils/index';
+import { Errors } from '@utils/index';
 import { GetEventParamTypes } from './types';
 
 const getEvent = async ({ eventId }: GetEventParamTypes) => {
@@ -14,7 +14,7 @@ const getEvent = async ({ eventId }: GetEventParamTypes) => {
       headers: null,
       error: {
         code: 400,
-        message: constants.ERROR_MSG.wrongRequest,
+        message: Errors.wrongRequest,
       },
     };
   }
