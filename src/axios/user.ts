@@ -8,7 +8,7 @@ interface RegisterCheckType {
 }
 
 export const onLogOut = async () => {
-  const res: ResType<any> = await request.get('logout');
+  const res: ResType<any> = await request.post('logout');
 
   return res;
 };
