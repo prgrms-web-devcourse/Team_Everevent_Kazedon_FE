@@ -12,7 +12,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import useForm from '@hooks/useForm';
 import Common from '@styles/index';
-import Constants from '@utils/index';
+import { Errors } from '@utils/index';
 import { EventCreateFormData } from '@contexts/Shop/types';
 import { marginBottom } from '@utils/computed';
 import { ShopContext } from '@contexts/Shop/index';
@@ -97,31 +97,29 @@ const CreateEventForm = () => {
       const today = new Date();
 
       if (!name) {
-        newErrors.name = Constants.ERROR_MSG.eventNameInput;
+        newErrors.name = Errors.eventNameInput;
       } else if (name.length > 20) {
-        newErrors.name = Constants.ERROR_MSG.eventNameFormat;
+        newErrors.name = Errors.eventNameFormat;
       }
       if (!description) {
-        newErrors.description = Constants.ERROR_MSG.eventDescriptionInput;
+        newErrors.description = Errors.eventDescriptionInput;
       } else if (description.length > 100) {
-        newErrors.name = Constants.ERROR_MSG.eventNameFormat;
+        newErrors.name = Errors.eventNameFormat;
       }
 
       if (!expiredAt) {
-        newErrors.expiredAt = Constants.ERROR_MSG.eventExpiredAtInput;
+        newErrors.expiredAt = Errors.eventExpiredAtInput;
       } else {
         const expiredAtDate = new Date(expiredAt);
         if (expiredAtDate < today) {
-          newErrors.expiredAt = Constants.ERROR_MSG.eventExpiredAtFormat;
+          newErrors.expiredAt = Errors.eventExpiredAtFormat;
         }
       }
 
       if (!maxParticipants) {
-        newErrors.maxParticipants =
-          Constants.ERROR_MSG.eventMaxParticipantsInput;
+        newErrors.maxParticipants = Errors.eventMaxParticipantsInput;
       } else if (Number(maxParticipants) > 99) {
-        newErrors.maxParticipants =
-          Constants.ERROR_MSG.eventMaxParticipantsFormat;
+        newErrors.maxParticipants = Errors.eventMaxParticipantsFormat;
       }
 
       return newErrors;

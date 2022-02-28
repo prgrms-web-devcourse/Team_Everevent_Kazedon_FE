@@ -8,7 +8,7 @@ import {
   Button,
 } from '@components/atoms/index';
 import useForm from '@hooks/useForm';
-import Constants from '@utils/index';
+import { Errors } from '@utils/index';
 import Common from '@styles/index';
 import { OwnerContext } from '@contexts/Owner';
 import { ChangeOwnerInfo } from '@contexts/Owner/types';
@@ -65,30 +65,28 @@ const UserChangeForm = () => {
       await handleChangeOwner(ownerInfo);
       router.push('/owner/success');
     },
-
-    // TODO: 추후 리팩토링 예정입니다.
     validate: ({ name, description, address }) => {
       if (!name) {
-        setErrorName(Constants.ERROR_MSG.marketNameInput);
-        newErrors.address = 'Y';
+        setErrorName(Errors.marketNameInput);
+        newErrors.address = errorName;
       } else {
         setErrorName('');
       }
       if (description) {
         if (description.length > 200) {
-          setErrorDescription(Constants.ERROR_MSG.marketDescriptionFormat);
-          newErrors.description = 'Y';
+          setErrorDescription(Errors.marketDescriptionFormat);
+          newErrors.description = errorDescription;
         } else {
           setErrorDescription('');
         }
       } else {
-        setErrorDescription(Constants.ERROR_MSG.marketDescriptionInput);
-        newErrors.description = 'Y';
+        setErrorDescription(Errors.marketDescriptionInput);
+        newErrors.description = errorDescription;
       }
 
       if (!address) {
-        setErrorAddress(Constants.ERROR_MSG.marketAddressInput);
-        newErrors.address = 'Y';
+        setErrorAddress(Errors.marketAddressInput);
+        newErrors.address = errorAddress;
       } else {
         setErrorAddress('');
       }
