@@ -1,6 +1,7 @@
 import {
   LOADING,
   LOGIN,
+  LOGOUT,
   MODIFYNICKNAME,
   REGISTER,
   USERCHECK,
@@ -23,7 +24,8 @@ type ActionType =
   | typeof LOGIN
   | typeof REGISTER
   | typeof MODIFYNICKNAME
-  | typeof USERCHECK;
+  | typeof USERCHECK
+  | typeof LOGOUT;
 
 export type UserAction = {
   type: ActionType;

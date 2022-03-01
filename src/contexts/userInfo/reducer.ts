@@ -1,6 +1,7 @@
 import {
   LOADING,
   LOGIN,
+  LOGOUT,
   MODIFYNICKNAME,
   REGISTER,
   USERCHECK,
@@ -32,6 +33,9 @@ export const reducer: Reducer<UserInfo, UserAction> = (
       return { ...prevState, user: { ...prevState.user, nickname: payload } };
     }
     case USERCHECK: {
+      return { ...prevState, user: payload };
+    }
+    case LOGOUT: {
       return { ...prevState, user: payload };
     }
     default: {

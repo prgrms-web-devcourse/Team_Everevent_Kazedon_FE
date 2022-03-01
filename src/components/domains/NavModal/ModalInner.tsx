@@ -29,7 +29,7 @@ const dynamicTitle = {
 };
 
 const Navigator: React.FC = ({ ...props }) => {
-  const { user } = useContext(UserContext);
+  const { user, handleLogOut } = useContext(UserContext);
   const getUrlKey = (user: User) => {
     if (user.marketId) return 'owner';
     return 'user';
@@ -73,7 +73,7 @@ const Navigator: React.FC = ({ ...props }) => {
       </Link>
       <Link href="/" passHref>
         <a href="/">
-          <Text block size="medium" style={fontStyle}>
+          <Text block size="medium" style={fontStyle} onClick={handleLogOut}>
             로그아웃
           </Text>
         </a>

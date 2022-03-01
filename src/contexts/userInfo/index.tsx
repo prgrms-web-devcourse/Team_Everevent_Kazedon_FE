@@ -1,14 +1,21 @@
-import { getMarketId, onEditProfile, onLogIn, onRegister } from '@axios/user';
+import {
+  getMarketId,
+  onEditProfile,
+  onLogIn,
+  onLogOut,
+  onRegister,
+} from '@axios/user';
 import {
   HEADERTOKEN,
   LOADING,
   LOGIN,
+  LOGOUT,
   MODIFYNICKNAME,
   REGISTER,
   TOKEN,
   USERCHECK,
 } from '@utils/constantUser';
-import { setStorage } from '@utils/storage';
+import { removeStorage, setStorage } from '@utils/storage';
 import {
   createContext,
   ReactNode,
@@ -115,6 +122,14 @@ export const UserProvider = ({ children }: Props) => {
     dispatch({ type: USERCHECK, payload: currentUser });
   }, []);
 
+  const handleLogOut = useCallback(async () => {
+    dispatch({ type: LOADING });
+    await onLogOut();
+    removeStorage(TOKEN);
+    dispatch({ type: LOGOUT, payload: initialState.user });
+    dispatch({ type: LOADING });
+  }, []);
+
   const value = useMemo(
     () => ({
       isLoading,
@@ -123,6 +138,7 @@ export const UserProvider = ({ children }: Props) => {
       handleRegister,
       handleModifyInfo,
       handleUserCheck,
+      handleLogOut,
     }),
     [
       isLoading,
@@ -131,6 +147,7 @@ export const UserProvider = ({ children }: Props) => {
       handleRegister,
       handleModifyInfo,
       handleUserCheck,
+      handleLogOut,
     ]
   );
 
