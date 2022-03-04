@@ -8,9 +8,9 @@ export interface ShopInfo {
 }
 
 export interface Shop {
-  shopId: string;
+  marketId: number;
   name: string;
-  shopName: string;
+  favoriteCount: number;
 }
 
 interface PicturesType {

@@ -24,6 +24,9 @@ const StyledIcon = styled.div`
     color: ${color};
     size: ${typeof size === 'string' ? size : `${size}px`};
   `}
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Icon: React.FC<IconProps> = ({

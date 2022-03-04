@@ -55,4 +55,6 @@ export default {
     yellowGreen: '#95EBB9',
     mint: '#7FE5DA',
   },
+
+  favoriteButtonColor: '#FFDD2B',
 };

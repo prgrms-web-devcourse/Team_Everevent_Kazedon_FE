@@ -1,37 +1,58 @@
-import { CardContainer, Text } from '@components/atoms';
+import { CardContainer, Icon, Text } from '@components/atoms';
+import { CardBgColorTypes } from '@components/atoms/CardContainer';
+import Counter from '@components/atoms/Counter';
 import { Shop } from '@contexts/Shop/types';
 import { FavoriteShop } from '@contexts/userHistory/types';
+import { css } from '@emotion/react';
+import { MdStar } from 'react-icons/md';
 
 export interface ShopCardProps {
   shopData?: Shop | FavoriteShop;
   width?: number | string;
+  bgColorName?: CardBgColorTypes;
+  cardType?: 'default' | 'box';
   marginWidth?: number | string;
   marginHeight?: number | string;
   onClick: (shopId: string) => void;
 }
 
+const CounterCSS = css`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+`;
+
 const ShopCard = ({
   shopData,
-  width = 'auto',
+  bgColorName = 'default',
+  cardType = 'default',
   marginWidth = 0,
   marginHeight = 10,
   onClick,
 }: ShopCardProps) => {
-  const { shopId, name, shopName } = shopData as Shop;
+  const { name, favoriteCount } = shopData as Shop;
 
   return (
     <CardContainer
-      width={width}
+      width={`calc(50% - ${+marginWidth * 2}px)`}
       padding={20}
-      bgColorName="default"
-      cardType="default"
-      key={shopId}
+      bgColorName={bgColorName}
+      cardType={cardType}
       marginWidth={marginWidth}
       marginHeight={marginHeight}
       onClick={onClick}
     >
-      <Text>{shopName}</Text>
-      <Text>{name}</Text>
+      <Text bold>{name}</Text>
+      <Counter
+        Icon={
+          <Icon size="16px" color="#FFDD2B">
+            <MdStar />
+          </Icon>
+        }
+        count={favoriteCount}
+        margin="0 9px 14px 0"
+        css={CounterCSS}
+      />
     </CardContainer>
   );
 };
