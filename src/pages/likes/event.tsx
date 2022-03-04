@@ -53,8 +53,8 @@ const UserLikeDetailPage: NextPage = () => {
         width={320}
         isLeft
         isLeftFocused
-        leftText="즐겨찾기"
-        rightText="좋아요"
+        leftText="좋아요"
+        rightText="즐겨찾기"
         onClick={(id) => handleCardClick(id)}
         onClickLeft={handleTabLeftClick}
         onClickRight={handleTabRightClick}

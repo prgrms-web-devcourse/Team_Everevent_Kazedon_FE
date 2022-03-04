@@ -47,18 +47,19 @@ const UserFavoriteDetailPage = () => {
         width={320}
         isLeft
         isLeftFocused={false}
-        leftText="즐겨찾기"
-        rightText="좋아요"
+        leftText="좋아요"
+        rightText="즐겨찾기"
         onClickLeft={handleTabLeftClick}
         onClickRight={handleTabRightClick}
         css={marginBottom(16)}
       />
-      <CardList flexType="column" padding={0} margin="10px 0 0 0">
+      <CardList flexType="default" padding={0} margin="0">
         {favoriteShopList.map((favoriteShop) => (
           <ShopCard
             onClick={() => handleCardClick(favoriteShop.marketId)}
             key={favoriteShop.marketId}
             shopData={favoriteShop}
+            marginWidth={10}
             marginHeight={10}
           />
         ))}
