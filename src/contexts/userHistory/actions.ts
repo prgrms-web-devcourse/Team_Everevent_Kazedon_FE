@@ -32,6 +32,7 @@ const useHistoryProvider = (dispatch: Dispatch<any>) => {
       if (!memberId) return;
       dispatchLoading();
       const res = await getFavoriteShops(memberId);
+
       dispatch({
         type: GET_FAVORITE_SHOP,
         payload: {

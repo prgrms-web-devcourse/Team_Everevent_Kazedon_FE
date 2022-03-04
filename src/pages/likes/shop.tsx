@@ -9,8 +9,12 @@ import { useRouter } from 'next/router';
 import { useCallback, useContext, useEffect } from 'react';
 
 const UserFavoriteDetailPage = () => {
-  const { dispatchFavoriteShops, initializeHistory, favoriteShopList } =
-    useUserHistory();
+  const {
+    isLoading,
+    dispatchFavoriteShops,
+    initializeHistory,
+    favoriteShopList,
+  } = useUserHistory();
   const router = useRouter();
 
   const { user } = useContext(UserContext);
@@ -38,33 +42,39 @@ const UserFavoriteDetailPage = () => {
   }, [dispatchFavoriteShops, user.userId, initializeHistory]);
 
   return (
-    <MainContainer paddingWidth={24}>
-      <Header isVisiblePrev />
-      <HeaderText level={1} marginBottom={32}>
-        {`${user.nickname}님의 즐겨찾기 / 좋아요`}
-      </HeaderText>
-      <Tab
-        width={320}
-        isLeft
-        isLeftFocused={false}
-        leftText="좋아요"
-        rightText="즐겨찾기"
-        onClickLeft={handleTabLeftClick}
-        onClickRight={handleTabRightClick}
-        css={marginBottom(16)}
-      />
-      <CardList flexType="default" padding={0} margin="0">
-        {favoriteShopList.map((favoriteShop) => (
-          <ShopCard
-            onClick={() => handleCardClick(favoriteShop.marketId)}
-            key={favoriteShop.marketId}
-            shopData={favoriteShop}
-            marginWidth={10}
-            marginHeight={10}
+    <div>
+      {!isLoading ? (
+        <MainContainer paddingWidth={24}>
+          <Header isVisiblePrev />
+          <HeaderText level={1} marginBottom={32}>
+            {`${user.nickname}님의 즐겨찾기 / 좋아요`}
+          </HeaderText>
+          <Tab
+            width={320}
+            isLeft
+            isLeftFocused={false}
+            leftText="좋아요"
+            rightText="즐겨찾기"
+            onClickLeft={handleTabLeftClick}
+            onClickRight={handleTabRightClick}
+            css={marginBottom(16)}
           />
-        ))}
-      </CardList>
-    </MainContainer>
+          <CardList flexType="default" padding={0} margin="0">
+            {favoriteShopList.map((favoriteShop) => (
+              <ShopCard
+                onClick={() => handleCardClick(favoriteShop.marketId)}
+                key={favoriteShop.marketId}
+                shopData={favoriteShop}
+                marginWidth={10}
+                marginHeight={10}
+              />
+            ))}
+          </CardList>
+        </MainContainer>
+      ) : (
+        <div />
+      )}
+    </div>
   );
 };
 
